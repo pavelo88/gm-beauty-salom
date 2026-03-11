@@ -45,13 +45,17 @@ export default function App() {
     const appId = 'gm-beauty-house-v1';
     
     const unsubServices = onSnapshot(collection(db, 'data', appId, 'services'), (s) => 
-      setDynamicData(prev => ({...prev, services: s.docs.map(d => ({id:d.id, ...d.data()})) as any}));
+      setDynamicData(prev => ({...prev, services: s.docs.map(d => ({id:d.id, ...d.data()})) as any}))
+    );
     const unsubProducts = onSnapshot(collection(db, 'data', appId, 'products'), (s) => 
-      setDynamicData(prev => ({...prev, products: s.docs.map(d => ({id:d.id, ...d.data()})) as any}));
+      setDynamicData(prev => ({...prev, products: s.docs.map(d => ({id:d.id, ...d.data()})) as any}))
+    );
     const unsubProjects = onSnapshot(collection(db, 'data', appId, 'projects'), (s) => 
-      setDynamicData(prev => ({...prev, projects: s.docs.map(d => ({id:d.id, ...d.data()})) as any}));
+      setDynamicData(prev => ({...prev, projects: s.docs.map(d => ({id:d.id, ...d.data()})) as any}))
+    );
     const unsubMenu = onSnapshot(collection(db, 'data', appId, 'menu'), (s) => 
-      setDynamicData(prev => ({...prev, menuItems: s.docs.map(d => ({id:d.id, ...d.data()})) as any}));
+      setDynamicData(prev => ({...prev, menuItems: s.docs.map(d => ({id:d.id, ...d.data()})) as any}))
+    );
 
     return () => { 
       unsubServices(); 
