@@ -1,9 +1,10 @@
+
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
+import React, { useState, useEffect, useMemo } from 'react';
+import { signInAnonymously } from 'firebase/auth';
+import { collection } from 'firebase/firestore';
+import { useAuth, useFirestore, useUser, useCollection } from '@/firebase';
 import { Loader2 } from 'lucide-react';
 
 import ClientUI from '@/components/ClientUI';
@@ -12,60 +13,38 @@ import AdminUI from '@/components/AdminUI';
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [view, setView] = useState<'client' | 'admin'>('client');
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  const [dynamicData, setDynamicData] = useState({ 
-    services: [], 
-    products: [], 
-    projects: [], 
-    menuItems: [] 
-  });
+  const auth = useAuth();
+  const db = useFirestore();
+  const { user, loading: authLoading } = useUser(auth);
 
   useEffect(() => {
-    const initAuth = async () => {
-      try {
-        await signInAnonymously(auth);
-      } catch (e) {
+    if (!user && !authLoading) {
+      signInAnonymously(auth).catch((e) => {
         console.error("Auth initialization failed", e);
-      }
-    };
-    initAuth();
-    const unsubAuth = onAuthStateChanged(auth, (u) => { 
-      setUser(u); 
-      setLoading(false); 
-    });
-    return () => unsubAuth();
-  }, []);
+      });
+    }
+  }, [user, authLoading, auth]);
 
-  useEffect(() => {
-    if (!user) return;
-    
-    // We use a general app ID or path. In a real app we'd scope this.
-    const appId = 'gm-beauty-house-v1';
-    
-    const unsubServices = onSnapshot(collection(db, 'data', appId, 'services'), (s) => 
-      setDynamicData(prev => ({...prev, services: s.docs.map(d => ({id:d.id, ...d.data()})) as any}))
-    );
-    const unsubProducts = onSnapshot(collection(db, 'data', appId, 'products'), (s) => 
-      setDynamicData(prev => ({...prev, products: s.docs.map(d => ({id:d.id, ...d.data()})) as any}))
-    );
-    const unsubProjects = onSnapshot(collection(db, 'data', appId, 'projects'), (s) => 
-      setDynamicData(prev => ({...prev, projects: s.docs.map(d => ({id:d.id, ...d.data()})) as any}))
-    );
-    const unsubMenu = onSnapshot(collection(db, 'data', appId, 'menu'), (s) => 
-      setDynamicData(prev => ({...prev, menuItems: s.docs.map(d => ({id:d.id, ...d.data()})) as any}))
-    );
+  const appId = 'gm-beauty-house-v1';
 
-    return () => { 
-      unsubServices(); 
-      unsubProducts(); 
-      unsubProjects(); 
-      unsubMenu(); 
-    };
-  }, [user]);
+  const servicesQuery = useMemo(() => collection(db, 'data', appId, 'services'), [db]);
+  const productsQuery = useMemo(() => collection(db, 'data', appId, 'products'), [db]);
+  const projectsQuery = useMemo(() => collection(db, 'data', appId, 'projects'), [db]);
+  const menuQuery = useMemo(() => collection(db, 'data', appId, 'menu'), [db]);
 
-  if (loading) {
+  const { data: services } = useCollection(servicesQuery);
+  const { data: products } = useCollection(productsQuery);
+  const { data: projects } = useCollection(projectsQuery);
+  const { data: menuItems } = useCollection(menuQuery);
+
+  const dynamicData = {
+    services: services || [],
+    products: products || [],
+    projects: projects || [],
+    menuItems: menuItems || []
+  };
+
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
         <Loader2 className="animate-spin text-primary" size={48} />

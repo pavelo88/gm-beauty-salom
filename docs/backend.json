@@ -1,0 +1,76 @@
+
+{
+  "entities": {
+    "Service": {
+      "title": "Service",
+      "description": "A beauty or barber service offered at GM Beauty House.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "price": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string", "enum": ["salon", "barberia"] },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["name", "description", "category"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A fashion item or perfume available in the Boutique.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "price": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string", "enum": ["mujer", "hombre", "perfumes"] },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["name", "category"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A modular furniture or interior design project.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["title"]
+    },
+    "MenuItem": {
+      "title": "MenuItem",
+      "description": "A food or drink item in the Lounge & Resto menu.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "price": { "type": "string" },
+        "category": { "type": "string", "enum": ["Comida", "Bebidas"] },
+        "description": { "type": "string" }
+      },
+      "required": ["name", "price", "category"]
+    }
+  },
+  "auth": {
+    "providers": ["anonymous"]
+  },
+  "firestore": {
+    "/data/gm-beauty-house-v1/services": {
+      "schema": { "$ref": "#/backend/entities/Service" },
+      "description": "Collection of services for Salon and Barber Shop."
+    },
+    "/data/gm-beauty-house-v1/products": {
+      "schema": { "$ref": "#/backend/entities/Product" },
+      "description": "Collection of products for the Boutique."
+    },
+    "/data/gm-beauty-house-v1/projects": {
+      "schema": { "$ref": "#/backend/entities/Project" },
+      "description": "Collection of projects for Modulares GM."
+    },
+    "/data/gm-beauty-house-v1/menu": {
+      "schema": { "$ref": "#/backend/entities/MenuItem" },
+      "description": "Collection of menu items for the Lounge."
+    }
+  }
+}

@@ -1,14 +1,17 @@
+
 "use client"
 
 import React, { useState } from 'react';
 import { Settings, LogOut, Plus, Trash2, Loader2 } from 'lucide-react';
 import { collection, addDoc, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { useFirestore } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 interface AdminUIProps {
   setView: (view: 'client' | 'admin') => void;
@@ -16,6 +19,7 @@ interface AdminUIProps {
 }
 
 export default function AdminUI({ setView, dynamicData }: AdminUIProps) {
+  const db = useFirestore();
   const [activeTab, setActiveTab] = useState<'services' | 'products' | 'projects' | 'menu'>('services');
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ 
@@ -32,24 +36,39 @@ export default function AdminUI({ setView, dynamicData }: AdminUIProps) {
   const add = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const dataToSave = { ...form };
-      if (!dataToSave.name && dataToSave.title) dataToSave.name = dataToSave.title;
-      if (!dataToSave.title && dataToSave.name) dataToSave.title = dataToSave.name;
-      
-      await addDoc(collection(db, 'data', appId, activeTab), dataToSave);
-      setForm({ name: '', price: '', description: '', category: 'barberia', imageUrl: '', title: '' });
-    } catch (err) {
-      console.error(err);
-      alert("Error al guardar.");
-    } finally {
-      setLoading(false);
-    }
+    const dataToSave = { ...form };
+    if (!dataToSave.name && dataToSave.title) dataToSave.name = dataToSave.title;
+    if (!dataToSave.title && dataToSave.name) dataToSave.title = dataToSave.name;
+    
+    const collectionRef = collection(db, 'data', appId, activeTab);
+    
+    addDoc(collectionRef, dataToSave)
+      .then(() => {
+        setForm({ name: '', price: '', description: '', category: 'barberia', imageUrl: '', title: '' });
+      })
+      .catch(async (err) => {
+        const permissionError = new FirestorePermissionError({
+          path: collectionRef.path,
+          operation: 'create',
+          requestResourceData: dataToSave,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const remove = async (id: string) => {
     if (window.confirm("¿Seguro que deseas eliminar este elemento?")) {
-      await deleteDoc(doc(db, 'data', appId, activeTab, id));
+      const docRef = doc(db, 'data', appId, activeTab, id);
+      deleteDoc(docRef).catch(async (err) => {
+        const permissionError = new FirestorePermissionError({
+          path: docRef.path,
+          operation: 'delete',
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      });
     }
   };
 
