@@ -18,7 +18,7 @@ export default function App() {
   const { user, loading: authLoading } = useUser(auth);
 
   useEffect(() => {
-    if (!user && !authLoading) {
+    if (!user && !authLoading && auth) {
       signInAnonymously(auth).catch((e) => {
         console.error("Auth initialization failed", e);
       });
@@ -27,10 +27,11 @@ export default function App() {
 
   const appId = 'gm-beauty-house-v1';
 
-  const servicesQuery = useMemo(() => collection(db, 'data', appId, 'services'), [db]);
-  const productsQuery = useMemo(() => collection(db, 'data', appId, 'products'), [db]);
-  const projectsQuery = useMemo(() => collection(db, 'data', appId, 'projects'), [db]);
-  const menuQuery = useMemo(() => collection(db, 'data', appId, 'menu'), [db]);
+  // Memoize queries to prevent infinite re-renders
+  const servicesQuery = useMemo(() => collection(db, 'data', appId, 'services'), [db, appId]);
+  const productsQuery = useMemo(() => collection(db, 'data', appId, 'products'), [db, appId]);
+  const projectsQuery = useMemo(() => collection(db, 'data', appId, 'projects'), [db, appId]);
+  const menuQuery = useMemo(() => collection(db, 'data', appId, 'menu'), [db, appId]);
 
   const { data: services } = useCollection(servicesQuery);
   const { data: products } = useCollection(productsQuery);

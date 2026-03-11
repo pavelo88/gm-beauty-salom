@@ -1,18 +1,12 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "dummy-key",
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "dummy-auth",
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "dummy-project",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "dummy-storage",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "dummy-sender",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "dummy-app",
-};
+'use client';
 
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-const db = getFirestore(app);
+import { initializeFirebase } from '@/firebase';
 
-export { app, auth, db };
+// Re-export initialized instances from the standard provider location 
+// to avoid confusion with multiple initialization sites.
+const instances = typeof window !== 'undefined' ? initializeFirebase() : { auth: null, firestore: null, app: null };
+
+export const auth = instances.auth;
+export const db = instances.firestore;
+export const app = instances.app;
