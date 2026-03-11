@@ -18,9 +18,10 @@ export default function App() {
   const { user, loading: authLoading } = useUser(auth);
 
   useEffect(() => {
-    if (!user && !authLoading && auth) {
+    // Solo intentamos el login si auth está listo y no hay usuario ni carga pendiente
+    if (!authLoading && !user && auth) {
       signInAnonymously(auth).catch((e) => {
-        console.error("Auth initialization failed", e);
+        console.error("Error al iniciar sesión anónima:", e);
       });
     }
   }, [user, authLoading, auth]);
