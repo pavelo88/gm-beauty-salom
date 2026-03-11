@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        headline: ['Alegreya', 'serif'],
         code: ['monospace'],
       },
       colors: {
@@ -93,6 +93,10 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      backgroundImage: {
+        'gold-vibrant': 'linear-gradient(to right, #f9d423, #ffdb01, #b8860b)',
+        'rose-gold': 'linear-gradient(to right, #e5b2a0, #ffafbd, #d4a373)',
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],
