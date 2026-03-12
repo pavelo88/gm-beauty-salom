@@ -55,7 +55,7 @@
   }
   body {
     @apply font-body antialiased transition-colors duration-700 relative min-h-screen;
-    /* Degradado Radial de Lujo */
+    /* Degradado Radial de Lujo para Profundidad */
     background: radial-gradient(circle at center, hsl(40 20% 98%) 0%, hsl(40 20% 94%) 100%);
   }
   
@@ -63,7 +63,7 @@
     background: radial-gradient(circle at center, hsl(20 15% 8%) 0%, hsl(20 15% 3%) 100%);
   }
 
-  /* Elegant Paper Texture Overlay */
+  /* Textura de Papel Natural Overlay */
   body::before {
     content: "";
     @apply fixed inset-0 pointer-events-none z-[1] opacity-[0.03];
@@ -102,12 +102,10 @@
   box-shadow: 40px 40px 80px rgba(0,0,0,0.5);
 }
 
-/* Image Cinematic Low Color Effect */
 .img-cinematic {
   @apply saturate-[0.4] transition-all ease-out hover:saturate-100 duration-1000;
 }
 
-/* Scrollbar Style */
 ::-webkit-scrollbar {
   width: 4px;
 }
