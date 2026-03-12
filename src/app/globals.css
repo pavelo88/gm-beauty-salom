@@ -54,23 +54,33 @@
     @apply border-border;
   }
   body {
-    @apply font-body antialiased transition-colors duration-700 relative min-h-screen;
-    /* Degradado Radial de Lujo para Profundidad */
-    background: radial-gradient(circle at center, hsl(40 20% 98%) 0%, hsl(40 20% 94%) 100%);
-  }
-  
-  .dark body {
-    background: radial-gradient(circle at center, hsl(20 15% 8%) 0%, hsl(20 15% 3%) 100%);
+    @apply font-body antialiased transition-colors duration-700 relative min-h-screen bg-background text-foreground;
   }
 
-  /* Textura de Papel Natural Overlay */
+  /* Capa de Papel Corrugado / Pared Ribeteada */
   body::before {
     content: "";
-    @apply fixed inset-0 pointer-events-none z-[1] opacity-[0.03];
-    background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+    @apply fixed inset-0 pointer-events-none z-[1];
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 0.05) 15px,
+      rgba(255, 255, 255, 0.05) 16px,
+      rgba(0, 0, 0, 0.05) 17px,
+      rgba(0, 0, 0, 0.15) 32px
+    );
+    background-size: 32px 100%;
   }
+
   .dark body::before {
-    @apply opacity-[0.06] invert;
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.8) 0px,
+      rgba(0, 0, 0, 0.4) 15px,
+      rgba(255, 255, 255, 0.02) 16px,
+      rgba(0, 0, 0, 0.4) 17px,
+      rgba(0, 0, 0, 0.8) 32px
+    );
   }
   
   h1, h2, h3, h4, h5, h6 {
