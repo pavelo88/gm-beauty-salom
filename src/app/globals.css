@@ -54,8 +54,18 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body selection:bg-primary/30 antialiased transition-colors duration-700;
+    @apply bg-background text-foreground font-body selection:bg-primary/30 antialiased transition-colors duration-700 relative;
   }
+  /* Elegant Paper Texture Overlay */
+  body::before {
+    content: "";
+    @apply fixed inset-0 pointer-events-none z-[1] opacity-[0.03];
+    background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+  }
+  .dark body::before {
+    @apply opacity-[0.08] invert;
+  }
+  
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter;
   }
@@ -77,10 +87,6 @@
   gap: 2rem;
 }
 
-.bg-texture {
-  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
-}
-
 .editorial-shadow {
   box-shadow: 40px 40px 80px rgba(0,0,0,0.05);
 }
@@ -91,8 +97,7 @@
 
 /* Image Cinematic Low Color Effect */
 .img-cinematic {
-  @apply saturate-[0.4] transition-all ease-out hover:saturate-100;
-  transition-duration: 1500ms;
+  @apply saturate-[0.4] transition-all ease-out hover:saturate-100 duration-1000;
 }
 
 /* Scrollbar Style */

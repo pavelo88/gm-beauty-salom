@@ -1,8 +1,9 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { Tv, Play, Music, Newspaper, Sparkles, Laugh, Construction, Shirt, Volume2, Maximize2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Tv, Play, Music, Newspaper, Sparkles, Laugh, Construction, Shirt, Volume2, Maximize2, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Progress } from '@/components/ui/progress';
 
 interface TvContent {
   id: string;
@@ -16,8 +17,9 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
   const [currentContent, setCurrentContent] = useState<TvContent | null>(null);
   const [playlist, setPlaylist] = useState<TvContent[]>([]);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [duration] = useState(10000); // 10 seconds per "video" simulation
 
-  // Simulación de curaduría por IA cada hora
   useEffect(() => {
     const mockPlaylist: TvContent[] = [
       { id: '1', category: 'house', title: 'GM House: The Concept', source: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200', description: 'Bienvenidos a la experiencia estética definitiva.' },
@@ -29,18 +31,32 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
     ];
     setPlaylist(mockPlaylist);
     setCurrentContent(mockPlaylist[0]);
-
-    // Simulación de rotación cada hora (aquí cada 10 seg para demo)
-    const interval = setInterval(() => {
-      setPlaylist(prev => {
-        const next = [...prev.slice(1), prev[0]];
-        setCurrentContent(next[0]);
-        return next;
-      });
-    }, 10000);
-
-    return () => clearInterval(interval);
   }, []);
+
+  // Playback logic: progress bar and auto-advance
+  useEffect(() => {
+    if (!isPlaying || !playlist.length) return;
+
+    const intervalTime = 100; // Update progress every 100ms
+    const step = (intervalTime / duration) * 100;
+
+    const timer = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          // Advance to next content
+          setPlaylist((currentPlaylist) => {
+            const nextPlaylist = [...currentPlaylist.slice(1), currentPlaylist[0]];
+            setCurrentContent(nextPlaylist[0]);
+            return nextPlaylist;
+          });
+          return 0;
+        }
+        return prev + step;
+      });
+    }, intervalTime);
+
+    return () => clearInterval(timer);
+  }, [isPlaying, playlist, duration]);
 
   const categories = [
     { id: 'house', icon: Sparkles, label: 'House Promo' },
@@ -51,10 +67,21 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
     { id: 'news', icon: Newspaper, label: 'Daily Interest' },
   ];
 
+  const handleManualChange = (item: TvContent) => {
+    setCurrentContent(item);
+    setProgress(0);
+    // Reorder playlist to put selected first
+    const index = playlist.findIndex(p => p.id === item.id);
+    if (index !== -1) {
+      const newPlaylist = [...playlist.slice(index), ...playlist.slice(0, index)];
+      setPlaylist(newPlaylist);
+    }
+  };
+
   if (!currentContent) return null;
 
   return (
-    <div className="w-full min-h-screen bg-black pt-40 pb-20 overflow-hidden">
+    <div className="w-full min-h-screen bg-black pt-40 pb-20 overflow-hidden relative z-10">
       <div className="max-w-[1800px] mx-auto px-10 h-full flex flex-col gap-10">
         
         {/* Header Broadcast */}
@@ -70,6 +97,9 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
           <div className="flex items-center gap-8">
             <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Sur de Quito, Ecuador</span>
             <div className="flex items-center gap-4 text-zinc-400">
+              <button onClick={() => setIsPlaying(!isPlaying)} className="hover:text-white transition-colors">
+                {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+              </button>
               <Volume2 size={18} />
               <Maximize2 size={18} />
             </div>
@@ -78,21 +108,31 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
 
         {/* Main Cinema View */}
         <div className="magazine-grid flex-grow gap-10">
-          <div className="col-span-12 lg:col-span-9 relative group bg-zinc-900 overflow-hidden">
+          <div className="col-span-12 lg:col-span-9 relative group bg-zinc-950 overflow-hidden rounded-[2rem] border border-white/5">
             {/* Main Content Area */}
             <div className="aspect-video relative overflow-hidden">
               <img 
+                key={currentContent.id}
                 src={currentContent.source} 
-                className="w-full h-full object-cover transition-transform duration-[10s] scale-110 group-hover:scale-100" 
+                className="w-full h-full object-cover transition-transform duration-[10000ms] scale-110 group-hover:scale-100 animate-in fade-in zoom-in-105 duration-1000" 
                 alt={currentContent.title}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+              
+              {/* Broadcast Scanlines Overlay */}
+              <div className="absolute inset-0 pointer-events-none opacity-[0.05] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]"></div>
+              
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80"></div>
               
               {/* Overlay Info */}
-              <div className="absolute bottom-16 left-16 right-16 space-y-6">
-                <span className="bg-primary text-background px-4 py-2 text-[10px] font-black uppercase tracking-widest">
-                  {currentContent.category.toUpperCase()}
-                </span>
+              <div className="absolute bottom-12 left-12 right-12 space-y-6">
+                <div className="flex items-center gap-4">
+                  <span className="bg-primary text-background px-4 py-1 text-[10px] font-black uppercase tracking-widest">
+                    {currentContent.category.toUpperCase()}
+                  </span>
+                  <div className="flex-grow max-w-xs">
+                    <Progress value={progress} className="h-[2px] bg-white/10" />
+                  </div>
+                </div>
                 <h3 className="text-6xl md:text-8xl font-headline font-black text-white leading-none tracking-tighter">
                   {currentContent.title}
                 </h3>
@@ -103,9 +143,12 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
 
               {/* Play Button Overlay */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="w-24 h-24 rounded-full border border-white/50 flex items-center justify-center bg-white/10 backdrop-blur-sm">
-                  <Play size={40} className="text-white ml-2" />
-                </div>
+                <button 
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  className="w-24 h-24 rounded-full border border-white/50 flex items-center justify-center bg-white/10 backdrop-blur-sm hover:scale-110 transition-transform"
+                >
+                  {isPlaying ? <Pause size={40} className="text-white" /> : <Play size={40} className="text-white ml-2" />}
+                </button>
               </div>
             </div>
           </div>
@@ -116,15 +159,15 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
             {playlist.slice(1).map((item) => (
               <div 
                 key={item.id} 
-                className="group cursor-pointer flex gap-4 p-4 border border-white/5 hover:bg-white/5 transition-all"
-                onClick={() => setCurrentContent(item)}
+                className="group cursor-pointer flex gap-4 p-4 border border-white/5 hover:bg-white/5 transition-all rounded-2xl"
+                onClick={() => handleManualChange(item)}
               >
-                <div className="w-24 h-24 flex-shrink-0 overflow-hidden">
-                  <img src={item.source} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" alt="" />
+                <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl">
+                  <img src={item.source} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="" />
                 </div>
                 <div className="flex flex-col justify-between py-1">
                   <span className="text-[8px] font-bold text-primary uppercase tracking-widest">{item.category}</span>
-                  <h5 className="text-sm font-bold text-zinc-300 leading-tight group-hover:text-white">{item.title}</h5>
+                  <h5 className="text-sm font-bold text-zinc-300 leading-tight group-hover:text-white transition-colors">{item.title}</h5>
                   <div className="flex items-center gap-2 text-zinc-600 text-[8px] uppercase font-black">
                     <Play size={8} /> 2:45
                   </div>
@@ -139,8 +182,12 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
           {categories.map((cat) => (
             <button 
               key={cat.id} 
+              onClick={() => {
+                const item = playlist.find(p => p.category === cat.id);
+                if (item) handleManualChange(item);
+              }}
               className={cn(
-                "p-8 border border-white/10 flex flex-col items-center gap-4 transition-all hover:border-primary group",
+                "p-8 border border-white/10 flex flex-col items-center gap-4 transition-all hover:border-primary group rounded-2xl",
                 currentContent.category === cat.id ? "bg-primary/10 border-primary" : "bg-zinc-900/50"
               )}
             >
@@ -157,7 +204,7 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
         </div>
 
         {/* Marquee Ticker */}
-        <div className="w-full mt-10 bg-primary/5 border border-primary/20 p-4 overflow-hidden relative">
+        <div className="w-full mt-10 bg-primary/5 border border-primary/20 p-4 overflow-hidden relative rounded-full">
           <div className="flex animate-marquee whitespace-nowrap gap-20">
             {[1,2,3].map((_, idx) => (
               <p key={idx} className="text-[10px] font-bold text-primary uppercase tracking-[0.4em]">
