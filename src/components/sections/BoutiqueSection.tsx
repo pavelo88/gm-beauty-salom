@@ -1,173 +1,120 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { BookOpen, Crown, Shirt, Gem, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { BookOpen, Crown, Shirt, Gem, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { AiAssistant } from '@/components/AiAssistant';
 import { aiPersonalShopperSuggestions } from '@/ai/flows/ai-personal-shopper-suggestions';
 import { cn } from '@/lib/utils';
 
 export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
   const [activeCategory, setActiveCategory] = useState<'mujer' | 'hombre' | 'perfumes'>('mujer');
-  const [currentPage, setCurrentPage] = useState(0);
 
-  const catalogData: any = {
-    mujer: [
-      {
-        title: 'Colección Gala', desc: 'Vestidos de noche y accesorios para destacar.', img: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?auto=format&fit=crop&q=80&w=800',
-        products: [
-          { name: 'Vestido Seda Esmeralda', price: '$120', type: 'Prenda' },
-          { name: 'Zapatos Stiletto Nude', price: '$65', type: 'Calzado' },
-          { name: 'Bolso Clutch Dorado', price: '$45', type: 'Accesorio' },
-          { name: 'Set Joyería Rose Gold', price: '$85', type: 'Joyería' }
-        ]
-      },
-      {
-        title: 'Urban Chic', desc: 'Outfits modernos para el día a día con estilo.', img: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800',
-        products: [
-          { name: 'Blusa Satén Blanca', price: '$40', type: 'Prenda' },
-          { name: 'Pantalón Palazzo Negro', price: '$55', type: 'Prenda' },
-          { name: 'Gafas de Sol Cat-Eye', price: '$30', type: 'Accesorio' },
-          { name: 'Cinturón Cuero Fino', price: '$25', type: 'Accesorio' }
-        ]
-      }
-    ],
-    hombre: [
-      {
-        title: 'Sastrería Moderna', desc: 'Cortes fit, telas premium. El poder de un buen traje.', img: 'https://images.unsplash.com/photo-1594938298596-70f56fb3cecb?auto=format&fit=crop&q=80&w=800',
-        products: [
-          { name: 'Traje Slim Fit Navy', price: '$180', type: 'Prenda' },
-          { name: 'Camisa Algodón Egipcio', price: '$45', type: 'Prenda' },
-          { name: 'Corbata Seda Italiana', price: '$30', type: 'Accesorio' },
-          { name: 'Zapatos Oxford Cuero', price: '$90', type: 'Calzado' }
-        ]
-      }
-    ],
-    perfumes: [
-      {
-        title: 'Esencias Árabes', desc: 'Fragancias exóticas, intensas y duraderas.', img: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800',
-        products: [
-          { name: 'Lattafa Asad', price: '$55', type: 'Perfume' },
-          { name: 'Club de Nuit Intense', price: '$65', type: 'Perfume' },
-          { name: 'Yara Pink', price: '$50', type: 'Perfume' },
-          { name: 'Khamrah Qahwa', price: '$70', type: 'Perfume' }
-        ]
-      }
-    ]
+  const staticCollection = {
+    mujer: { title: "Femme Fatal", year: "2024", img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1200" },
+    hombre: { title: "L'Homme", year: "2024", img: "https://images.unsplash.com/photo-1594932224491-994b9caede9f?auto=format&fit=crop&q=80&w=1200" },
+    perfumes: { title: "Olfactive Art", year: "2024", img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200" }
   };
 
   const dynProducts = dynamicData.products.filter((p: any) => p.category === activeCategory);
-  let currentPages = [...(catalogData[activeCategory] || [])];
-  
-  if (dynProducts.length > 0) {
-    currentPages.push({
-      title: 'Novedades', desc: 'Lo último añadido a nuestra colección exclusiva.', img: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=80',
-      products: dynProducts.map((p: any) => ({ name: p.name, price: p.price, type: 'Nuevo' }))
-    });
-  }
-
-  useEffect(() => { setCurrentPage(0); }, [activeCategory]);
-  const next = () => setCurrentPage(p => (p + 1) % currentPages.length);
-  const prev = () => setCurrentPage(p => (p - 1 + currentPages.length) % currentPages.length);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-12 animate-in slide-in-from-bottom-8 duration-700">
-      
-      <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-12">
-        <div className="space-y-4">
-          <div className="flex items-center gap-3 text-primary">
-             <BookOpen size={32} />
-             <span className="text-xs font-black uppercase tracking-[0.3em]">Editorial Volume II</span>
-          </div>
-          <h2 className="text-5xl md:text-7xl font-headline font-bold text-white">Boutique Editorial</h2>
-        </div>
+    <div className="w-full bg-texture py-32">
+      <div className="max-w-[1600px] mx-auto px-6">
         
-        <div className="flex bg-card p-2 rounded-full border border-border shadow-2xl">
-          {[
-            { id: 'mujer', icon: Crown, label: 'Mujer' },
-            { id: 'hombre', icon: Shirt, label: 'Hombre' },
-            { id: 'perfumes', icon: Gem, label: 'Perfumes' }
-          ].map(cat => (
-             <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id as any)}
-                className={cn(
-                  "flex items-center gap-2 px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 uppercase tracking-widest",
-                  activeCategory === cat.id 
-                    ? "bg-gold-vibrant text-black shadow-lg shadow-primary/20" 
-                    : "text-zinc-500 hover:text-white"
-                )}
-             >
-               <cat.icon size={18} />
-               <span>{cat.label}</span>
-             </button>
-          ))}
-        </div>
-      </div>
-
-      <AiAssistant 
-        title="Personal Shopper AI ✨"
-        placeholder={`Ej: Necesito un outfit / perfume (${activeCategory}) para una cena de negocios.`}
-        onAsk={(input) => aiPersonalShopperSuggestions({ userPrompt: input, category: activeCategory })}
-      />
-
-      <div className="relative w-full h-[800px] md:h-[650px] bg-card border border-primary/20 rounded-[3rem] overflow-hidden shadow-2xl">
-        <div className="flex h-full transition-transform duration-1000 cubic-bezier(0.4, 0, 0.2, 1)" style={{ transform: `translateX(-${currentPage * 100}%)` }}>
-          {currentPages.map((page: any, idx) => (
-            <div key={idx} className="w-full h-full flex-shrink-0 flex flex-col md:flex-row">
-              <div className="w-full md:w-1/2 p-10 md:p-20 flex flex-col justify-center bg-background">
-                <div className="space-y-8">
-                  <div className="inline-block px-5 py-2 bg-primary/10 border border-primary/30 text-primary text-xs font-black tracking-widest uppercase rounded-full">
-                    Página {idx + 1} • {activeCategory.toUpperCase()}
-                  </div>
-                  <h2 className="text-5xl md:text-6xl font-headline font-bold text-white leading-none">{page.title}</h2>
-                  <p className="text-zinc-400 text-xl font-light border-b border-border pb-8">{page.desc}</p>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
-                    {page.products.map((prod: any, pIdx: number) => (
-                      <div key={pIdx} className="bg-card border border-border p-5 rounded-2xl hover:border-primary/50 transition-all group cursor-pointer">
-                        <span className="text-[10px] text-primary font-black uppercase tracking-wider">{prod.type}</span>
-                        <h4 className="text-white font-bold text-lg mt-1 group-hover:text-primary transition-colors">{prod.name}</h4>
-                        <div className="mt-4 flex justify-between items-center">
-                          <span className="text-primary font-bold text-xl">{prod.price}</span>
-                          <div className="w-8 h-8 rounded-full bg-background border border-border flex items-center justify-center group-hover:bg-primary group-hover:text-black transition-all">
-                            <ChevronRight size={16} />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full md:w-1/2 h-64 md:h-full relative overflow-hidden">
-                <img src={page.img} alt={page.title} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background md:from-transparent to-transparent opacity-60"></div>
-              </div>
+        {/* Editorial Header */}
+        <header className="magazine-grid mb-24 items-end">
+          <div className="col-span-12 md:col-span-8">
+            <span className="text-xs font-black uppercase tracking-[0.5em] text-primary mb-4 block">Editorial Feature</span>
+            <h2 className="text-editorial-title">BOUTIQUE <br/> <span className="text-gold-gradient">EDITORIAL</span></h2>
+          </div>
+          <div className="col-span-12 md:col-span-4 flex flex-col gap-4">
+            <div className="flex border-b border-border py-4">
+              {['mujer', 'hombre', 'perfumes'].map((cat) => (
+                <button 
+                  key={cat}
+                  onClick={() => setActiveCategory(cat as any)}
+                  className={cn(
+                    "flex-1 text-[10px] font-black uppercase tracking-widest transition-all",
+                    activeCategory === cat ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
-          ))}
-        </div>
+            <p className="text-xs text-muted-foreground uppercase tracking-widest leading-relaxed italic">
+              "Una selección curada de piezas que trascienden las estaciones. No es moda, es legado."
+            </p>
+          </div>
+        </header>
 
-        <div className="absolute bottom-12 right-12 flex space-x-4 z-20">
-          <button onClick={prev} className="p-4 bg-black/40 backdrop-blur-xl border border-primary/50 rounded-full text-primary hover:bg-gold-vibrant hover:text-black transition-all shadow-xl">
-            <ChevronLeft size={28} />
-          </button>
-          <button onClick={next} className="p-4 bg-black/40 backdrop-blur-xl border border-primary/50 rounded-full text-primary hover:bg-gold-vibrant hover:text-black transition-all shadow-xl">
-            <ChevronRight size={28} />
-          </button>
-        </div>
-      </div>
-
-      <div className="flex justify-center space-x-3 mt-8">
-        {currentPages.map((_, idx) => (
-          <button 
-            key={idx} 
-            onClick={() => setCurrentPage(idx)} 
-            className={cn(
-              "h-2 rounded-full transition-all duration-500",
-              currentPage === idx ? "w-12 bg-primary shadow-lg shadow-primary/20" : "w-3 bg-zinc-800"
-            )} 
+        <div className="mb-20">
+          <AiAssistant 
+            title="AI Shopper Stylist"
+            placeholder="Describe la ocasión y encontraremos tu look..."
+            onAsk={(input) => aiPersonalShopperSuggestions({ userPrompt: input, category: activeCategory })}
           />
-        ))}
+        </div>
+
+        {/* Feature Spread */}
+        <div className="magazine-grid gap-12">
+          {/* Main Visual */}
+          <div className="col-span-12 md:col-span-7 relative group">
+            <div className="aspect-[4/5] overflow-hidden bg-muted">
+              <img 
+                src={staticCollection[activeCategory].img} 
+                alt="Editorial" 
+                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
+              />
+            </div>
+            <div className="absolute top-12 left-12 mix-blend-difference text-white">
+              <span className="text-[8px] uppercase tracking-[1em] font-bold">Volume One</span>
+              <h3 className="text-5xl font-headline italic">{staticCollection[activeCategory].title}</h3>
+            </div>
+          </div>
+
+          {/* Product List */}
+          <div className="col-span-12 md:col-span-5 flex flex-col justify-center space-y-12">
+            <div className="space-y-2">
+              <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Collection Items</h4>
+              <div className="w-12 h-[1px] bg-primary"></div>
+            </div>
+
+            <div className="space-y-8">
+              {dynProducts.length > 0 ? (
+                dynProducts.map((p: any, i: number) => (
+                  <div key={i} className="group border-b border-border pb-8 flex justify-between items-end hover:border-primary transition-all cursor-pointer">
+                    <div className="space-y-1">
+                      <span className="text-[8px] uppercase tracking-widest text-muted-foreground">Premium Selection</span>
+                      <h5 className="text-2xl font-headline font-bold group-hover:translate-x-2 transition-transform">{p.name}</h5>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-xl font-light italic text-primary">{p.price}</span>
+                      <div className="mt-2 text-[8px] font-black uppercase tracking-tighter flex items-center gap-1">
+                        Inquiry <Plus size={8} />
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-20 border border-dashed border-border">
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Solicita el catálogo completo impreso</p>
+                </div>
+              )}
+            </div>
+
+            <div className="bg-foreground text-background p-12 text-center space-y-4">
+              <Gem className="mx-auto text-primary" size={32} />
+              <h4 className="text-xl font-headline font-bold italic">Privé Appointments</h4>
+              <p className="text-[10px] uppercase tracking-widest leading-loose">
+                Agenda una sesión privada con nuestros estilistas editoriales.
+              </p>
+              <button className="text-[10px] font-black uppercase border-b border-background pb-1 hover:text-primary hover:border-primary transition-all">
+                Book Experience
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

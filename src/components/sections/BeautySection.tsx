@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Scissors, Sparkles } from 'lucide-react';
+import { Scissors, Sparkles, Wand2 } from 'lucide-react';
 import { AiAssistant } from '@/components/AiAssistant';
 import { aiStylistRecommendations } from '@/ai/flows/ai-stylist-recommendations';
 import { cn } from '@/lib/utils';
@@ -10,130 +10,110 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
   const [concept, setConcept] = useState<'salon' | 'barberia'>('salon');
   const isBarber = concept === 'barberia';
 
-  const baseBarberServices = [
-    { name: 'Corte Ejecutivo & Fade', price: '$15', description: 'Incluye lavado y peinado.' },
-    { name: 'Barba Spa & Toalla', price: '$10', description: 'Perfilado, vapor y aceites.' },
-    { name: 'Pigmentación HD', price: '$12', description: 'Cejas y barba definidas.' },
-    { name: 'Limpieza Facial Express', price: '$18', description: 'Mascarilla negra y exfoliación.' },
-  ];
-  const baseSalonServices = [
-    { name: 'Balayage / Baby Lights', price: 'Desde $60', description: 'Incluye matizante y peinado.' },
-    { name: 'Keratina Orgánica', price: 'Desde $45', description: 'Alisado espejo sin formol.' },
-    { name: 'Uñas Acrílicas / Gel', price: '$25', description: 'Diseño a mano alzada.' },
-    { name: 'Manicura Spa', price: '$15', description: 'Exfoliación e hidratación.' },
-  ];
-
-  const currentDynamic = dynamicData.services.filter((s: any) => s.category === concept);
-  const displayServices = [...(isBarber ? baseBarberServices : baseSalonServices), ...currentDynamic];
+  const services = dynamicData.services.filter((s: any) => s.category === concept);
 
   return (
     <div className={cn(
-      "transition-all duration-1000 w-full min-h-screen py-20 px-4 sm:px-6 lg:px-8",
-      isBarber ? "bg-background" : "bg-white"
+      "w-full transition-colors duration-1000 bg-texture",
+      isBarber ? "bg-black text-white" : "bg-white text-black"
     )}>
-      <div className="max-w-7xl mx-auto space-y-16 animate-in fade-in duration-700">
+      <div className="max-w-[1600px] mx-auto px-6 py-32">
         
-        <div className="flex justify-center">
-          <div className={cn(
-            "p-1.5 flex rounded-full border backdrop-blur-sm transition-all shadow-xl",
-            isBarber ? "bg-black/50 border-primary/30" : "bg-white border-accent/30"
-          )}>
+        {/* Toggle Masthead */}
+        <div className="flex justify-center mb-32">
+          <div className="border border-border p-1 flex items-center">
             <button 
               onClick={() => setConcept('salon')}
               className={cn(
-                "px-10 py-3 rounded-full font-bold text-sm tracking-widest uppercase transition-all duration-500",
-                !isBarber ? "bg-rose-gold text-white shadow-lg" : "text-zinc-500 hover:text-zinc-800"
+                "px-12 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all",
+                !isBarber ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
               )}
             >
-              Salón de Belleza
+              Le Salon
             </button>
             <button 
               onClick={() => setConcept('barberia')}
               className={cn(
-                "px-10 py-3 rounded-full font-bold text-sm tracking-widest uppercase transition-all duration-500",
-                isBarber ? "bg-gold-vibrant text-black shadow-lg shadow-primary/20" : "text-zinc-500 hover:text-accent"
+                "px-12 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all",
+                isBarber ? "bg-primary text-black" : "text-muted-foreground hover:text-primary"
               )}
             >
-              Barbería VIP
+              The Barber Shop
             </button>
           </div>
         </div>
 
-        <AiAssistant 
-          title="Estilista Virtual AI ✨"
-          placeholder="Ej: Tengo una graduación en la mañana, ¿qué estilo me recomiendas?"
-          onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })}
-          isLightMode={!isBarber}
-        />
+        <div className="magazine-grid items-start gap-12">
+          {/* Content Left */}
+          <div className="col-span-12 md:col-span-5 space-y-12">
+            <div className="space-y-4">
+              <span className="text-xs font-black uppercase tracking-[0.5em] text-primary">Department {isBarber ? '02' : '01'}</span>
+              <h2 className="text-7xl md:text-9xl font-headline font-bold italic leading-none">
+                {isBarber ? 'Grooming' : 'Couture'} <br/> 
+                <span className="not-italic opacity-40">Artistry</span>
+              </h2>
+            </div>
 
-        <div className="text-center max-w-3xl mx-auto space-y-6">
-          <h2 className={cn(
-            "text-5xl md:text-7xl font-headline font-bold transition-all duration-500",
-            isBarber ? "text-white" : "text-zinc-900"
-          )}>
-            {isBarber ? 'Grooming & Poder' : 'Estilo & Elegancia'}
-          </h2>
-          <p className={cn(
-            "text-xl font-light transition-all duration-500",
-            isBarber ? "text-zinc-400" : "text-zinc-600"
-          )}>
-            {isBarber 
-              ? 'Ambiente diseñado para el caballero moderno. Fades impecables y cuidado de barba.' 
-              : 'Un santuario de belleza inspirado en tendencias globales. Expertos en colorimetría y uñas spa.'}
-          </p>
-        </div>
+            <div className="pt-8">
+              <AiAssistant 
+                title="AI Creative Stylist"
+                placeholder="Describe tu visión o evento..."
+                onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })}
+                isLightMode={!isBarber}
+              />
+            </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className={cn(
-            "lg:col-span-5 h-[600px] rounded-[2.5rem] border overflow-hidden relative group transition-all duration-500",
-            isBarber ? "border-zinc-800 shadow-2xl" : "border-accent/10 shadow-xl"
-          )}>
-             <img 
-               src={isBarber 
-                 ? "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80&w=800" 
-                 : "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800"} 
-               alt="Concept" 
-               className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-             />
-             <div className={cn(
-               "absolute inset-0 bg-gradient-to-t to-transparent opacity-80",
-               isBarber ? "from-black" : "from-white"
-             )}></div>
-             <div className="absolute bottom-12 left-12 right-12">
-                <h3 className={cn(
-                  "text-4xl font-headline font-bold",
-                  isBarber ? "text-white" : "text-zinc-900"
-                )}>
-                  {isBarber ? 'Cortes Premium' : 'Color & Cuidado'}
-                </h3>
-                <div className={cn(
-                  "h-1.5 w-20 mt-4 rounded-full",
-                  isBarber ? "bg-gold-vibrant" : "bg-rose-gold"
-                )}></div>
-             </div>
+            <div className="p-12 border border-border relative overflow-hidden group">
+              <img 
+                src={isBarber 
+                  ? "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800"
+                  : "https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=800"} 
+                alt="Portrait"
+                className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+              <div className="absolute bottom-12 left-12 right-12 text-center">
+                <h4 className="text-xl font-headline font-bold italic">"Crafting Identity"</h4>
+              </div>
+            </div>
           </div>
 
-          <div className={cn(
-            "lg:col-span-7 p-10 md:p-14 rounded-[2.5rem] border transition-all duration-1000",
-            isBarber ? "bg-card border-zinc-800 shadow-2xl" : "bg-white border-accent/20 shadow-xl"
-          )}>
-            <h3 className={cn(
-              "text-3xl font-headline font-bold mb-10 uppercase tracking-widest",
-              isBarber ? "text-primary" : "text-accent"
-            )}>Menú de Servicios</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-              {displayServices.map((s: any, i) => (
-                <div key={i} className={cn(
-                  "border-b pb-6 transition-all group hover:translate-x-1",
-                  isBarber ? "border-zinc-800" : "border-zinc-100"
-                )}>
-                  <div className="flex justify-between items-center mb-2">
-                    <h4 className={cn("text-lg font-bold", isBarber ? "text-white" : "text-zinc-800")}>{s.name}</h4>
-                    <span className={cn("font-bold text-lg", isBarber ? "text-primary" : "text-accent")}>{s.price}</span>
+          {/* Menu Right */}
+          <div className="col-span-12 md:col-span-7 bg-muted/30 p-12 md:p-24 space-y-16">
+            <div className="flex justify-between items-end border-b border-border pb-8">
+              <h3 className="text-4xl font-headline font-bold italic">Services Menu</h3>
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Volume I</span>
+            </div>
+
+            <div className="space-y-12">
+              {services.length > 0 ? (
+                services.map((s: any, i: number) => (
+                  <div key={i} className="group grid grid-cols-1 md:grid-cols-4 gap-4 border-b border-border/50 pb-8 hover:translate-x-2 transition-all cursor-default">
+                    <div className="md:col-span-3 space-y-2">
+                      <h4 className="text-2xl font-headline font-bold uppercase">{s.name}</h4>
+                      <p className="text-xs text-muted-foreground font-light leading-relaxed max-w-md">{s.description}</p>
+                    </div>
+                    <div className="text-right flex flex-col justify-center">
+                      <span className="text-2xl font-light text-primary">{s.price}</span>
+                      <span className="text-[8px] uppercase tracking-tighter opacity-40">Est. Time 45m</span>
+                    </div>
                   </div>
-                  <p className={cn("text-sm leading-relaxed", isBarber ? "text-zinc-400" : "text-zinc-500")}>{s.description}</p>
+                ))
+              ) : (
+                <div className="text-center py-24 italic text-muted-foreground">
+                  Catálogo de servicios personalizado en recepción.
                 </div>
-              ))}
+              )}
+            </div>
+
+            <div className="pt-12 text-center">
+              <p className="text-[10px] uppercase tracking-[0.5em] font-bold text-muted-foreground mb-8">Exclusive Products Used</p>
+              <div className="flex justify-center gap-12 opacity-40 grayscale filter">
+                {/* Brand Logos Placeholder */}
+                <span className="text-xs font-black tracking-tighter">L'OREAL</span>
+                <span className="text-xs font-black tracking-tighter">KERASTASE</span>
+                <span className="text-xs font-black tracking-tighter">DYSON</span>
+              </div>
             </div>
           </div>
         </div>

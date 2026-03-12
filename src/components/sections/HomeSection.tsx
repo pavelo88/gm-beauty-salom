@@ -1,54 +1,85 @@
 "use client"
 
 import React from 'react';
-import { Crown, Scissors, ShoppingBag, Sofa, Gamepad2 } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => void }) {
-  const categories = [
-    { id: 'beauty', title: 'Salón & Barbería', desc: 'Cortes ejecutivos, balayage y uñas spa.', icon: Scissors, img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800' },
-    { id: 'boutique', title: 'Moda & Perfumes', desc: 'Ropa en tendencia y fragancias importadas.', icon: ShoppingBag, img: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&q=80&w=800' },
-    { id: 'alliance', title: 'Diseño de Espacios', desc: 'Mobiliario modular por Modulares GM.', icon: Sofa, img: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800' },
-    { id: 'lounge', title: 'Lounge & Sabor', desc: 'Zona Gamer PS5, cafetería y deportes.', icon: Gamepad2, img: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800' },
+  const sections = [
+    { id: 'beauty', title: 'The Beauty Archive', subtitle: 'Salon & Barber', img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200' },
+    { id: 'boutique', title: 'Editorial Wear', subtitle: 'Fashion & Scents', img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200' },
+    { id: 'alliance', title: 'Structural Art', subtitle: 'Interior Design', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200' },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 space-y-24 animate-in fade-in duration-1000">
-      <div className="text-center max-w-4xl mx-auto space-y-8">
-        <div className="inline-flex items-center justify-center space-x-2 border border-primary/40 bg-primary/10 px-6 py-2 rounded-full mb-4">
-          <Crown size={16} className="text-primary" />
-          <span className="text-primary text-xs font-bold tracking-widest uppercase">El nivel que mereces</span>
+    <div className="w-full bg-texture">
+      {/* Hero Cover */}
+      <section className="relative h-screen flex flex-col justify-center items-center px-4 overflow-hidden border-b border-border">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80&w=2000" 
+            className="w-full h-full object-cover opacity-20 grayscale" 
+            alt="Background" 
+          />
         </div>
-        <h2 className="text-5xl md:text-8xl font-headline font-black text-white tracking-tight leading-[1.1]">
-          Tu Estilo y tu Entorno,<br/>
-          <span className="text-gold">Elevados a la Perfección.</span>
-        </h2>
-        <p className="text-xl md:text-2xl text-zinc-400 leading-relaxed max-w-2xl mx-auto font-light">
-          Un espacio disruptivo en el Sur de Quito donde convergen la belleza de vanguardia, moda exclusiva y diseño de interiores premium.
-        </p>
-      </div>
+        
+        <div className="relative z-10 text-center space-y-4">
+          <div className="flex items-center justify-center gap-2 mb-8">
+            <Star className="text-primary fill-primary" size={14} />
+            <span className="text-[10px] uppercase tracking-[0.5em] font-bold text-muted-foreground">The 2024 Editorial Issue</span>
+            <Star className="text-primary fill-primary" size={14} />
+          </div>
+          <h1 className="text-editorial-title">
+            GM <br/> <span className="text-gold-gradient">HOUSE</span>
+          </h1>
+          <p className="max-w-xl mx-auto text-sm md:text-lg text-muted-foreground font-light tracking-widest uppercase">
+            Curating Aesthetics: Beauty, Fashion & Space
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {categories.map((card) => (
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-[1px] h-20 bg-primary/40"></div>
+        </div>
+      </section>
+
+      {/* Magazine Spreads */}
+      <section className="max-w-[1400px] mx-auto py-32 px-4 space-y-48">
+        {sections.map((section, idx) => (
           <div 
-            key={card.id} 
-            onClick={() => setActiveTab(card.id)} 
-            className="group relative bg-card border border-border rounded-3xl cursor-pointer overflow-hidden hover:border-primary/50 transition-all hover:shadow-[0_20px_50px_rgba(255,219,1,0.1)] flex flex-col h-[400px]"
+            key={section.id}
+            onClick={() => setActiveTab(section.id)}
+            className={cn(
+              "flex flex-col md:flex-row items-center gap-12 cursor-pointer group",
+              idx % 2 !== 0 ? "md:flex-row-reverse" : ""
+            )}
           >
-            <div className="h-1/2 overflow-hidden relative">
-              <img src={card.img} alt={card.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
-              <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-all duration-500"></div>
+            <div className="w-full md:w-7/12 overflow-hidden bg-muted aspect-[4/5] md:aspect-[16/10]">
+              <img 
+                src={section.img} 
+                alt={section.title} 
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+              />
             </div>
-            <div className="p-8 relative flex-grow bg-gradient-to-t from-card via-card to-transparent -mt-12 z-10 flex flex-col justify-end">
-              <div className="w-14 h-14 bg-background border border-primary/30 text-primary rounded-2xl flex items-center justify-center mb-6 group-hover:bg-gold-vibrant group-hover:text-black transition-all shadow-xl">
-                <card.icon size={28} />
-              </div>
-              <h3 className="text-2xl font-headline font-bold text-white mb-2">{card.title}</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed">{card.desc}</p>
+            <div className="w-full md:w-5/12 space-y-6">
+              <span className="text-xs font-black uppercase tracking-[0.3em] text-primary">{section.subtitle}</span>
+              <h2 className="text-5xl md:text-7xl font-headline font-bold leading-none">{section.title}</h2>
+              <p className="text-muted-foreground font-light leading-relaxed max-w-sm">
+                Explora nuestra visión sobre {section.subtitle.toLowerCase()}, donde el detalle y la exclusividad se encuentran en cada rincón de GM Beauty House.
+              </p>
+              <button className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest group-hover:gap-6 transition-all pt-4">
+                Ver Colección <ArrowRight size={16} />
+              </button>
             </div>
           </div>
         ))}
-      </div>
+      </section>
+
+      {/* Quote Section */}
+      <section className="bg-foreground text-background py-40 text-center">
+        <div className="max-w-4xl mx-auto px-4 italic font-headline text-3xl md:text-5xl leading-tight">
+          "El lujo no es lo contrario de la pobreza, sino de la vulgaridad. En GM Beauty House, cada servicio es una obra de arte."
+        </div>
+      </section>
     </div>
   );
 }

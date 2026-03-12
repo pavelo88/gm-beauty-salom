@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Home, Sofa, Scissors, ShoppingBag, Gamepad2, MapPin, X, Menu as MenuIcon, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HomeSection } from './sections/HomeSection';
@@ -18,131 +18,112 @@ interface ClientUIProps {
 
 export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData }: ClientUIProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLightMode = activeTab === 'beauty';
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navItems = [
-    { id: 'home', label: 'Inicio', icon: Home },
-    { id: 'beauty', label: 'Salón & Barbería', icon: Scissors },
-    { id: 'boutique', label: 'Boutique Editorial', icon: ShoppingBag },
-    { id: 'alliance', label: 'Modulares GM', icon: Sofa },
-    { id: 'lounge', label: 'Lounge & Resto', icon: Gamepad2 },
+    { id: 'home', label: 'Cover', icon: Home },
+    { id: 'beauty', label: 'Archive', icon: Scissors },
+    { id: 'boutique', label: 'Boutique', icon: ShoppingBag },
+    { id: 'alliance', label: 'Atelier', icon: Sofa },
+    { id: 'lounge', label: 'Lounge', icon: Gamepad2 },
   ];
 
   return (
-    <>
+    <div className="relative min-h-screen">
+      {/* Masthead */}
       <nav className={cn(
-        "sticky top-0 z-50 backdrop-blur-md border-b shadow-lg transition-colors duration-1000",
-        isLightMode ? "bg-white/90 border-accent/20" : "bg-background/90 border-primary/20"
+        "fixed top-0 w-full z-50 transition-all duration-500",
+        scrolled ? "bg-background/95 backdrop-blur-md border-b py-4" : "bg-transparent py-8"
       )}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20">
-            <div className="flex flex-col justify-center cursor-pointer" onClick={() => setActiveTab('home')}>
-              <h1 className={cn(
-                "text-2xl md:text-3xl font-headline font-bold tracking-tight",
-                isLightMode ? "text-rose" : "text-gold"
-              )}>
-                GM BEAUTY HOUSE
-              </h1>
-              <span className={cn(
-                "text-[0.65rem] tracking-[0.2em] uppercase font-bold",
-                isLightMode ? "text-accent" : "text-primary/80"
-              )}>Belleza • Moda • Muebles</span>
-            </div>
-            
-            <div className="hidden md:flex items-center space-x-2">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={cn(
-                    "px-4 py-2 rounded-md flex items-center space-x-2 text-sm font-bold transition-all duration-300",
-                    activeTab === item.id 
-                      ? (isLightMode ? "bg-rose-gold text-white shadow-md" : "bg-gold-vibrant text-black shadow-lg shadow-primary/20")
-                      : (isLightMode ? "text-zinc-600 hover:text-accent" : "text-zinc-400 hover:text-primary hover:bg-white/5")
-                  )}
-                >
-                  <item.icon size={16} />
-                  <span>{item.label}</span>
-                </button>
-              ))}
-            </div>
-
-            <button className={cn("md:hidden p-2", isLightMode ? "text-accent" : "text-primary")} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X /> : <MenuIcon />}
-            </button>
+        <div className="max-w-[1600px] mx-auto px-6 flex justify-between items-center">
+          <div 
+            className="flex flex-col cursor-pointer group" 
+            onClick={() => setActiveTab('home')}
+          >
+            <h1 className="text-xl md:text-2xl font-headline font-black tracking-tighter uppercase group-hover:text-primary transition-colors">
+              GM Beauty House
+            </h1>
+            <span className="text-[8px] tracking-[0.4em] uppercase font-bold text-muted-foreground">Volume I • Edition 2024</span>
           </div>
+          
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={cn(
+                  "text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:text-primary relative py-1",
+                  activeTab === item.id ? "text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-primary" : "text-muted-foreground"
+                )}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          <button className="md:hidden text-foreground" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={20} /> : <MenuIcon size={20} />}
+          </button>
         </div>
 
         {isMenuOpen && (
-          <div className={cn(
-            "md:hidden border-t p-4 flex flex-col gap-2 animate-in slide-in-from-top-4 duration-300",
-            isLightMode ? "bg-white border-zinc-200" : "bg-background border-zinc-900"
-          )}>
+          <div className="absolute top-full left-0 w-full bg-background border-b p-8 flex flex-col gap-6 animate-in slide-in-from-top-4 duration-300">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => { setActiveTab(item.id); setIsMenuOpen(false); }}
                 className={cn(
-                  "flex items-center space-x-4 p-4 rounded-lg text-sm font-bold transition-all",
-                  activeTab === item.id 
-                    ? (isLightMode ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary") 
-                    : (isLightMode ? "text-zinc-600" : "text-zinc-400")
+                  "text-2xl font-headline font-bold uppercase tracking-tighter transition-all",
+                  activeTab === item.id ? "text-primary" : "text-muted-foreground"
                 )}
               >
-                <item.icon size={20} />
-                <span>{item.label}</span>
+                {item.label}
               </button>
             ))}
           </div>
         )}
       </nav>
 
-      <main className="flex-grow w-full">
-        {activeTab === 'home' && <HomeSection setActiveTab={setActiveTab} />}
-        {activeTab === 'beauty' && <BeautySection dynamicData={dynamicData} />}
-        {activeTab === 'boutique' && <BoutiqueSection dynamicData={dynamicData} />}
-        {activeTab === 'alliance' && <AllianceSection dynamicData={dynamicData} />}
-        {activeTab === 'lounge' && <LoungeSection dynamicData={dynamicData} />}
+      <main className="pt-0">
+        <div className="animate-in fade-in duration-1000">
+          {activeTab === 'home' && <HomeSection setActiveTab={setActiveTab} />}
+          {activeTab === 'beauty' && <BeautySection dynamicData={dynamicData} />}
+          {activeTab === 'boutique' && <BoutiqueSection dynamicData={dynamicData} />}
+          {activeTab === 'alliance' && <AllianceSection dynamicData={dynamicData} />}
+          {activeTab === 'lounge' && <LoungeSection dynamicData={dynamicData} />}
+        </div>
       </main>
 
-      <footer className={cn(
-        "border-t py-16 transition-colors duration-1000",
-        isLightMode ? "bg-zinc-50 border-accent/10" : "bg-black border-primary/10"
-      )}>
-        <div className="max-w-7xl mx-auto px-4 text-center space-y-8">
-          <h2 className={cn(
-            "text-4xl font-headline font-bold",
-            isLightMode ? "text-rose" : "text-gold"
-          )}>
-            GM BEAUTY HOUSE
-          </h2>
-          <div className={cn(
-            "flex items-center justify-center space-x-3",
-            isLightMode ? "text-zinc-600" : "text-zinc-400"
-          )}>
-            <MapPin size={20} className={isLightMode ? "text-accent" : "text-primary"} />
-            <p className="text-xl font-medium">Rosa Yeira 420 y Serapio Japeravi, Sur de Quito</p>
+      <footer className="bg-foreground text-background pt-32 pb-12 border-t border-white/10">
+        <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-6 space-y-6">
+            <h2 className="text-6xl font-headline font-bold tracking-tighter">GM <br/> HOUSE</h2>
+            <p className="text-zinc-400 font-light max-w-sm">
+              La máxima expresión de estética y estilo en el Sur de Quito. Un ecosistema diseñado para quienes no aceptan menos que la perfección.
+            </p>
           </div>
-          <div className={cn(
-            "flex justify-center flex-wrap gap-4 text-sm tracking-[0.3em] uppercase font-bold",
-            isLightMode ? "text-zinc-400" : "text-zinc-500"
-          )}>
-            <span>Barbería</span> • <span>Uñas</span> • <span>Moda</span> • <span>Muebles</span>
+          <div className="md:col-span-3 space-y-4">
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Location</h4>
+            <p className="text-zinc-400 text-sm">Rosa Yeira 420 y Serapio Japeravi,<br/>Quito, Ecuador</p>
           </div>
-          <div className="flex justify-center pt-8">
-            <button 
-              onClick={() => setView('admin')} 
-              className={cn(
-                "p-3 rounded-full transition-all hover:scale-110",
-                isLightMode ? "bg-zinc-200 text-zinc-400 hover:text-accent" : "bg-zinc-900 text-zinc-800 hover:text-primary"
-              )}
-            >
-              <Lock size={18} />
-            </button>
+          <div className="md:col-span-3 space-y-4">
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Contact</h4>
+            <p className="text-zinc-400 text-sm">info@gmbeautyhouse.com<br/>+593 999 999 999</p>
           </div>
-          <p className="text-[10px] uppercase tracking-widest opacity-30">&copy; {new Date().getFullYear()} GM Beauty House Concept Store</p>
+        </div>
+        <div className="max-w-[1400px] mx-auto px-6 mt-32 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[8px] uppercase tracking-[0.2em] text-zinc-600">&copy; 2024 GM HOUSE CONCEPT STORE. ALL RIGHTS RESERVED.</p>
+          <button onClick={() => setView('admin')} className="text-zinc-800 hover:text-white transition-colors">
+            <Lock size={12} />
+          </button>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
