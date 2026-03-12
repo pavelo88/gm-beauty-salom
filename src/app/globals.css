@@ -4,48 +4,48 @@
 
 @layer base {
   :root {
-    --background: 30 20% 98%;
+    --background: 40 20% 97%; /* Alabaster Cream */
     --foreground: 20 10% 10%;
     --card: 0 0% 100%;
     --card-foreground: 20 10% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 10% 10%;
-    --primary: 35 30% 45%; /* Champagne Gold */
-    --primary-foreground: 30 20% 98%;
-    --secondary: 30 10% 90%;
+    --primary: 35 40% 45%; /* Deep Champagne Gold */
+    --primary-foreground: 40 20% 98%;
+    --secondary: 35 15% 90%;
     --secondary-foreground: 20 10% 10%;
-    --muted: 30 10% 95%;
-    --muted-foreground: 20 10% 40%;
-    --accent: 35 30% 45%;
-    --accent-foreground: 30 20% 98%;
+    --muted: 35 10% 94%;
+    --muted-foreground: 20 10% 35%;
+    --accent: 35 40% 45%;
+    --accent-foreground: 40 20% 98%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 30 20% 98%;
-    --border: 30 10% 85%;
-    --input: 30 10% 85%;
-    --ring: 35 30% 45%;
-    --radius: 0rem; /* Editorial look is sharper */
+    --destructive-foreground: 40 20% 98%;
+    --border: 35 15% 85%;
+    --input: 35 15% 85%;
+    --ring: 35 40% 45%;
+    --radius: 0rem;
   }
 
   .dark {
-    --background: 20 10% 4%;
-    --foreground: 30 20% 98%;
-    --card: 20 10% 6%;
-    --card-foreground: 30 20% 98%;
-    --popover: 20 10% 6%;
-    --popover-foreground: 30 20% 98%;
-    --primary: 35 30% 60%;
-    --primary-foreground: 20 10% 4%;
+    --background: 20 15% 4%; /* Deep Charcoal Onyx */
+    --foreground: 40 20% 95%;
+    --card: 20 15% 6%;
+    --card-foreground: 40 20% 95%;
+    --popover: 20 15% 6%;
+    --popover-foreground: 40 20% 95%;
+    --primary: 35 40% 65%; /* Soft Gold */
+    --primary-foreground: 20 15% 4%;
     --secondary: 20 10% 12%;
-    --secondary-foreground: 30 20% 98%;
+    --secondary-foreground: 40 20% 95%;
     --muted: 20 10% 12%;
-    --muted-foreground: 30 10% 60%;
-    --accent: 35 30% 60%;
-    --accent-foreground: 20 10% 4%;
+    --muted-foreground: 40 10% 60%;
+    --accent: 35 40% 65%;
+    --accent-foreground: 20 15% 4%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 30 20% 98%;
+    --destructive-foreground: 40 20% 95%;
     --border: 20 10% 15%;
     --input: 20 10% 15%;
-    --ring: 35 30% 60%;
+    --ring: 35 40% 65%;
   }
 }
 
@@ -54,7 +54,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body selection:bg-primary/30;
+    @apply bg-background text-foreground font-body selection:bg-primary/30 antialiased transition-colors duration-700;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter;
@@ -62,11 +62,11 @@
 }
 
 .text-editorial-title {
-  @apply text-6xl md:text-9xl font-black uppercase leading-[0.85] tracking-tighter;
+  @apply text-6xl md:text-[10rem] font-black uppercase leading-[0.8] tracking-tighter;
 }
 
 .text-gold-gradient {
-  background: linear-gradient(to right, #c5a059, #e8d1a7, #c5a059);
+  background: linear-gradient(to right, #b08d4a, #d4b483, #b08d4a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -74,20 +74,28 @@
 .magazine-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .bg-texture {
-  background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
 }
 
-/* Custom transitions */
-.page-transition-enter {
-  opacity: 0;
-  transform: translateY(10px);
+.editorial-shadow {
+  box-shadow: 40px 40px 80px rgba(0,0,0,0.05);
 }
-.page-transition-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 600ms, transform 600ms;
+
+.dark .editorial-shadow {
+  box-shadow: 40px 40px 80px rgba(0,0,0,0.4);
+}
+
+/* Scrollbar Style */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/20 hover:bg-primary/40;
 }

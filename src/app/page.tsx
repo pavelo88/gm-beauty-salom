@@ -1,11 +1,10 @@
-
 "use client"
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { signInAnonymously } from 'firebase/auth';
 import { collection } from 'firebase/firestore';
 import { useAuth, useFirestore, useUser, useCollection } from '@/firebase';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Moon, Sun } from 'lucide-react';
 
 import ClientUI from '@/components/ClientUI';
 import AdminUI from '@/components/AdminUI';
@@ -13,22 +12,30 @@ import AdminUI from '@/components/AdminUI';
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [view, setView] = useState<'client' | 'admin'>('client');
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const auth = useAuth();
   const db = useFirestore();
   const { user, loading: authLoading } = useUser(auth);
 
   useEffect(() => {
-    // Solo intentamos el login si auth está listo y no hay usuario ni carga pendiente
     if (!authLoading && !user && auth) {
       signInAnonymously(auth).catch((e) => {
-        console.error("Error al iniciar sesión anónima:", e);
+        console.error("Auth failed:", e);
       });
     }
   }, [user, authLoading, auth]);
 
+  // Handle Dark Mode toggle
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   const appId = 'gm-beauty-house-v1';
 
-  // Memoize queries to prevent infinite re-renders
   const servicesQuery = useMemo(() => collection(db, 'data', appId, 'services'), [db, appId]);
   const productsQuery = useMemo(() => collection(db, 'data', appId, 'products'), [db, appId]);
   const projectsQuery = useMemo(() => collection(db, 'data', appId, 'projects'), [db, appId]);
@@ -49,17 +56,22 @@ export default function App() {
   if (authLoading) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
-        <Loader2 className="animate-spin text-primary" size={48} />
-        <p className="text-primary font-bold uppercase tracking-widest text-sm">GM Beauty House</p>
+        <Loader2 className="animate-spin text-primary" size={32} />
+        <p className="text-primary font-bold uppercase tracking-[0.4em] text-[10px]">Loading Edition</p>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen font-body flex flex-col transition-all duration-1000 ${
-      view === 'client' && activeTab === 'beauty' ? 'bg-[#faf9f7] text-zinc-900 selection:bg-accent/30' 
-      : 'bg-background text-foreground selection:bg-primary/30'
-    }`}>
+    <div className="min-h-screen selection:bg-primary/20">
+      {/* Dark Mode Toggle Float */}
+      <button 
+        onClick={() => setIsDarkMode(!isDarkMode)}
+        className="fixed bottom-8 right-8 z-[100] w-12 h-12 bg-foreground text-background rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform"
+      >
+        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+      </button>
+
       {view === 'client' ? (
         <ClientUI 
           activeTab={activeTab} 
