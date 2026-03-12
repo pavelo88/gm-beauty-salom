@@ -9,6 +9,7 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
     { id: 'beauty', title: 'The Beauty Archive', subtitle: 'Salon & Barber', img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200', text: 'Curaduría técnica en corte y color editorial.' },
     { id: 'boutique', title: 'Editorial Wear', subtitle: 'Fashion & Scents', img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200', text: 'Piezas seleccionadas que trascienden temporadas.' },
     { id: 'alliance', title: 'Structural Art', subtitle: 'Interior Design', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200', text: 'Espacios modulares diseñados para el mañana.' },
+    { id: 'tv', title: 'GM TV Broadcast', subtitle: 'Entertainment Hub', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1200', text: 'Contenido exclusivo proyectado en nuestra casa.' },
   ];
 
   return (
@@ -18,7 +19,7 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80&w=2000" 
-            className="w-full h-full object-cover opacity-10 dark:opacity-20 grayscale scale-110" 
+            className="w-full h-full object-cover img-cinematic scale-110" 
             alt="Editorial Background" 
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background opacity-60"></div>
@@ -59,7 +60,7 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
               <img 
                 src={section.img} 
                 alt={section.title} 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2000ms]"
+                className="w-full h-full object-cover img-cinematic group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all duration-700"></div>
             </div>

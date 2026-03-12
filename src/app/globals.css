@@ -89,6 +89,12 @@
   box-shadow: 40px 40px 80px rgba(0,0,0,0.4);
 }
 
+/* Image Cinematic Low Color Effect */
+.img-cinematic {
+  @apply saturate-[0.4] transition-all ease-out hover:saturate-100;
+  transition-duration: 1500ms;
+}
+
 /* Scrollbar Style */
 ::-webkit-scrollbar {
   width: 4px;
@@ -98,4 +104,12 @@
 }
 ::-webkit-scrollbar-thumb {
   @apply bg-primary/20 hover:bg-primary/40;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

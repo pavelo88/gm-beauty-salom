@@ -56,7 +56,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
                 title="AI Creative Stylist"
                 placeholder="Describe tu visión o evento..."
                 onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })}
-                isLightMode={true} // Now always use a refined light aesthetic for AI
+                isLightMode={false} // Use dark mode aesthetic for AI assistant
               />
             </div>
 
@@ -67,7 +67,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
                     ? "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800"
                     : "https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=800"} 
                   alt="Portrait Archive"
-                  className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-[1.5s]"
+                  className="w-full h-full object-cover img-cinematic"
                 />
               </div>
               <div className="absolute bottom-8 left-8 right-8 text-center bg-background/80 backdrop-blur-md p-6 border border-border">

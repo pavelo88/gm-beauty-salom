@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { signInAnonymously } from 'firebase/auth';
 import { collection } from 'firebase/firestore';
 import { useAuth, useFirestore, useUser, useCollection } from '@/firebase';
-import { Loader2, Moon, Sun } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 import ClientUI from '@/components/ClientUI';
 import AdminUI from '@/components/AdminUI';
@@ -12,7 +12,8 @@ import AdminUI from '@/components/AdminUI';
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [view, setView] = useState<'client' | 'admin'>('client');
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // Initialize in DARK MODE as requested
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const auth = useAuth();
   const db = useFirestore();
   const { user, loading: authLoading } = useUser(auth);
@@ -25,7 +26,7 @@ export default function App() {
     }
   }, [user, authLoading, auth]);
 
-  // Handle Dark Mode toggle
+  // Sync Dark Mode class
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -64,20 +65,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen selection:bg-primary/20">
-      {/* Dark Mode Toggle Float */}
-      <button 
-        onClick={() => setIsDarkMode(!isDarkMode)}
-        className="fixed bottom-8 right-8 z-[100] w-12 h-12 bg-foreground text-background rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform"
-      >
-        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-      </button>
-
       {view === 'client' ? (
         <ClientUI 
           activeTab={activeTab} 
           setActiveTab={setActiveTab} 
           setView={setView} 
-          dynamicData={dynamicData} 
+          dynamicData={dynamicData}
+          isDarkMode={isDarkMode}
+          setIsDarkMode={setIsDarkMode}
         />
       ) : (
         <AdminUI 
