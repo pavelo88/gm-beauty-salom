@@ -53,21 +53,27 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply font-body antialiased transition-colors duration-700 relative min-h-screen bg-background text-foreground;
+  
+  html {
+    @apply bg-background;
   }
 
-  /* Capa de Papel Corrugado / Pared Ribeteada */
+  body {
+    @apply font-body antialiased transition-colors duration-700 relative min-h-screen text-foreground;
+    background: transparent;
+  }
+
+  /* Capa de Papel Corrugado / Pared Ribeteada Editorial */
   body::before {
     content: "";
-    @apply fixed inset-0 pointer-events-none z-[1];
+    @apply fixed inset-0 z-[-1] pointer-events-none;
     background-image: repeating-linear-gradient(
       to right,
-      rgba(0, 0, 0, 0.15) 0px,
-      rgba(0, 0, 0, 0.05) 15px,
-      rgba(255, 255, 255, 0.05) 16px,
-      rgba(0, 0, 0, 0.05) 17px,
-      rgba(0, 0, 0, 0.15) 32px
+      rgba(0, 0, 0, 0.12) 0px,
+      rgba(0, 0, 0, 0.04) 15px,
+      rgba(255, 255, 255, 0.03) 16px,
+      rgba(0, 0, 0, 0.04) 17px,
+      rgba(0, 0, 0, 0.12) 32px
     );
     background-size: 32px 100%;
   }
@@ -75,11 +81,11 @@
   .dark body::before {
     background-image: repeating-linear-gradient(
       to right,
-      rgba(0, 0, 0, 0.8) 0px,
-      rgba(0, 0, 0, 0.4) 15px,
-      rgba(255, 255, 255, 0.02) 16px,
-      rgba(0, 0, 0, 0.4) 17px,
-      rgba(0, 0, 0, 0.8) 32px
+      rgba(0, 0, 0, 0.7) 0px,
+      rgba(0, 0, 0, 0.3) 15px,
+      rgba(255, 255, 255, 0.01) 16px,
+      rgba(0, 0, 0, 0.3) 17px,
+      rgba(0, 0, 0, 0.7) 32px
     );
   }
   
