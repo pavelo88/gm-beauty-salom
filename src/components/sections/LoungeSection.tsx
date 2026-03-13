@@ -1,10 +1,7 @@
-
 "use client"
 
 import React from 'react';
 import { Coffee, Gamepad2, Star, Tv, MoveDown } from 'lucide-react';
-import { AiAssistant } from '@/components/AiAssistant';
-import { aiEntertainmentSommelier } from '@/ai/flows/ai-entertainment-sommelier';
 import { cn } from '@/lib/utils';
 
 export function LoungeSection({ dynamicData }: { dynamicData: any }) {
@@ -37,21 +34,9 @@ export function LoungeSection({ dynamicData }: { dynamicData: any }) {
           </div>
         </header>
 
-        <div className="max-w-2xl mx-auto">
-          <AiAssistant 
-            title="Sommelier IA"
-            placeholder="¿Cómo te sientes hoy?..."
-            onAsk={(input) => aiEntertainmentSommelier({ 
-              customerPreference: input, 
-              availableMenuItems: fullMenu.map(m => ({ name: m.name, price: m.price, category: m.category })),
-              availableGamingOptions: gamingOptions
-            })}
-          />
-        </div>
-
         <div className="magazine-grid gap-12">
-          {/* El Menú de Autor */}
-          <div className="col-span-12 lg:col-span-8 bg-card border border-border p-10 md:p-16 editorial-shadow relative overflow-hidden">
+          {/* El Menú de Autor - Estilo Negroni / Restaurante de Lujo */}
+          <div className="col-span-12 lg:col-span-8 bg-card border border-border p-10 md:p-16 editorial-shadow relative overflow-hidden rounded-[2rem]">
             <div className="absolute top-0 left-0 w-full h-1 bg-primary"></div>
             <div className="flex justify-between items-baseline mb-16">
               <h3 className="text-3xl font-headline font-bold italic tracking-tighter">Carte d'Hôte</h3>
@@ -89,7 +74,7 @@ export function LoungeSection({ dynamicData }: { dynamicData: any }) {
 
           {/* Sidebar de Entretenimiento */}
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-8">
-            <div className="bg-foreground text-background p-10 editorial-shadow flex-1 relative overflow-hidden group rounded-2xl">
+            <div className="bg-foreground text-background p-10 editorial-shadow flex-1 relative overflow-hidden group rounded-[2rem]">
               <h3 className="text-2xl font-headline font-bold italic tracking-tighter mb-8 border-b border-white/10 pb-4">Gamer Suite</h3>
               <div className="space-y-6">
                 {gamingOptions.map((game, i) => (
@@ -101,7 +86,7 @@ export function LoungeSection({ dynamicData }: { dynamicData: any }) {
               </div>
             </div>
 
-            <div className="bg-card border border-border p-10 editorial-shadow flex items-center gap-8 rounded-2xl">
+            <div className="bg-card border border-border p-10 editorial-shadow flex items-center gap-8 rounded-[2rem]">
               <div className="p-4 bg-primary/10 rounded-full">
                 <Tv size={28} className="text-primary" />
               </div>
