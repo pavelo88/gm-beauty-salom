@@ -91,7 +91,7 @@
     opacity: 0.8;
   }
 
-  /* Modo Oscuro: Textura de Cristal Facetado / Mosaico Geométrico */
+  /* Modo Oscuro: Textura de Cristal Facetado / Mosaico Geométrico (Basado en la imagen enviada) */
   .dark body::before {
     background-image: url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=2000');
     background-size: cover;
@@ -118,7 +118,7 @@
 .text-gold-gradient {
   background: linear-gradient(to right, #b08d4a, #d4b483, #b08d4a);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-fill-color: transparent;
 }
 
 .magazine-grid {
