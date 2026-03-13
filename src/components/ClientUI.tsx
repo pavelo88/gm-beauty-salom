@@ -87,12 +87,10 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
             ))}
             
             <div className="flex items-center gap-4 ml-4 border-l border-border/30 pl-8">
-              <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors" title="Instagram"><Instagram size={14} /></a>
-              <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors" title="Facebook"><Facebook size={14} /></a>
-              <a href={socialLinks.whatsapp} target="_blank" className="text-muted-foreground hover:text-primary transition-colors" title="WhatsApp Chat"><MessageCircle size={14} /></a>
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 className="text-muted-foreground hover:text-primary transition-colors"
+                title={isDarkMode ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
               >
                 {isDarkMode ? <Sun size={14} /> : <Moon size={14} />}
               </button>
