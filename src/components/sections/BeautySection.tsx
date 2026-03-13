@@ -46,49 +46,42 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
 
   const accentColor = isBarber ? "text-primary" : "text-[#d1919b]"; 
   const accentBg = isBarber ? "bg-primary" : "bg-[#d1919b]";
-  const accentBorder = isBarber ? "border-primary" : "border-[#d1919b]";
 
   return (
-    <div className="w-full pt-20 pb-12">
-      <div className="max-w-[1400px] mx-auto px-6 space-y-12">
+    <div className="w-full pt-16 pb-8">
+      <div className="max-w-[1400px] mx-auto px-6 space-y-8">
         
-        <header className="flex flex-col md:flex-row justify-between items-end gap-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <span className={cn("text-[9px] font-black uppercase tracking-[0.5em]", accentColor)}>Edición No. 01</span>
-              <span className="w-16 h-[1px] bg-border/40"></span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-headline font-bold leading-[0.8] tracking-tighter uppercase">
-              {isBarber ? 'Grooming' : 'Estética'} <br/> 
-              <span className="opacity-20 italic">Archive</span>
+        <header className="flex justify-between items-center">
+          <div className="space-y-1">
+            <span className={cn("text-[8px] font-black uppercase tracking-[0.5em]", accentColor)}>Edición No. 01</span>
+            <h2 className="text-3xl md:text-4xl font-headline font-bold leading-none tracking-tighter uppercase">
+              {isBarber ? 'Grooming' : 'Estética'} <span className="opacity-20 italic">Archive</span>
             </h2>
           </div>
           
-          <div className="flex flex-col items-end gap-4 mb-2">
-            <div className="border border-border/30 p-1 flex items-center bg-card/20 backdrop-blur-md rounded-full overflow-hidden shadow-xl">
-              <button 
-                onClick={() => { setConcept('salon'); setActiveIdx(2); }}
-                className={cn(
-                  "px-6 py-2 text-[9px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
-                  !isBarber ? "bg-[#d1919b] text-white shadow-lg" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                Le Salon
-              </button>
-              <button 
-                onClick={() => { setConcept('barberia'); setActiveIdx(2); }}
-                className={cn(
-                  "px-6 py-2 text-[9px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
-                  isBarber ? "bg-primary text-black shadow-lg" : "text-muted-foreground hover:text-primary"
-                )}
-              >
-                Barber Shop
-              </button>
-            </div>
+          <div className="flex border border-border/30 p-1 bg-card/20 backdrop-blur-md rounded-full">
+            <button 
+              onClick={() => { setConcept('salon'); setActiveIdx(2); }}
+              className={cn(
+                "px-4 py-1.5 text-[8px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
+                !isBarber ? "bg-[#d1919b] text-white shadow-lg" : "text-muted-foreground"
+              )}
+            >
+              Le Salon
+            </button>
+            <button 
+              onClick={() => { setConcept('barberia'); setActiveIdx(2); }}
+              className={cn(
+                "px-4 py-1.5 text-[8px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
+                isBarber ? "bg-primary text-black shadow-lg" : "text-muted-foreground"
+              )}
+            >
+              Barber Shop
+            </button>
           </div>
         </header>
 
-        <div className="relative h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden">
+        <div className="relative h-[250px] md:h-[350px] flex items-center justify-center overflow-hidden">
           <div className="relative w-full h-full flex items-center justify-center">
             {services.map((svc: any, i: number) => {
               let diff = i - activeIdx;
@@ -97,28 +90,23 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
 
               const isCenter = diff === 0;
               const isSide = Math.abs(diff) === 1;
-              const isHidden = Math.abs(diff) > 1;
 
               return (
                 <div 
                   key={i}
-                  onClick={() => !isCenter && setActiveIdx(i)}
                   className={cn(
-                    "absolute transition-all duration-700 ease-out cursor-pointer overflow-hidden rounded-xl shadow-xl",
-                    isCenter ? "z-30 w-[85%] md:w-[50%] h-full opacity-100 scale-100 translate-x-0" : "",
-                    diff === -1 ? "z-20 w-[60%] h-[80%] opacity-40 scale-90 -translate-x-[35%] blur-[1px]" : "",
-                    diff === 1 ? "z-20 w-[60%] h-[80%] opacity-40 scale-90 translate-x-[35%] blur-[1px]" : "",
-                    isHidden ? "opacity-0 scale-50 z-0 pointer-events-none" : ""
+                    "absolute transition-all duration-700 ease-out overflow-hidden rounded-xl shadow-lg",
+                    isCenter ? "z-30 w-[80%] md:w-[45%] h-full opacity-100 scale-100" : "",
+                    diff === -1 ? "z-20 w-[55%] h-[80%] opacity-30 scale-90 -translate-x-[30%] blur-[1px]" : "",
+                    diff === 1 ? "z-20 w-[55%] h-[80%] opacity-30 scale-90 translate-x-[30%] blur-[1px]" : "",
+                    Math.abs(diff) > 1 ? "opacity-0 z-0" : ""
                   )}
                 >
                   <img src={svc.imageUrl} alt={svc.name} className="w-full h-full object-cover" />
                   {isCenter && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
-                      <div className="space-y-1">
-                        <span className={cn("text-[8px] font-black uppercase tracking-widest", accentColor)}>{svc.price}</span>
-                        <h3 className="text-xl md:text-3xl font-headline font-bold text-white tracking-tighter uppercase">{svc.name}</h3>
-                        <p className="text-white/60 text-[10px] md:text-xs font-light max-w-md line-clamp-1">{svc.description}</p>
-                      </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-5">
+                      <span className={cn("text-[8px] font-black uppercase tracking-widest", accentColor)}>{svc.price}</span>
+                      <h3 className="text-xl md:text-2xl font-headline font-bold text-white tracking-tighter uppercase">{svc.name}</h3>
                     </div>
                   )}
                 </div>
@@ -127,50 +115,37 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
           </div>
 
           <div className="absolute top-1/2 -translate-y-1/2 left-2 right-2 flex justify-between z-40 pointer-events-none">
-            <button 
-              onClick={(e) => { e.stopPropagation(); rotate(-1); }}
-              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white pointer-events-auto hover:bg-white hover:text-black transition-all"
-            >
-              <ChevronLeft size={18} />
+            <button onClick={() => rotate(-1)} className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white pointer-events-auto hover:bg-white hover:text-black transition-all flex items-center justify-center">
+              <ChevronLeft size={16} />
             </button>
-            <button 
-              onClick={(e) => { e.stopPropagation(); rotate(1); }}
-              className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white pointer-events-auto hover:bg-white hover:text-black transition-all"
-            >
-              <ChevronRight size={18} />
+            <button onClick={() => rotate(1)} className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white pointer-events-auto hover:bg-white hover:text-black transition-all flex items-center justify-center">
+              <ChevronRight size={16} />
             </button>
           </div>
         </div>
 
-        <div className="magazine-grid gap-10 items-start pt-4">
-          <div className="col-span-12 lg:col-span-7 space-y-6">
-            <div className="flex items-center gap-4">
-              <div className={cn("w-10 h-[1px]", accentBg)}></div>
-              <h4 className="text-[10px] font-black uppercase tracking-[0.4em]">Identidad GM</h4>
-            </div>
-            <p className="text-xl md:text-2xl font-headline font-bold italic leading-tight text-foreground/80 border-l-2 pl-6 border-border">
-              "En GM Beauty House, entendemos el cabello como una estructura de diseño. Construimos identidades visuales que perduran bajo estándares internacionales."
+        <div className="magazine-grid gap-6 items-start">
+          <div className="col-span-12 lg:col-span-7 space-y-4">
+            <p className="text-lg md:text-xl font-headline font-bold italic leading-tight text-foreground/80 border-l-2 pl-4 border-border">
+              "En GM Beauty House, construimos identidades visuales que perduran bajo estándares internacionales."
             </p>
             <div className="max-w-md">
                <AiAssistant 
                 title="Estilista IA"
-                placeholder="Ej: Cambio de look para boda..."
+                placeholder="Busco un cambio..."
                 onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })}
               />
             </div>
           </div>
 
           <div className="col-span-12 lg:col-span-5">
-            <div className="bg-card/20 border border-border/40 p-8 rounded-[2rem] editorial-shadow space-y-6">
-              <h5 className={cn("text-[9px] font-black uppercase tracking-[0.5em]", accentColor)}>Carta de Cortesía</h5>
-              <div className="space-y-4">
+            <div className="bg-card/20 border border-border/40 p-6 rounded-2xl space-y-4">
+              <h5 className={cn("text-[8px] font-black uppercase tracking-[0.5em]", accentColor)}>Carta de Cortesía</h5>
+              <div className="grid grid-cols-2 gap-3">
                 {courtesyMenu.map((drink, i) => (
-                  <div key={i} className="flex justify-between items-center group cursor-default border-b border-border/10 pb-3 hover:border-primary transition-colors">
-                    <div className="flex items-center gap-4">
-                      <drink.icon size={16} className={cn("opacity-40 group-hover:opacity-100", accentColor)} />
-                      <span className="text-[10px] font-bold uppercase tracking-[0.2em]">{drink.name}</span>
-                    </div>
-                    <Star size={8} className={cn("opacity-0 group-hover:opacity-100", accentColor)} />
+                  <div key={i} className="flex items-center gap-2 group border-b border-border/10 pb-2">
+                    <drink.icon size={12} className={cn("opacity-40 group-hover:opacity-100", accentColor)} />
+                    <span className="text-[8px] font-bold uppercase tracking-[0.1em]">{drink.name}</span>
                   </div>
                 ))}
               </div>
