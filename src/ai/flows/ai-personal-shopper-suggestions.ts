@@ -1,22 +1,19 @@
+
 'use server';
 /**
- * @fileOverview A Genkit flow that provides AI-powered personal shopper suggestions.
- *
- * - aiPersonalShopperSuggestions - A function that handles the personal shopper suggestion process.
- * - AiPersonalShopperSuggestionsInput - The input type for the aiPersonalShopperSuggestions function.
- * - AiPersonalShopperSuggestionsOutput - The return type for the aiPersonalShopperSuggestions function.
+ * @fileOverview Flujo de Genkit que proporciona sugerencias de personal shopper impulsadas por IA.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 const AiPersonalShopperSuggestionsInputSchema = z.object({
-  userPrompt: z.string().describe('The user\'s request for fashion or perfume advice.'),
-  category: z.enum(['mujer', 'hombre', 'perfumes']).describe('The active category (mujer, hombre, perfumes) for suggestions.'),
+  userPrompt: z.string().describe('La solicitud del usuario para consejos de moda o fragancias.'),
+  category: z.enum(['mujer', 'hombre', 'perfumes']).describe('La categoría activa para las sugerencias.'),
 });
 export type AiPersonalShopperSuggestionsInput = z.infer<typeof AiPersonalShopperSuggestionsInputSchema>;
 
-const AiPersonalShopperSuggestionsOutputSchema = z.string().describe('Curated fashion or perfume advice tailored to the user\'s request.');
+const AiPersonalShopperSuggestionsOutputSchema = z.string().describe('Consejos curados de moda o perfume adaptados a la solicitud.');
 export type AiPersonalShopperSuggestionsOutput = z.infer<typeof AiPersonalShopperSuggestionsOutputSchema>;
 
 export async function aiPersonalShopperSuggestions(input: AiPersonalShopperSuggestionsInput): Promise<AiPersonalShopperSuggestionsOutput> {
@@ -27,11 +24,12 @@ const prompt = ai.definePrompt({
   name: 'personalShopperPrompt',
   input: { schema: AiPersonalShopperSuggestionsInputSchema },
   output: { schema: AiPersonalShopperSuggestionsOutputSchema },
-  prompt: `Eres un personal shopper de lujo en GM Beauty House.
-Sugiere un outfit o fragancia específica de la categoría {{{category}}} para la ocasión que describe el usuario.
-Usa un tono exclusivo y persuasivo.
+  prompt: `Eres un personal shopper experto de GM Boutique en el Sur de Quito.
+Sugiere una prenda, outfit o fragancia de nuestra categoría de {{{category}}} basándote en lo que busca el usuario.
+Usa un lenguaje persuasivo, sofisticado y exclusivo. 
+Haz que el cliente sienta que la pieza es única para su estilo.
 
-Solicitud del usuario: {{{userPrompt}}}`,
+Solicitud del usuario: "{{{userPrompt}}}"`,
 });
 
 const aiPersonalShopperSuggestionsFlow = ai.defineFlow(

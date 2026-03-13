@@ -5,7 +5,7 @@ import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 export const metadata: Metadata = {
   title: {
-    default: 'GM Beauty House | Salon, Barber & Concept Store en Quito',
+    default: 'GM Beauty House | Salón, Barbería & Boutique en el Sur de Quito',
     template: '%s | GM Beauty House'
   },
   description: 'Descubre GM Beauty House en el Sur de Quito. Una experiencia editorial de lujo que combina Salón de Belleza, Barbería de Autor, Boutique de Moda, Diseño de Interiores con Modulares GM y un Lounge VIP.',
@@ -109,17 +109,17 @@ export default function RootLayout({
                 {
                   "@type": "BeautySalon",
                   "name": "GM Beauty Salon",
-                  "description": "Servicios de peluquería, color editorial y cuidado capilar."
+                  "description": "Servicios de peluquería, color editorial y cuidado capilar en el sur de Quito."
                 },
                 {
                   "@type": "BarberShop",
                   "name": "GM Barber Shop",
-                  "description": "Barbería de autor y cuidado masculino."
+                  "description": "Barbería de autor y cuidado masculino tradicional con toques modernos."
                 },
                 {
                   "@type": "ClothingStore",
                   "name": "GM Boutique",
-                  "description": "Moda exclusiva y perfumería de lujo."
+                  "description": "Moda exclusiva y perfumería de lujo en el corazón del sur."
                 }
               ]
             })

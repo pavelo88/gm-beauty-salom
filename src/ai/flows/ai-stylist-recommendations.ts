@@ -1,23 +1,20 @@
+
 'use server';
 /**
- * @fileOverview A Genkit flow for generating personalized beauty and barbering style recommendations.
- *
- * - aiStylistRecommendations - A function that handles the AI stylist recommendation process.
- * - AiStylistRecommendationsInput - The input type for the aiStylistRecommendations function.
- * - AiStylistRecommendationsOutput - The return type for the aiStylistRecommendations function.
+ * @fileOverview Flujo de Genkit para generar recomendaciones personalizadas de estilo de belleza y barbería.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const AiStylistRecommendationsInputSchema = z.object({
-  userQuery: z.string().describe("The client's event or preferences for which a style recommendation is needed."),
-  concept: z.enum(['salon', 'barberia']).describe("The type of service requested: 'salon' for beauty salon, 'barberia' for barber shop."),
+  userQuery: z.string().describe("El evento o preferencia del cliente para el cual necesita una recomendación de estilo."),
+  concept: z.enum(['salon', 'barberia']).describe("El tipo de servicio solicitado: 'salon' para belleza femenina, 'barberia' para barbería masculina."),
 });
 export type AiStylistRecommendationsInput = z.infer<typeof AiStylistRecommendationsInputSchema>;
 
 const AiStylistRecommendationsOutputSchema = z.object({
-  recommendation: z.string().describe("The AI stylist's personalized style recommendation."),
+  recommendation: z.string().describe("La recomendación personalizada del estilista AI."),
 });
 export type AiStylistRecommendationsOutput = z.infer<typeof AiStylistRecommendationsOutputSchema>;
 
@@ -29,7 +26,11 @@ const aiStylistPrompt = ai.definePrompt({
   name: 'aiStylistPrompt',
   input: {schema: AiStylistRecommendationsInputSchema},
   output: {schema: AiStylistRecommendationsOutputSchema},
-  prompt: `Eres un estilista exclusivo de GM Beauty House. Sugiere un estilo ideal (peinado, arreglo o maquillaje) para el concepto de {{{concept}}} basado en el evento del cliente o sus preferencias. Sé breve y lujoso en tu lenguaje.\n\nCliente: {{{userQuery}}}`,
+  prompt: `Eres el estilista principal de GM Beauty House en el Sur de Quito. 
+Tu objetivo es sugerir un estilo ideal (peinado, tratamiento o arreglo) para un cliente de nuestro concepto de {{{concept}}}.
+Habla con un tono profesional, exclusivo y muy elegante. 
+Sé breve pero inspirador. No des consejos genéricos, personaliza según la solicitud del cliente: "{{{userQuery}}}".
+`,
 });
 
 const aiStylistRecommendationsFlow = ai.defineFlow(
