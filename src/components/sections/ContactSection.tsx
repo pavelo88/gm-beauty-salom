@@ -2,14 +2,15 @@
 "use client"
 
 import React from 'react';
-import { MapPin, Phone, Mail, Clock, Send, Instagram, Facebook, MessageCircle } from 'lucide-react';
+import { MapPin, Phone, Send, Instagram, Facebook, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
 export function ContactSection() {
-  const whatsappNumber = "593987654321";
+  const whatsappNumber = "0987654321";
   const address = "Rosa Yeira 420 y Serapio Japeravi, Quito, Ecuador";
+  const displayPhone = "098 765 4321";
 
   return (
     <div className="w-full pt-32 pb-20">
@@ -66,32 +67,12 @@ export function ContactSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-primary">
-                  <MapPin size={18} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Ubicación</span>
-                </div>
-                <p className="text-sm font-medium leading-relaxed">{address}</p>
-                <p className="text-[9px] text-muted-foreground uppercase font-bold">Quito Sur • Sector Chillogallo</p>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-primary">
-                  <Clock size={18} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Horarios</span>
-                </div>
-                <div className="text-sm space-y-1">
-                  <p className="flex justify-between font-medium">Lunes - Sábado <span className="text-primary italic">09:00 - 20:00</span></p>
-                  <p className="flex justify-between opacity-50">Domingo <span className="italic">Cerrado</span></p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 text-primary">
                   <Phone size={18} />
                   <span className="text-[10px] font-black uppercase tracking-widest">Citas & Consultas</span>
                 </div>
                 <div className="space-y-2">
-                  <a href={`tel:${whatsappNumber}`} className="block text-xl font-headline font-bold hover:text-primary transition-colors">+593 98 765 4321</a>
-                  <a href={`https://wa.me/${whatsappNumber}`} target="_blank" className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest bg-primary/10 p-3 w-fit hover:bg-primary/20 transition-all">
+                  <a href={`tel:${whatsappNumber}`} className="block text-3xl font-headline font-bold hover:text-primary transition-colors">{displayPhone}</a>
+                  <a href={`https://wa.me/593${whatsappNumber.substring(1)}`} target="_blank" className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest bg-primary/10 p-3 w-fit hover:bg-primary/20 transition-all">
                     <MessageCircle size={14} className="text-primary" /> Chat de WhatsApp
                   </a>
                 </div>
@@ -110,24 +91,35 @@ export function ContactSection() {
             </div>
 
             {/* Mapa Placeholder con Estética Editorial */}
-            <div className="flex-grow aspect-video bg-muted border border-border relative overflow-hidden group editorial-shadow grayscale hover:grayscale-0 transition-all duration-1000 rounded-xl">
-              <img 
-                src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1200" 
-                className="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000"
-                alt="GM House Location"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-background/90 backdrop-blur-md p-6 border border-primary/20 text-center space-y-2 max-w-xs">
-                  <MapPin className="mx-auto text-primary" size={32} />
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em]">Ver en Google Maps</p>
+            <div className="space-y-6">
+              <div className="flex-grow aspect-video bg-muted border border-border relative overflow-hidden group editorial-shadow grayscale hover:grayscale-0 transition-all duration-1000 rounded-xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80&w=1200" 
+                  className="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-1000"
+                  alt="Ubicación GM House"
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-background/90 backdrop-blur-md p-6 border border-primary/20 text-center space-y-2 max-w-xs">
+                    <MapPin className="mx-auto text-primary" size={32} />
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em]">Ver en Google Maps</p>
+                  </div>
                 </div>
+                <a 
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`} 
+                  target="_blank" 
+                  className="absolute inset-0 z-20"
+                  aria-label="Abrir mapa"
+                />
               </div>
-              <a 
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`} 
-                target="_blank" 
-                className="absolute inset-0 z-20"
-                aria-label="Abrir mapa"
-              />
+              
+              <div className="space-y-2 border-l-2 border-primary pl-6">
+                <div className="flex items-center gap-3 text-primary">
+                  <MapPin size={16} />
+                  <span className="text-[9px] font-black uppercase tracking-widest">Dirección</span>
+                </div>
+                <p className="text-sm font-medium leading-relaxed">{address}</p>
+                <p className="text-[9px] text-muted-foreground uppercase font-bold">Quito Sur • Sector Chillogallo</p>
+              </div>
             </div>
           </div>
         </div>
