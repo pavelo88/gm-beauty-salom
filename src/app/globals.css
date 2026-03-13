@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -64,13 +65,14 @@
     background-color: transparent !important;
   }
 
-  /* Capa de Papel Corrugado / Pared Ribeteada Editorial - Restauración Original */
+  /* Papel Tapiz Editorial - Capa de Textura */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
+    /* Papel Corrugado Claro: Sutil y con grano */
     background-image: repeating-linear-gradient(
       to right,
       rgba(0, 0, 0, 0.12) 0px,
@@ -83,6 +85,7 @@
   }
 
   .dark body::before {
+    /* Papel Tapiz Oscuro: Onyx Ribeteado con sombras profundas */
     background-image: repeating-linear-gradient(
       to right,
       rgba(0, 0, 0, 0.8) 0px,
@@ -97,7 +100,7 @@
     @apply font-headline tracking-tighter;
   }
 
-  /* Aseguramos que el contenido esté por encima de la textura */
+  /* Aseguramos que el contenido esté por encima del papel tapiz */
   main, nav, footer, section {
     position: relative;
     z-index: 10;
