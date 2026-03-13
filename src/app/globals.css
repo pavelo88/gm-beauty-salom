@@ -56,17 +56,21 @@
   
   html {
     @apply bg-background;
+    height: 100%;
   }
 
   body {
     @apply font-body antialiased transition-colors duration-700 relative min-h-screen text-foreground;
-    background: transparent;
+    background-color: transparent !important;
   }
 
-  /* Capa de Papel Corrugado / Pared Ribeteada Editorial */
+  /* Capa de Papel Corrugado / Pared Ribeteada Editorial - Restauración Original */
   body::before {
     content: "";
-    @apply fixed inset-0 z-[-1] pointer-events-none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     background-image: repeating-linear-gradient(
       to right,
       rgba(0, 0, 0, 0.12) 0px,
@@ -81,16 +85,22 @@
   .dark body::before {
     background-image: repeating-linear-gradient(
       to right,
-      rgba(0, 0, 0, 0.7) 0px,
-      rgba(0, 0, 0, 0.3) 15px,
-      rgba(255, 255, 255, 0.01) 16px,
-      rgba(0, 0, 0, 0.3) 17px,
-      rgba(0, 0, 0, 0.7) 32px
+      rgba(0, 0, 0, 0.8) 0px,
+      rgba(0, 0, 0, 0.4) 15px,
+      rgba(255, 255, 255, 0.02) 16px,
+      rgba(0, 0, 0, 0.4) 17px,
+      rgba(0, 0, 0, 0.8) 32px
     );
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter;
+  }
+
+  /* Aseguramos que el contenido esté por encima de la textura */
+  main, nav, footer, section {
+    position: relative;
+    z-index: 10;
   }
 }
 

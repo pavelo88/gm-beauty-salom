@@ -43,7 +43,7 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
   const whatsappNumber = "+593987654321"; // Reemplazar con el real
 
   return (
-    <div className="relative min-h-screen bg-texture">
+    <div className="relative min-h-screen">
       {/* Masthead */}
       <nav className={cn(
         "fixed top-0 w-full z-50 transition-all duration-700",
