@@ -75,7 +75,7 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
       <section className="bg-foreground text-background py-20 md:py-32 text-center relative overflow-hidden">
         <div className="max-w-3xl mx-auto px-10 relative z-10">
           <h3 className="italic font-headline text-xl md:text-4xl leading-tight tracking-tighter mb-6 md:mb-8">
-            "El lujo no es la acumulación, es la intención. En GM House, cada servicio es un acto de diseño consciente."
+            "El lujo no es la acumulación, es la intención. En GM Beauty House, cada servicio es un acto de diseño consciente."
           </h3>
           <span className="text-[9px] uppercase tracking-[0.6em] font-black text-primary opacity-60">Manifiesto 2024 • Edición Quito Sur</span>
         </div>

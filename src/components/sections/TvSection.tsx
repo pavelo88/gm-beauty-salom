@@ -23,7 +23,7 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
 
   useEffect(() => {
     const mockPlaylist: TvContent[] = [
-      { id: '1', category: 'house', title: 'GM House: The Concept', source: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200', description: 'Bienvenidos a la experiencia estética definitiva.' },
+      { id: '1', category: 'house', title: 'GM Beauty House: The Concept', source: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200', description: 'Bienvenidos a la experiencia estética definitiva.' },
       { id: '2', category: 'music', title: 'Lounge Sessions: Deep House', source: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1200', description: 'Curaduría musical para un ambiente exclusivo.' },
       { id: '3', category: 'fashion', title: 'Vogue: Fall Winter 2024', source: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1200', description: 'Tendencias globales directamente en GM Boutique.' },
       { id: '4', category: 'construction', title: 'Modern Cuisines by Modulares GM', source: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1200', description: 'Ingeniería y diseño en cada detalle.' },
