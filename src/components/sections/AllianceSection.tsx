@@ -6,6 +6,8 @@ import { AiAssistant } from '@/components/AiAssistant';
 import { Button } from '@/components/ui/button';
 
 export function AllianceSection({ dynamicData }: { dynamicData: any }) {
+  const storeUrl = "https://www.modularesgm.com/store";
+  
   const staticProjects = [
     { title: 'Cocinas Modernas', description: 'Minimalismo funcional con acabados en negro mate.', img: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800' },
     { title: 'Entretenimiento', description: 'Sistemas integrados de audio y video.', img: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=800' },
@@ -49,21 +51,24 @@ export function AllianceSection({ dynamicData }: { dynamicData: any }) {
               </p>
               <div className="pt-4">
                 <Button asChild className="h-auto py-4 px-8 rounded-xl bg-foreground text-background font-black uppercase tracking-[0.3em] hover:bg-primary transition-all text-[9px]">
-                  <a href="https://modularesgm.com" target="_blank" className="flex items-center gap-4">
-                    Ver Proyectos
+                  <a href={storeUrl} target="_blank" className="flex items-center gap-4">
+                    Ver Proyectos en Tienda
                     <MoveRight size={14} />
                   </a>
                 </Button>
               </div>
             </div>
           </div>
-          <div className="relative aspect-video md:aspect-auto overflow-hidden editorial-shadow rounded-2xl max-h-[400px]">
+          <a href={storeUrl} target="_blank" className="relative aspect-video md:aspect-auto overflow-hidden editorial-shadow rounded-2xl max-h-[400px] block group">
             <img 
               src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200" 
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[2s]"
+              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[2s]"
               alt="Mobiliario GM"
             />
-          </div>
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white border border-white/40 px-6 py-2 backdrop-blur-sm">Ir a la Tienda</span>
+            </div>
+          </a>
         </div>
         
         <div className="space-y-12">
@@ -73,19 +78,24 @@ export function AllianceSection({ dynamicData }: { dynamicData: any }) {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {allProjects.map((item: any, i) => (
-              <div key={i} className="group space-y-4">
-                <div className="aspect-square overflow-hidden editorial-shadow bg-muted rounded-xl">
+              <a key={i} href={storeUrl} target="_blank" className="group space-y-4 block">
+                <div className="aspect-square overflow-hidden editorial-shadow bg-muted rounded-xl relative">
                   <img 
                     src={item.img || item.imageUrl} 
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" 
                     alt={item.title} 
                   />
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="bg-white/90 backdrop-blur p-2 rounded-full shadow-lg">
+                      <MoveRight size={16} className="text-black" />
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-lg font-headline font-bold tracking-tighter uppercase">{item.title}</h4>
+                  <h4 className="text-lg font-headline font-bold tracking-tighter uppercase group-hover:text-primary transition-colors">{item.title}</h4>
                   <p className="text-muted-foreground text-xs font-light line-clamp-2">{item.description}</p>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

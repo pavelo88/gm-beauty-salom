@@ -173,7 +173,7 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
       <footer className="bg-background py-6 border-t border-border/30">
         <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[7px] uppercase tracking-[0.4em] text-muted-foreground">
-            © MMXXIV GM HOUSE • QUITO SUR • ECUADOR
+            © MMXXIV GM BEAUTY HOUSE • QUITO SUR • ECUADOR
           </p>
           <div className="flex items-center gap-8">
              <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em]">Instagram</a>
