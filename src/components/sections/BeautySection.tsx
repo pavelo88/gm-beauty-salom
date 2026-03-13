@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -36,7 +35,6 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
     setActiveIdx((prev) => (prev + dir + services.length) % services.length);
   };
 
-  // Carrusel Automático (2.5 segundos) con transiciones suaves
   useEffect(() => {
     const timer = setInterval(() => {
       rotate(1);
@@ -54,24 +52,24 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
   const accentColor = isBarber ? "text-primary" : "text-[#d1919b]"; 
 
   return (
-    <div className="w-full pt-16 pb-20">
-      <div className="max-w-[1400px] mx-auto px-6 space-y-8">
+    <div className="w-full pt-20 pb-24">
+      <div className="max-w-[1400px] mx-auto px-6 space-y-16">
         
         {/* Cabezal Dinámico de Revista */}
-        <header className="flex flex-col md:flex-row justify-between items-start gap-6 md:items-end border-b border-border/20 pb-6">
-          <div className="space-y-1">
-            <span className={cn("text-[8px] font-black uppercase tracking-[0.5em]", accentColor)}>Edición No. 01</span>
-            <h2 className="text-4xl md:text-5xl font-headline font-bold leading-none tracking-tighter uppercase">
-              Estética <span className="opacity-20 italic">Archive</span>
+        <header className="flex flex-col md:flex-row justify-between items-start gap-10 border-b border-border/20 pb-8">
+          <div className="space-y-2">
+            <span className={cn("text-[10px] font-black uppercase tracking-[0.6em]", accentColor)}>Edición Archive No. 01</span>
+            <h2 className="text-5xl md:text-7xl font-headline font-bold leading-none tracking-tighter uppercase">
+              Grooming <span className="opacity-20 italic font-light">& Style</span>
             </h2>
           </div>
           
-          <div className="flex border border-border/30 p-1 bg-card/20 backdrop-blur-md rounded-full self-end">
+          <div className="flex border border-border/30 p-1.5 bg-card/40 backdrop-blur-xl rounded-full self-end shadow-xl">
             <button 
               onClick={() => { setConcept('salon'); setActiveIdx(2); }}
               className={cn(
-                "px-6 py-2 text-[8px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
-                !isBarber ? "bg-[#d1919b] text-white shadow-lg" : "text-muted-foreground"
+                "px-8 py-3 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-full",
+                !isBarber ? "bg-[#d1919b] text-white shadow-lg" : "text-muted-foreground hover:text-foreground"
               )}
             >
               Le Salon
@@ -79,17 +77,17 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
             <button 
               onClick={() => { setConcept('barberia'); setActiveIdx(2); }}
               className={cn(
-                "px-6 py-2 text-[8px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
-                isBarber ? "bg-primary text-black shadow-lg" : "text-muted-foreground"
+                "px-8 py-3 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-full",
+                isBarber ? "bg-primary text-black shadow-lg" : "text-muted-foreground hover:text-foreground"
               )}
             >
-              Barber Shop
+              Barbería
             </button>
           </div>
         </header>
 
-        {/* Escena 3D de Triple Impacto */}
-        <div className="relative h-[250px] md:h-[400px] flex items-center justify-center overflow-hidden">
+        {/* Galería 3D con Profundidad */}
+        <div className="relative h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden">
           <div className="relative w-full h-full flex items-center justify-center">
             {services.map((svc: any, i: number) => {
               let diff = i - activeIdx;
@@ -102,18 +100,20 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
                 <div 
                   key={i}
                   className={cn(
-                    "absolute transition-all duration-1000 ease-in-out overflow-hidden rounded-2xl shadow-2xl border border-white/5",
-                    isCenter ? "z-30 w-[80%] md:w-[45%] h-full opacity-100 scale-100" : "",
-                    diff === -1 ? "z-20 w-[60%] h-[80%] opacity-20 scale-90 -translate-x-[35%] blur-[4px]" : "",
-                    diff === 1 ? "z-20 w-[60%] h-[80%] opacity-20 scale-90 translate-x-[35%] blur-[4px]" : "",
+                    "absolute transition-all duration-1000 ease-in-out overflow-hidden rounded-[2rem] shadow-2xl border border-white/10",
+                    isCenter ? "z-30 w-[90%] md:w-[50%] h-full opacity-100 scale-100" : "",
+                    diff === -1 ? "z-20 w-[70%] h-[85%] opacity-30 scale-90 -translate-x-[30%] blur-[2px]" : "",
+                    diff === 1 ? "z-20 w-[70%] h-[85%] opacity-30 scale-90 translate-x-[30%] blur-[2px]" : "",
                     Math.abs(diff) > 1 ? "opacity-0 z-0" : ""
                   )}
                 >
                   <img src={svc.imageUrl} alt={svc.name} className="w-full h-full object-cover" />
                   {isCenter && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/10 to-transparent flex flex-col justify-end p-6 md:p-10">
-                      <span className={cn("text-[9px] font-black uppercase tracking-widest mb-1", accentColor)}>{svc.price}</span>
-                      <h3 className="text-xl md:text-4xl font-headline font-bold text-white tracking-tighter uppercase leading-none">{svc.name}</h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent flex flex-col justify-end p-8 md:p-12">
+                      <div className="space-y-1">
+                        <span className={cn("text-[10px] font-black uppercase tracking-widest", accentColor)}>{svc.price}</span>
+                        <h3 className="text-2xl md:text-5xl font-headline font-bold text-white tracking-tighter uppercase leading-none">{svc.name}</h3>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -121,33 +121,42 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
             })}
           </div>
 
-          <div className="absolute top-1/2 -translate-y-1/2 left-2 right-2 flex justify-between z-40 pointer-events-none">
-            <button onClick={() => rotate(-1)} className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-lg text-white pointer-events-auto hover:bg-primary transition-all flex items-center justify-center shadow-xl">
-              <ChevronLeft size={16} />
+          <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 flex justify-between z-40 pointer-events-none">
+            <button onClick={() => rotate(-1)} className="w-12 h-12 rounded-full bg-black/50 backdrop-blur-xl text-white pointer-events-auto hover:bg-primary transition-all flex items-center justify-center shadow-2xl group">
+              <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
             </button>
-            <button onClick={() => rotate(1)} className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-lg text-white pointer-events-auto hover:bg-primary transition-all flex items-center justify-center shadow-xl">
-              <ChevronRight size={16} />
+            <button onClick={() => rotate(1)} className="w-12 h-12 rounded-full bg-black/50 backdrop-blur-xl text-white pointer-events-auto hover:bg-primary transition-all flex items-center justify-center shadow-2xl group">
+              <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
 
-        {/* Bloque de Manifiesto y Mixología */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start pt-10">
-          <div className="md:col-span-8 space-y-4">
-             <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-muted-foreground border-b border-border/20 pb-2 w-fit">Nuestra Identidad</h4>
-            <p className="text-xl md:text-3xl font-headline font-bold italic leading-[1.15] text-foreground border-l-4 pl-8 border-primary/30">
+        {/* Bloque de Identidad y Mixología - Más Espaciado */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 items-start pt-12">
+          <div className="md:col-span-7 space-y-8">
+             <div className="flex items-center gap-4">
+               <h4 className="text-[11px] font-black uppercase tracking-[0.5em] text-muted-foreground whitespace-nowrap">Nuestra Identidad</h4>
+               <span className="w-full h-[1px] bg-border/20"></span>
+             </div>
+            <p className="text-2xl md:text-4xl font-headline font-bold italic leading-[1.1] text-foreground border-l-8 pl-10 border-primary/20">
               "En GM Beauty House, entendemos el cabello como una estructura de diseño. No seguimos tendencias efímeras, construimos identidades visuales que perduran bajo estándares internacionales."
             </p>
           </div>
 
-          <div className="md:col-span-4">
-            <div className="bg-card/20 backdrop-blur-sm border border-border/40 p-8 rounded-[2rem] space-y-6">
-              <h5 className={cn("text-[8px] font-black uppercase tracking-[0.5em]", accentColor)}>Carta de Cortesía VIP</h5>
-              <div className="grid grid-cols-1 gap-4">
+          <div className="md:col-span-5">
+            <div className="bg-card/40 backdrop-blur-xl border border-border/50 p-10 md:p-12 rounded-[2.5rem] space-y-8 shadow-2xl">
+              <div className="text-center space-y-2">
+                <h5 className={cn("text-[10px] font-black uppercase tracking-[0.6em]", accentColor)}>Mixología de Cortesía</h5>
+                <p className="text-[9px] text-muted-foreground uppercase tracking-widest opacity-60">Exclusive VIP Selection</p>
+              </div>
+              <div className="grid grid-cols-1 gap-6">
                 {courtesyMenu.map((drink, i) => (
-                  <div key={i} className="flex items-center gap-4 group border-b border-border/10 pb-3 hover:border-primary/40 transition-colors">
-                    <drink.icon size={12} className={cn("opacity-40 group-hover:opacity-100", accentColor)} />
-                    <span className="text-[10px] font-bold uppercase tracking-widest">{drink.name}</span>
+                  <div key={i} className="flex items-center justify-between group border-b border-border/10 pb-4 hover:border-primary/40 transition-colors">
+                    <div className="flex items-center gap-6">
+                      <drink.icon size={16} className={cn("opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all", accentColor)} />
+                      <span className="text-[11px] font-bold uppercase tracking-[0.3em]">{drink.name}</span>
+                    </div>
+                    <span className="text-[8px] text-primary font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Gratis</span>
                   </div>
                 ))}
               </div>

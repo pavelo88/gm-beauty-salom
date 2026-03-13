@@ -14,71 +14,80 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
 
   return (
     <div className="w-full">
-      <section className="relative h-[70vh] flex flex-col justify-center items-center px-6 overflow-hidden border-b border-border">
+      {/* HERO con legibilidad mejorada */}
+      <section className="relative h-[85vh] flex flex-col justify-center items-center px-6 overflow-hidden border-b border-border">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80&w=2000" 
             className="w-full h-full object-cover img-cinematic scale-105" 
             alt="GM Beauty House Portada Editorial" 
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-background/90"></div>
         </div>
         
-        <div className="relative z-10 text-center space-y-4">
-          <div className="flex items-center justify-center gap-4 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <span className="w-8 h-[1px] bg-primary"></span>
-            <span className="text-[9px] uppercase tracking-[0.6em] font-black text-primary">Volumen Uno • Quito Sur</span>
-            <span className="w-8 h-[1px] bg-primary"></span>
+        <div className="relative z-10 text-center space-y-6">
+          <div className="flex items-center justify-center gap-6 mb-2 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <span className="w-12 h-[1px] bg-primary"></span>
+            <span className="text-[10px] uppercase tracking-[0.8em] font-black text-primary drop-shadow-lg">Volumen Uno • Quito Sur</span>
+            <span className="w-12 h-[1px] bg-primary"></span>
           </div>
-          <h1 className="text-editorial-title animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            GM <br/> <span className="text-gold-gradient italic">HOUSE</span>
+          <h1 className="text-editorial-title text-white animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+            GM <br/> <span className="text-gold-gradient italic font-light">HOUSE</span>
           </h1>
-          <p className="max-w-xl mx-auto text-[8px] md:text-[10px] text-foreground/60 font-medium tracking-[0.4em] uppercase animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500 px-4">
+          <p className="max-w-xl mx-auto text-[9px] md:text-[11px] text-white/80 font-medium tracking-[0.5em] uppercase animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500 px-4 drop-shadow-md">
             Definiendo el Manifiesto Estético del Lujo Moderno en Quito
           </p>
         </div>
       </section>
 
-      <section className="max-w-[1200px] mx-auto py-16 md:py-24 px-6 space-y-20 md:space-y-32">
+      {/* Secciones con espaciado ergonómico */}
+      <section className="max-w-[1400px] mx-auto py-24 md:py-32 px-6 space-y-32 md:space-y-48">
         {sections.map((section, idx) => (
           <div 
             key={section.id}
             onClick={() => setActiveTab(section.id)}
             className={cn(
-              "flex flex-col md:flex-row items-center gap-8 md:gap-16 cursor-pointer group",
+              "flex flex-col md:flex-row items-center gap-12 md:gap-24 cursor-pointer group",
               idx % 2 !== 0 ? "md:flex-row-reverse" : ""
             )}
           >
-            <div className="w-full md:w-6/12 overflow-hidden bg-muted aspect-video md:aspect-[16/9] editorial-shadow relative rounded-xl">
+            <div className="w-full md:w-7/12 overflow-hidden bg-muted aspect-video md:aspect-[16/10] editorial-shadow relative rounded-2xl">
               <img 
                 src={section.img} 
                 alt={section.title} 
-                className="w-full h-full object-cover img-cinematic group-hover:scale-105"
+                className="w-full h-full object-cover img-cinematic group-hover:scale-110 transition-transform duration-[2s]"
               />
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
             </div>
-            <div className="w-full md:w-6/12 space-y-4">
-              <div className="space-y-1">
-                <span className="text-[9px] font-black uppercase tracking-[0.4em] text-primary">{section.subtitle}</span>
-                <h2 className="text-3xl md:text-5xl font-headline font-bold leading-none tracking-tighter group-hover:translate-x-2 transition-transform duration-700">{section.title}</h2>
+            <div className="w-full md:w-5/12 space-y-6">
+              <div className="space-y-2">
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">{section.subtitle}</span>
+                <h2 className="text-4xl md:text-6xl font-headline font-bold leading-[0.9] tracking-tighter group-hover:text-primary transition-all duration-700">{section.title}</h2>
               </div>
-              <p className="text-muted-foreground font-light leading-relaxed text-xs md:text-sm max-w-sm">
+              <p className="text-muted-foreground font-light leading-relaxed text-sm md:text-base max-w-sm">
                 {section.text}
               </p>
-              <button className="flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.3em] group-hover:gap-6 transition-all pt-4 border-t border-border w-fit">
-                Leer Más <ArrowRight size={10} className="text-primary" />
+              <button className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.4em] group-hover:gap-8 transition-all pt-6 border-t border-border w-fit">
+                Explorar <ArrowRight size={14} className="text-primary" />
               </button>
             </div>
           </div>
         ))}
       </section>
 
-      <section className="bg-foreground text-background py-20 md:py-32 text-center relative overflow-hidden">
-        <div className="max-w-3xl mx-auto px-10 relative z-10">
-          <h3 className="italic font-headline text-xl md:text-4xl leading-tight tracking-tighter mb-6 md:mb-8">
+      {/* Manifiesto Final */}
+      <section className="bg-foreground text-background py-32 md:py-48 text-center relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-10 relative z-10 space-y-12">
+          <h3 className="italic font-headline text-2xl md:text-5xl leading-tight tracking-tighter">
             "El lujo no es la acumulación, es la intención. En GM Beauty House, cada servicio es un acto de diseño consciente."
           </h3>
-          <span className="text-[9px] uppercase tracking-[0.6em] font-black text-primary opacity-60">Manifiesto 2024 • Edición Quito Sur</span>
+          <div className="flex flex-col items-center gap-4">
+            <span className="text-[10px] uppercase tracking-[0.8em] font-black text-primary opacity-80">Manifiesto MMXXIV</span>
+            <span className="w-20 h-[1px] bg-primary/40"></span>
+            <span className="text-[8px] uppercase tracking-[0.5em] font-medium opacity-40">Quito Sur • Distrito Metropolitano</span>
+          </div>
         </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black opacity-[0.02] pointer-events-none italic">GM</div>
       </section>
     </div>
   );

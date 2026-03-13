@@ -110,7 +110,8 @@
 }
 
 .text-editorial-title {
-  @apply text-[10vw] md:text-[6vw] lg:text-[5rem] font-black uppercase leading-[0.85] tracking-tighter;
+  @apply text-[10vw] md:text-[8vw] lg:text-[7.5rem] font-black uppercase leading-[0.8] tracking-tighter;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .text-gold-gradient {
@@ -122,25 +123,25 @@
 .magazine-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 @media (min-width: 1024px) {
   .magazine-grid {
-    gap: 2rem;
+    gap: 3rem;
   }
 }
 
 .editorial-shadow {
-  box-shadow: 15px 15px 30px rgba(0,0,0,0.02);
+  box-shadow: 20px 20px 60px rgba(0,0,0,0.05);
 }
 
 .dark .editorial-shadow {
-  box-shadow: 30px 30px 60px rgba(0,0,0,0.3);
+  box-shadow: 40px 40px 80px rgba(0,0,0,0.4);
 }
 
 .img-cinematic {
-  @apply saturate-[0.4] transition-all ease-out hover:saturate-100 duration-1000;
+  @apply saturate-[0.6] transition-all ease-out hover:saturate-100 duration-1000;
 }
 
 ::-webkit-scrollbar {
@@ -159,4 +160,14 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
