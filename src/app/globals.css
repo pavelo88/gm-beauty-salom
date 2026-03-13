@@ -110,7 +110,7 @@
 }
 
 .text-editorial-title {
-  @apply text-[6vw] lg:text-[5rem] font-black uppercase leading-[0.85] tracking-tighter;
+  @apply text-[10vw] md:text-[6vw] lg:text-[5rem] font-black uppercase leading-[0.85] tracking-tighter;
 }
 
 .text-gold-gradient {

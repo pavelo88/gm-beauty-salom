@@ -81,6 +81,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
           </div>
         </header>
 
+        {/* Carrusel Editorial 3D - Altura controlada para equilibrio */}
         <div className="relative h-[250px] md:h-[350px] flex items-center justify-center overflow-hidden">
           <div className="relative w-full h-full flex items-center justify-center">
             {services.map((svc: any, i: number) => {
@@ -124,10 +125,11 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
           </div>
         </div>
 
+        {/* Bloque de Identidad y Carta de Cortesía */}
         <div className="magazine-grid gap-6 items-start">
           <div className="col-span-12 lg:col-span-7 space-y-4">
             <p className="text-lg md:text-xl font-headline font-bold italic leading-tight text-foreground/80 border-l-2 pl-4 border-border">
-              "En GM Beauty House, construimos identidades visuales que perduran bajo estándares internacionales."
+              "En GM Beauty House, entendemos el cabello como una estructura de diseño. No seguimos tendencias efímeras, construimos identidades visuales que perduran bajo estándares internacionales."
             </p>
             <div className="max-w-md">
                <AiAssistant 
