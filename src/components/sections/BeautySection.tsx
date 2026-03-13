@@ -36,7 +36,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
     setActiveIdx((prev) => (prev + dir + services.length) % services.length);
   };
 
-  // Carrusel Automático (2.5 segundos)
+  // Carrusel Automático (2.5 segundos) con transiciones suaves
   useEffect(() => {
     const timer = setInterval(() => {
       rotate(1);
@@ -57,6 +57,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
     <div className="w-full pt-16 pb-20">
       <div className="max-w-[1400px] mx-auto px-6 space-y-8">
         
+        {/* Cabezal Dinámico de Revista */}
         <header className="flex flex-col md:flex-row justify-between items-start gap-6 md:items-end border-b border-border/20 pb-6">
           <div className="space-y-1">
             <span className={cn("text-[8px] font-black uppercase tracking-[0.5em]", accentColor)}>Edición No. 01</span>
@@ -87,7 +88,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
           </div>
         </header>
 
-        {/* Escena 3D Refinada */}
+        {/* Escena 3D de Triple Impacto */}
         <div className="relative h-[250px] md:h-[400px] flex items-center justify-center overflow-hidden">
           <div className="relative w-full h-full flex items-center justify-center">
             {services.map((svc: any, i: number) => {
@@ -130,6 +131,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
           </div>
         </div>
 
+        {/* Bloque de Manifiesto y Mixología */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start pt-10">
           <div className="md:col-span-8 space-y-4">
              <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-muted-foreground border-b border-border/20 pb-2 w-fit">Nuestra Identidad</h4>
