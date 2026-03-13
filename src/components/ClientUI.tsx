@@ -2,7 +2,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { Home, Sofa, Scissors, ShoppingBag, Gamepad2, X, Menu as MenuIcon, Lock, Moon, Sun, Tv, MessageCircle, ChevronRight, Wand2, Phone } from 'lucide-react';
+import { Home, Sofa, Scissors, ShoppingBag, Gamepad2, X, Menu as MenuIcon, Lock, Moon, Sun, Tv, MessageCircle, ChevronRight, Wand2, Phone, Instagram, Facebook } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HomeSection } from './sections/HomeSection';
 import { BeautySection } from './sections/BeautySection';
@@ -32,22 +32,26 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
   }, []);
 
   const navItems = [
-    { id: 'home', label: 'Portada', icon: Home },
+    { id: 'home', label: 'Inicio', icon: Home },
     { id: 'beauty', label: 'Belleza', icon: Scissors },
     { id: 'boutique', label: 'Boutique', icon: ShoppingBag },
-    { id: 'alliance', label: 'Atelier', icon: Sofa },
+    { id: 'alliance', label: 'Diseño & Modulares', icon: Sofa },
     { id: 'lounge', label: 'Lounge', icon: Gamepad2 },
     { id: 'tv', label: 'GM TV', icon: Tv },
   ];
 
   const whatsappNumber = "593987654321"; // Reemplazar con el real
+  const socialLinks = {
+    instagram: "https://instagram.com/gmbeautyhouse",
+    facebook: "https://facebook.com/gmbeautyhouse"
+  };
 
   return (
     <div className="relative min-h-screen">
       {/* Masthead */}
       <nav className={cn(
         "fixed top-0 w-full z-[100] transition-all duration-700",
-        scrolled ? "bg-background/80 backdrop-blur-xl py-3 md:py-4 border-b border-border/50 shadow-sm" : "bg-transparent py-6 md:py-8"
+        scrolled ? "bg-background/90 backdrop-blur-xl py-3 border-b border-border/50 shadow-sm" : "bg-transparent py-6"
       )}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex justify-between items-center">
           <div 
@@ -57,16 +61,16 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
             <h1 className="text-xl md:text-2xl font-headline font-black tracking-tighter uppercase group-hover:text-primary transition-colors">
               GM Beauty House
             </h1>
-            <span className="text-[6px] md:text-[7px] tracking-[0.6em] uppercase font-bold text-muted-foreground ml-1">Edición Sur • Quito MMXXIV</span>
+            <span className="text-[6px] md:text-[7px] tracking-[0.6em] uppercase font-bold text-muted-foreground ml-1">Quito Sur • MMXXIV</span>
           </div>
           
-          <div className="hidden lg:flex items-center space-x-8 xl:space-x-12">
+          <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
                 className={cn(
-                  "text-[9px] xl:text-[10px] font-black uppercase tracking-[0.3em] transition-all hover:text-primary relative py-1 flex items-center gap-2",
+                  "text-[9px] font-black uppercase tracking-[0.3em] transition-all hover:text-primary relative py-1",
                   activeTab === item.id ? "text-primary" : "text-muted-foreground"
                 )}
               >
@@ -75,24 +79,20 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
               </button>
             ))}
             
-            <button 
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 text-muted-foreground hover:text-primary transition-colors ml-4"
-              aria-label="Alternar Tema"
-            >
-              {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
+            <div className="flex items-center gap-4 ml-4 border-l border-border/30 pl-8">
+              <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors"><Instagram size={14} /></a>
+              <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors"><Facebook size={14} /></a>
+              <button 
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                {isDarkMode ? <Sun size={14} /> : <Moon size={14} />}
+              </button>
+            </div>
           </div>
 
           <div className="flex items-center gap-4 lg:hidden">
-            <button 
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 text-muted-foreground"
-              aria-label="Alternar Tema"
-            >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <button className="text-foreground p-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Alternar Menú">
+            <button className="text-foreground p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X size={24} /> : <MenuIcon size={24} />}
             </button>
           </div>
@@ -100,8 +100,8 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <div className="fixed inset-0 w-full h-screen bg-background p-10 flex flex-col justify-center items-center gap-8 md:gap-10 animate-in fade-in zoom-in-95 duration-500 z-[110]">
-            <button className="absolute top-8 right-8 p-4" onClick={() => setIsMenuOpen(false)} aria-label="Cerrar Menú">
+          <div className="fixed inset-0 w-full h-screen bg-background p-10 flex flex-col justify-center items-center gap-8 animate-in fade-in zoom-in-95 duration-500 z-[110]">
+            <button className="absolute top-8 right-8 p-4" onClick={() => setIsMenuOpen(false)}>
               <X size={32}/>
             </button>
             {navItems.map((item) => (
@@ -109,13 +109,18 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
                 key={item.id}
                 onClick={() => { setActiveTab(item.id); setIsMenuOpen(false); }}
                 className={cn(
-                  "text-4xl md:text-5xl font-headline font-bold uppercase tracking-tighter transition-all",
+                  "text-3xl font-headline font-bold uppercase tracking-tighter",
                   activeTab === item.id ? "text-primary italic" : "text-foreground opacity-40"
                 )}
               >
                 {item.label}
               </button>
             ))}
+            <div className="flex gap-8 mt-10">
+              <a href={socialLinks.instagram} target="_blank" className="text-primary"><Instagram size={24} /></a>
+              <a href={socialLinks.facebook} target="_blank" className="text-primary"><Facebook size={24} /></a>
+              <a href={`https://wa.me/${whatsappNumber}`} target="_blank" className="text-primary"><Phone size={24} /></a>
+            </div>
           </div>
         )}
       </nav>
@@ -131,33 +136,26 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
         </div>
       </main>
 
-      {/* Asistente VIP - Rediseñado para no ser invasivo */}
+      {/* Botón VIP - Minimalista */}
       <div className="fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-3">
         {isAssistantOpen && (
-          <div className="bg-card border border-primary/20 p-6 rounded-2xl shadow-2xl w-64 md:w-72 mb-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
-            <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-primary mb-4">Atención VIP</h4>
-            <div className="space-y-3">
+          <div className="bg-card border border-primary/20 p-5 rounded-2xl shadow-2xl w-64 mb-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
+            <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-primary mb-3">Atención VIP</h4>
+            <div className="space-y-2">
               <button 
                 onClick={() => { setActiveTab('beauty'); setIsAssistantOpen(false); }}
-                className="w-full text-left p-3 rounded-xl bg-muted/30 hover:bg-primary hover:text-background transition-all flex items-center justify-between group"
+                className="w-full text-left p-3 rounded-xl bg-muted/30 hover:bg-primary hover:text-background transition-all flex items-center gap-3 group"
               >
-                <div className="flex items-center gap-3">
-                  <Wand2 size={14} className="text-primary group-hover:text-background" />
-                  <span className="text-[10px] font-bold uppercase tracking-tighter">Asesor de Estilo AI</span>
-                </div>
-                <ChevronRight size={12} className="opacity-0 group-hover:opacity-100" />
+                <Wand2 size={12} className="text-primary group-hover:text-background" />
+                <span className="text-[10px] font-bold uppercase">Asesor AI</span>
               </button>
               <a 
-                href={`https://wa.me/${whatsappNumber}?text=Hola,%20quisiera%20agendar%20una%20cita%20VIP%20en%20GM%20Beauty%20House.`}
+                href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
-                rel="noopener noreferrer"
-                className="w-full text-left p-3 rounded-xl bg-foreground text-background hover:bg-primary transition-all flex items-center justify-between group"
+                className="w-full text-left p-3 rounded-xl bg-foreground text-background hover:bg-primary transition-all flex items-center gap-3"
               >
-                <div className="flex items-center gap-3">
-                  <Phone size={14} />
-                  <span className="text-[10px] font-bold uppercase tracking-tighter">Reservar Cita</span>
-                </div>
-                <ChevronRight size={12} className="opacity-0 group-hover:opacity-100" />
+                <Phone size={12} />
+                <span className="text-[10px] font-bold uppercase">WhatsApp Citas</span>
               </a>
             </div>
           </div>
@@ -165,46 +163,31 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
         <button 
           onClick={() => setIsAssistantOpen(!isAssistantOpen)}
           className={cn(
-            "w-12 h-12 rounded-full flex items-center justify-center shadow-2xl transition-all duration-500 group",
-            isAssistantOpen ? "bg-primary text-background rotate-90" : "bg-foreground text-background hover:scale-110"
+            "w-10 h-10 rounded-full flex items-center justify-center shadow-2xl transition-all duration-500",
+            isAssistantOpen ? "bg-primary text-background" : "bg-foreground text-background"
           )}
-          aria-label="Atención VIP"
         >
-          {isAssistantOpen ? <X size={20} /> : <MessageCircle size={20} />}
+          {isAssistantOpen ? <X size={18} /> : <MessageCircle size={18} />}
         </button>
       </div>
 
-      <footer className="bg-foreground text-background py-12 md:py-16 border-t border-border/10">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div className="space-y-4">
-            <h2 className="text-4xl font-headline font-bold tracking-tighter leading-none">GM HOUSE</h2>
-            <p className="text-zinc-500 text-xs leading-relaxed max-w-xs">
-              Curaduría estética de lujo en el Sur de Quito. Belleza, moda y diseño consciente.
-            </p>
-          </div>
-          <div className="space-y-4">
-            <h4 className="text-[9px] font-black uppercase tracking-[0.4em] text-primary">Navegación</h4>
-            <nav className="grid grid-cols-2 gap-2 text-zinc-500 text-[10px] font-bold uppercase tracking-widest">
-              <button onClick={() => setActiveTab('beauty')} className="text-left hover:text-white transition-colors">Belleza</button>
-              <button onClick={() => setActiveTab('boutique')} className="text-left hover:text-white transition-colors">Boutique</button>
-              <button onClick={() => setActiveTab('alliance')} className="text-left hover:text-white transition-colors">Atelier</button>
-              <button onClick={() => setActiveTab('lounge')} className="text-left hover:text-white transition-colors">Lounge</button>
-            </nav>
-          </div>
-          <div className="space-y-4 md:text-right">
-            <h4 className="text-[9px] font-black uppercase tracking-[0.4em] text-primary">Contacto</h4>
-            <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest leading-relaxed">
-              Rosa Yeira 420 y Serapio Japeravi,<br/>Quito Sur, Ecuador
-            </p>
-            <button onClick={() => setView('admin')} className="text-zinc-800 hover:text-zinc-500 transition-colors p-2" aria-label="Admin Access">
-              <Lock size={12} />
-            </button>
-          </div>
-        </div>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 mt-10 pt-6 border-t border-white/5">
-          <p className="text-[7px] uppercase tracking-[0.4em] text-zinc-700 text-center">
-            © MMXXIV GM HOUSE CONCEPT STORE. DISEÑADO EN EL SUR DE QUITO.
+      <footer className="bg-background py-8 border-t border-border/30">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[7px] uppercase tracking-[0.4em] text-muted-foreground">
+            © MMXXIV GM HOUSE • QUITO SUR • ECUADOR
           </p>
+          
+          <div className="flex items-center gap-6">
+             <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
+               <Instagram size={12} /> Instagram
+             </a>
+             <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
+               <Facebook size={12} /> Facebook
+             </a>
+             <button onClick={() => setView('admin')} className="text-muted-foreground/20 hover:text-primary transition-colors">
+               <Lock size={10} />
+             </button>
+          </div>
         </div>
       </footer>
     </div>
