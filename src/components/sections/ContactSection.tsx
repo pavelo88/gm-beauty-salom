@@ -72,20 +72,19 @@ export function ContactSection() {
                 </div>
                 <div className="space-y-2">
                   <a href={`tel:${whatsappNumber}`} className="block text-3xl font-headline font-bold hover:text-primary transition-colors">{displayPhone}</a>
-                  <a href={`https://wa.me/593${whatsappNumber.substring(1)}`} target="_blank" className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest bg-primary/10 p-3 w-fit hover:bg-primary/20 transition-all">
-                    <MessageCircle size={14} className="text-primary" /> Chat de WhatsApp
-                  </a>
+                  <p className="text-[10px] text-muted-foreground uppercase font-black">Llamadas directas o WhatsApp</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-primary">
                   <Instagram size={18} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Síguenos</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Nuestras Redes</span>
                 </div>
                 <div className="flex gap-4">
-                  <a href="https://instagram.com/gmbeautyhouse" target="_blank" className="p-3 bg-card border border-border hover:border-primary transition-all"><Instagram size={16}/></a>
-                  <a href="https://facebook.com/gmbeautyhouse" target="_blank" className="p-3 bg-card border border-border hover:border-primary transition-all"><Facebook size={16}/></a>
+                  <a href="https://instagram.com/gmbeautyhouse" target="_blank" className="p-3 bg-card border border-border hover:border-primary transition-all" title="Instagram"><Instagram size={16}/></a>
+                  <a href="https://facebook.com/gmbeautyhouse" target="_blank" className="p-3 bg-card border border-border hover:border-primary transition-all" title="Facebook"><Facebook size={16}/></a>
+                  <a href={`https://wa.me/593${whatsappNumber.substring(1)}`} target="_blank" className="p-3 bg-card border border-border hover:border-primary transition-all" title="Chat de WhatsApp"><MessageCircle size={16}/></a>
                 </div>
               </div>
             </div>

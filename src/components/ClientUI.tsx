@@ -42,10 +42,11 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
     { id: 'contact', label: 'Contacto', icon: MapPin },
   ];
 
-  const whatsappNumber = "593987654321";
+  const whatsappNumber = "0987654321";
   const socialLinks = {
     instagram: "https://instagram.com/gmbeautyhouse",
-    facebook: "https://facebook.com/gmbeautyhouse"
+    facebook: "https://facebook.com/gmbeautyhouse",
+    whatsapp: `https://wa.me/593${whatsappNumber.substring(1)}`
   };
 
   return (
@@ -81,8 +82,9 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
             ))}
             
             <div className="flex items-center gap-4 ml-4 border-l border-border/30 pl-8">
-              <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors"><Instagram size={14} /></a>
-              <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors"><Facebook size={14} /></a>
+              <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors" title="Instagram"><Instagram size={14} /></a>
+              <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors" title="Facebook"><Facebook size={14} /></a>
+              <a href={socialLinks.whatsapp} target="_blank" className="text-muted-foreground hover:text-primary transition-colors" title="WhatsApp Chat"><MessageCircle size={14} /></a>
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 className="text-muted-foreground hover:text-primary transition-colors"
@@ -138,11 +140,11 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
             <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-primary mb-3">VIP Concierge</h4>
             <div className="space-y-2">
               <a 
-                href={`https://wa.me/${whatsappNumber}`}
+                href={socialLinks.whatsapp}
                 target="_blank"
                 className="w-full text-left p-3 rounded-xl bg-foreground text-background hover:bg-primary transition-all flex items-center gap-3"
               >
-                <Phone size={12} />
+                <MessageCircle size={12} />
                 <span className="text-[10px] font-bold uppercase">WhatsApp Citas</span>
               </a>
               <button 
@@ -174,6 +176,7 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
           <div className="flex items-center gap-6">
              <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-widest">Instagram</a>
              <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-widest">Facebook</a>
+             <a href={socialLinks.whatsapp} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-widest">WhatsApp</a>
              <button onClick={() => setView('admin')} className="text-muted-foreground/10 hover:text-primary transition-colors"><Lock size={10} /></button>
           </div>
         </div>
