@@ -1,38 +1,65 @@
 
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { AiAssistant } from '@/components/AiAssistant';
 import { aiStylistRecommendations } from '@/ai/flows/ai-stylist-recommendations';
 import { cn } from '@/lib/utils';
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
 export function BeautySection({ dynamicData }: { dynamicData: any }) {
   const [concept, setConcept] = useState<'salon' | 'barberia'>('salon');
+  const [activeIdx, setActiveIdx] = useState(0);
   const isBarber = concept === 'barberia';
 
-  const services = dynamicData.services.filter((s: any) => s.category === concept);
+  const defaultServices = {
+    salon: [
+      { name: 'Balayage Editorial', price: 'Cotizar', description: 'Técnica de color personalizada para un brillo natural y multidimensional.', imageUrl: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=800' },
+      { name: 'Corte de Autor', price: '$25.00', description: 'Diseño estructural basado en la morfología de tu rostro.', imageUrl: 'https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&fit=crop&q=80&w=800' },
+      { name: 'Hidratación Molecular', price: '$45.00', description: 'Tratamiento profundo para restaurar la fibra capilar desde el núcleo.', imageUrl: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800' }
+    ],
+    barberia: [
+      { name: 'Corte Ejecutivo', price: '$20.00', description: 'Precisión milimétrica y acabado clásico para el caballero moderno.', imageUrl: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800' },
+      { name: 'Ritual de Barba', price: '$15.00', description: 'Afeitado tradicional con toallas calientes y aceites esenciales.', imageUrl: 'https://images.unsplash.com/photo-1621605815971-fbc98d6d4e59?auto=format&fit=crop&q=80&w=800' },
+      { name: 'Corte & Skin Fade', price: '$22.00', description: 'Degradados de alta complejidad con terminaciones en navaja.', imageUrl: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&q=80&w=800' }
+    ]
+  };
+
+  const services = useMemo(() => {
+    const dbServices = dynamicData.services.filter((s: any) => s.category === concept);
+    return dbServices.length > 0 ? dbServices : defaultServices[concept];
+  }, [concept, dynamicData.services]);
+
+  const rotate = (dir: number) => {
+    setActiveIdx((prev) => (prev + dir + services.length) % services.length);
+  };
+
+  const currentService = services[activeIdx] || services[0];
 
   return (
-    <div className="w-full pt-24 md:pt-40 pb-12 md:pb-20">
+    <div className={cn(
+      "w-full pt-32 pb-20 transition-colors duration-1000",
+      isBarber ? "bg-black/20" : "bg-transparent"
+    )}>
       <div className="max-w-[1600px] mx-auto px-6 md:px-10">
         
-        {/* Toggle Masthead - Optimized for Mobile */}
-        <div className="flex justify-center mb-16 md:mb-32 lg:mb-40">
-          <div className="border border-border p-1 flex items-center bg-card/50 backdrop-blur-sm overflow-hidden rounded-sm">
+        {/* Toggle Editorial */}
+        <div className="flex justify-center mb-24">
+          <div className="border border-border/30 p-1 flex items-center bg-card/20 backdrop-blur-md rounded-full overflow-hidden shadow-2xl">
             <button 
-              onClick={() => setConcept('salon')}
+              onClick={() => { setConcept('salon'); setActiveIdx(0); }}
               className={cn(
-                "px-8 md:px-16 py-3 md:py-5 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] transition-all",
-                !isBarber ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+                "px-10 py-3 text-[9px] font-black uppercase tracking-[0.4em] transition-all rounded-full",
+                !isBarber ? "bg-foreground text-background shadow-lg" : "text-muted-foreground hover:text-foreground"
               )}
             >
               Le Salon
             </button>
             <button 
-              onClick={() => setConcept('barberia')}
+              onClick={() => { setConcept('barberia'); setActiveIdx(0); }}
               className={cn(
-                "px-8 md:px-16 py-3 md:py-5 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] transition-all",
-                isBarber ? "bg-primary text-background dark:text-foreground" : "text-muted-foreground hover:text-primary"
+                "px-10 py-3 text-[9px] font-black uppercase tracking-[0.4em] transition-all rounded-full",
+                isBarber ? "bg-primary text-black shadow-lg" : "text-muted-foreground hover:text-primary"
               )}
             >
               Barber Shop
@@ -40,85 +67,117 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
           </div>
         </div>
 
-        <div className="magazine-grid items-start gap-12 md:gap-20">
-          {/* Content Left */}
-          <div className="col-span-12 lg:col-span-5 space-y-12 md:space-y-20">
-            <div className="space-y-4 md:space-y-6">
-              <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary">Department {isBarber ? '02' : '01'}</span>
-              <h2 className="text-5xl md:text-7xl lg:text-[8rem] font-headline font-bold italic leading-[0.85] tracking-tighter">
-                {isBarber ? 'Grooming' : 'Couture'} <br/> 
+        <div className="magazine-grid items-start gap-12 lg:gap-20 mb-32">
+          {/* Header & IA Left */}
+          <div className="col-span-12 lg:col-span-5 space-y-12">
+            <div className="space-y-4">
+              <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary">Edición No. 01</span>
+              <h2 className="text-6xl md:text-7xl lg:text-[8rem] font-headline font-bold italic leading-[0.8] tracking-tighter">
+                {isBarber ? 'Grooming' : 'Estética'} <br/> 
                 <span className="not-italic opacity-30">Archive</span>
               </h2>
+              <p className="text-lg text-muted-foreground font-light leading-relaxed max-w-sm italic border-l-2 border-primary pl-6 py-2">
+                {isBarber 
+                  ? "Cortes de autor y barbería tradicional en el corazón del Sur de Quito." 
+                  : "Curaduría técnica en color editorial y cuidado capilar avanzado."}
+              </p>
             </div>
 
-            <div className="pt-6 md:pt-10">
-              <AiAssistant 
-                title="AI Creative Stylist"
-                placeholder="Describe tu visión o evento..."
-                onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })}
-                isLightMode={false}
-              />
-            </div>
+            <AiAssistant 
+              title="Estilista Creativo IA"
+              placeholder="Ej: Busco un cambio de look para una boda..."
+              onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })}
+              isLightMode={false}
+            />
 
-            <div className="p-2 border border-border editorial-shadow bg-card relative overflow-hidden group rounded-sm hidden md:block">
-              <div className="aspect-[3/4] overflow-hidden">
-                <img 
-                  src={isBarber 
-                    ? "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800"
-                    : "https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=800"} 
-                  alt="GM Beauty House Portrait Archive"
-                  className="w-full h-full object-cover img-cinematic"
-                />
+            {/* Narrative Identity */}
+            <div className="hidden lg:block space-y-8 pt-10">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-[1px] bg-border"></div>
+                <h4 className="text-[9px] font-black uppercase tracking-[0.4em] text-muted-foreground">Nuestra Identidad</h4>
               </div>
-              <div className="absolute bottom-8 left-8 right-8 text-center bg-background/80 backdrop-blur-md p-6 border border-border">
-                <h4 className="text-lg font-headline font-bold italic">"Visual Identity Manifested"</h4>
-              </div>
+              <p className="text-sm font-light text-muted-foreground leading-loose">
+                En GM Beauty House, entendemos el cabello como una estructura de diseño. No seguimos tendencias efímeras, construimos identidades visuales que perduran. Cada técnica es aplicada con precisión molecular bajo estándares internacionales.
+              </p>
             </div>
           </div>
 
-          {/* Menu Right */}
-          <div className="col-span-12 lg:col-span-7 bg-card/40 backdrop-blur-sm p-6 md:p-12 lg:p-24 space-y-16 md:space-y-24 border border-border/50 rounded-2xl md:rounded-none shadow-sm md:shadow-none">
-            <div className="flex justify-between items-end border-b border-border pb-6 md:pb-10">
-              <div className="space-y-2">
-                <h3 className="text-3xl md:text-5xl font-headline font-bold italic">Menu Privé</h3>
-                <p className="text-[8px] md:text-[10px] uppercase tracking-widest text-muted-foreground">Fall/Winter Edition • Quito</p>
+          {/* 3D Showcase Right */}
+          <div className="col-span-12 lg:col-span-7 relative group">
+            <div className="relative aspect-[4/5] md:aspect-video lg:aspect-[16/10] overflow-hidden bg-zinc-950 editorial-shadow rounded-2xl group">
+              {/* Main Service Image */}
+              <div className="absolute inset-0">
+                <img 
+                  key={currentService?.imageUrl}
+                  src={currentService?.imageUrl} 
+                  alt={currentService?.name}
+                  className="w-full h-full object-cover img-cinematic animate-in fade-in zoom-in-110 duration-1000"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80"></div>
               </div>
-              <span className="text-[8px] font-black uppercase tracking-[0.5em] opacity-30">Page 42</span>
-            </div>
 
-            <div className="space-y-10 md:space-y-16">
-              {services.length > 0 ? (
-                services.map((s: any, i: number) => (
-                  <div key={i} className="group flex flex-col md:grid md:grid-cols-4 gap-4 md:gap-6 border-b border-border/30 pb-8 md:pb-12 hover:translate-x-0 md:hover:translate-x-4 transition-all duration-500 cursor-default">
-                    <div className="md:col-span-3 space-y-2 md:space-y-4">
-                      <div className="flex items-center gap-3">
-                        <span className="text-[8px] md:text-[10px] font-black text-primary opacity-40">0{i+1}</span>
-                        <h4 className="text-2xl md:text-3xl font-headline font-bold uppercase tracking-tighter">{s.name}</h4>
-                      </div>
-                      <p className="text-xs md:text-sm text-muted-foreground font-light leading-relaxed max-w-lg">{s.description}</p>
-                    </div>
-                    <div className="text-left md:text-right flex flex-row md:flex-col justify-between md:justify-end items-center md:items-end">
-                      <span className="text-2xl md:text-3xl font-light italic text-primary">{s.price}</span>
-                      <span className="text-[8px] uppercase tracking-[0.3em] font-bold opacity-30 mt-0 md:mt-2">Premium Service</span>
-                    </div>
+              {/* Service Info Overlay */}
+              <div className="absolute bottom-10 left-10 right-10 flex flex-col md:flex-row justify-between items-end gap-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <Star className="text-primary" size={12} fill="currentColor" />
+                    <span className="text-[9px] font-black uppercase tracking-[0.4em] text-primary">Servicio Seleccionado</span>
                   </div>
-                ))
-              ) : (
-                <div className="text-center py-24 md:py-40 italic text-muted-foreground border border-dashed border-border text-sm">
-                  Consulte nuestra selección exclusiva en recepción.
+                  <h3 className="text-4xl md:text-6xl font-headline font-bold text-white tracking-tighter uppercase leading-none">
+                    {currentService?.name}
+                  </h3>
+                  <p className="text-zinc-400 text-sm font-light max-w-md line-clamp-2">
+                    {currentService?.description}
+                  </p>
                 </div>
-              )}
-            </div>
-
-            <div className="pt-12 md:pt-20 border-t border-border">
-              <div className="flex flex-col items-center gap-6 md:gap-10">
-                <p className="text-[8px] md:text-[10px] uppercase tracking-[0.6em] font-black text-muted-foreground">Partners in Excellence</p>
-                <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
-                  <span className="text-[10px] md:text-sm font-black tracking-tighter">L'ORÉAL PROFESSIONNEL</span>
-                  <span className="text-[10px] md:text-sm font-black tracking-tighter">KÉRASTASE</span>
-                  <span className="text-[10px] md:text-sm font-black tracking-tighter">DYSON PRO</span>
+                <div className="text-right">
+                  <span className="text-3xl md:text-5xl font-light italic text-primary">{currentService?.price}</span>
+                  <div className="text-[8px] font-black uppercase tracking-widest text-zinc-500 mt-2">Valor Editorial</div>
                 </div>
               </div>
+
+              {/* Navigation Controls */}
+              <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 flex justify-between pointer-events-none">
+                <button 
+                  onClick={(e) => { e.stopPropagation(); rotate(-1); }}
+                  className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white pointer-events-auto hover:bg-primary hover:text-black transition-all"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); rotate(1); }}
+                  className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white pointer-events-auto hover:bg-primary hover:text-black transition-all"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Carousel Thumbnails / Dots */}
+            <div className="flex justify-center gap-3 mt-8">
+              {services.map((_, i) => (
+                <button 
+                  key={i}
+                  onClick={() => setActiveIdx(i)}
+                  className={cn(
+                    "h-1 transition-all duration-500",
+                    activeIdx === i ? "w-12 bg-primary" : "w-4 bg-border/40 hover:bg-border"
+                  )}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Partners Section */}
+        <div className="pt-20 border-t border-border/30">
+          <div className="flex flex-col items-center gap-10">
+            <span className="text-[10px] font-black uppercase tracking-[0.6em] text-muted-foreground">Marcas en Excelencia</span>
+            <div className="flex flex-wrap justify-center gap-12 md:gap-24 opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-1000">
+              <span className="text-xs md:text-lg font-black tracking-tighter uppercase">L'Oréal Professionnel</span>
+              <span className="text-xs md:text-lg font-black tracking-tighter uppercase">Kérastase</span>
+              <span className="text-xs md:text-lg font-black tracking-tighter uppercase">Dyson Pro</span>
+              <span className="text-xs md:text-lg font-black tracking-tighter uppercase">Wahl Elite</span>
             </div>
           </div>
         </div>

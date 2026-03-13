@@ -2,7 +2,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { Home, Sofa, Scissors, ShoppingBag, Gamepad2, X, Menu as MenuIcon, Lock, Moon, Sun, Tv, MessageCircle, Phone, Instagram, Facebook, MapPin } from 'lucide-react';
+import { Home, Sofa, Scissors, ShoppingBag, Gamepad2, X, Menu as MenuIcon, Lock, Moon, Sun, Tv, MessageCircle, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HomeSection } from './sections/HomeSection';
 import { BeautySection } from './sections/BeautySection';
@@ -26,7 +26,6 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
   const [scrolled, setScrolled] = useState(false);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
 
-  // Efecto para volver al inicio al cambiar de pestaña
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [activeTab]);
@@ -140,7 +139,7 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
       <div className="fixed bottom-6 right-6 z-[90]">
         {isAssistantOpen && (
           <div className="bg-card border border-primary/20 p-5 rounded-2xl shadow-2xl w-64 mb-3 animate-in slide-in-from-bottom-5 fade-in duration-300">
-            <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-primary mb-3">VIP Concierge</h4>
+            <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-primary mb-3">Asistente VIP</h4>
             <div className="space-y-2">
               <a 
                 href={socialLinks.whatsapp}
@@ -148,14 +147,14 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
                 className="w-full text-left p-3 rounded-xl bg-foreground text-background hover:bg-primary transition-all flex items-center gap-3"
               >
                 <MessageCircle size={12} />
-                <span className="text-[10px] font-bold uppercase">WhatsApp Citas</span>
+                <span className="text-[10px] font-bold uppercase">Agendar Cita</span>
               </a>
               <button 
                 onClick={() => { setActiveTab('contact'); setIsAssistantOpen(false); }}
                 className="w-full text-left p-3 rounded-xl bg-muted/30 hover:bg-primary hover:text-background transition-all flex items-center gap-3"
               >
                 <MapPin size={12} />
-                <span className="text-[10px] font-bold uppercase">Cómo Llegar</span>
+                <span className="text-[10px] font-bold uppercase">Ubicación</span>
               </button>
             </div>
           </div>
@@ -171,16 +170,16 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
         </button>
       </div>
 
-      <footer className="bg-background py-4 border-t border-border/30">
+      <footer className="bg-background py-6 border-t border-border/30">
         <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[7px] uppercase tracking-[0.4em] text-muted-foreground">
             © MMXXIV GM HOUSE • QUITO SUR • ECUADOR
           </p>
-          <div className="flex items-center gap-6">
-             <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-widest">Instagram</a>
-             <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-widest">Facebook</a>
-             <a href={socialLinks.whatsapp} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-widest">WhatsApp</a>
-             <button onClick={() => setView('admin')} className="text-muted-foreground/10 hover:text-primary transition-colors"><Lock size={10} /></button>
+          <div className="flex items-center gap-8">
+             <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em]">Instagram</a>
+             <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em]">Facebook</a>
+             <a href={socialLinks.whatsapp} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em]">WhatsApp</a>
+             <button onClick={() => setView('admin')} className="text-muted-foreground/10 hover:text-primary transition-colors ml-4"><Lock size={10} /></button>
           </div>
         </div>
       </footer>
