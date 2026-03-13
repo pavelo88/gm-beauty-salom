@@ -1,7 +1,8 @@
+
 "use client"
 
 import React, { useState } from 'react';
-import { BookOpen, Crown, Shirt, Gem, Plus } from 'lucide-react';
+import { Gem, Plus, ArrowRight } from 'lucide-react';
 import { AiAssistant } from '@/components/AiAssistant';
 import { aiPersonalShopperSuggestions } from '@/ai/flows/ai-personal-shopper-suggestions';
 import { cn } from '@/lib/utils';
@@ -10,114 +11,136 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
   const [activeCategory, setActiveCategory] = useState<'mujer' | 'hombre' | 'perfumes'>('mujer');
 
   const staticCollection = {
-    mujer: { title: "L'Eternelle", year: "MMXXIV", img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=1200" },
-    hombre: { title: "Avant-Garde", year: "MMXXIV", img: "https://images.unsplash.com/photo-1594932224491-994b9caede9f?auto=format&fit=crop&q=80&w=1200" },
-    perfumes: { title: "Esprit d'Or", year: "MMXXIV", img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=1200" }
+    mujer: { 
+      title: "L'Eternelle", 
+      year: "MMXXIV", 
+      img: "https://picsum.photos/seed/fashion-woman/1200/1500",
+      description: "Una exploración de la feminidad a través de texturas orgánicas y cortes arquitectónicos."
+    },
+    hombre: { 
+      title: "Avant-Garde", 
+      year: "MMXXIV", 
+      img: "https://picsum.photos/seed/fashion-man/1200/1500",
+      description: "Sastrería de autor que desafía los códigos tradicionales del Sur de Quito."
+    },
+    perfumes: { 
+      title: "Esprit d'Or", 
+      year: "MMXXIV", 
+      img: "https://picsum.photos/seed/perfume-gold/1200/1500",
+      description: "Esencias que capturan la memoria del lujo en frascos de cristal artesanal."
+    }
   };
 
   const dynProducts = dynamicData.products.filter((p: any) => p.category === activeCategory);
 
   return (
-    <div className="w-full pt-40 pb-20">
-      <div className="max-w-[1600px] mx-auto px-10">
+    <div className="w-full pt-32 pb-20">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10 space-y-24">
         
-        {/* Editorial Header */}
-        <header className="magazine-grid mb-40 items-end gap-10">
-          <div className="col-span-12 lg:col-span-8">
-            <div className="flex items-center gap-4 mb-8">
-              <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary">Special Feature</span>
-              <span className="w-20 h-[1px] bg-border"></span>
+        {/* Cabezal Editorial */}
+        <header className="magazine-grid items-end gap-10">
+          <div className="col-span-12 lg:col-span-8 space-y-8">
+            <div className="flex items-center gap-4">
+              <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary">Archivo de Moda</span>
+              <span className="w-20 h-[1px] bg-border/40"></span>
             </div>
-            <h2 className="text-editorial-title leading-[0.75]">BOUTIQUE <br/> <span className="text-gold-gradient italic">PRIVÉE</span></h2>
+            <h2 className="text-[12vw] lg:text-[10rem] font-headline font-bold leading-[0.75] tracking-tighter uppercase">
+              Boutique <br/> <span className="text-gold-gradient italic">Privée</span>
+            </h2>
           </div>
-          <div className="col-span-12 lg:col-span-4 space-y-10">
-            <div className="flex border-b border-border py-6 overflow-x-auto no-scrollbar">
+          <div className="col-span-12 lg:col-span-4 flex flex-col items-end gap-8 pb-4">
+            <div className="flex border-b border-border/40 py-4 w-full justify-end gap-8 overflow-x-auto no-scrollbar">
               {['mujer', 'hombre', 'perfumes'].map((cat) => (
                 <button 
                   key={cat}
                   onClick={() => setActiveCategory(cat as any)}
                   className={cn(
-                    "flex-1 text-[10px] font-black uppercase tracking-[0.4em] transition-all px-4 whitespace-nowrap",
-                    activeCategory === cat ? "text-primary italic" : "text-muted-foreground hover:text-foreground"
+                    "text-[10px] font-black uppercase tracking-[0.4em] transition-all whitespace-nowrap",
+                    activeCategory === cat ? "text-primary italic scale-110" : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   {cat}
                 </button>
               ))}
             </div>
-            <p className="text-sm text-muted-foreground font-light uppercase tracking-widest leading-relaxed italic border-l-2 border-primary pl-6">
-              "Seleccionamos piezas que no siguen tendencias, sino que crean legados visuales."
+            <p className="text-[11px] text-muted-foreground font-bold uppercase tracking-widest text-right max-w-[200px] leading-loose italic">
+              "Curaduría de piezas únicas que trascienden las tendencias del Sur."
             </p>
           </div>
         </header>
 
-        <div className="mb-32">
-          <AiAssistant 
-            title="AI Shopper Stylist"
-            placeholder="Describe la ocasión y encontraremos tu look..."
-            onAsk={(input) => aiPersonalShopperSuggestions({ userPrompt: input, category: activeCategory })}
-            isLightMode={true}
-          />
-        </div>
-
-        {/* Feature Spread */}
-        <div className="magazine-grid gap-20">
-          {/* Main Visual */}
-          <div className="col-span-12 lg:col-span-7 relative group editorial-shadow">
-            <div className="aspect-[4/5] overflow-hidden bg-card">
+        {/* Spread Principal: Visual Izquierda, Lista Derecha */}
+        <div className="magazine-grid gap-16 md:gap-24 items-start">
+          
+          {/* Visual Spread */}
+          <div className="col-span-12 lg:col-span-7 relative group editorial-shadow rounded-2xl md:rounded-[3rem] overflow-hidden">
+            <div className="aspect-[3/4] md:aspect-[4/5] overflow-hidden bg-card">
               <img 
                 src={staticCollection[activeCategory].img} 
-                alt="Editorial Visual" 
+                data-ai-hint="luxury fashion"
+                alt="Boutique Visual" 
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2s]"
               />
             </div>
-            <div className="absolute top-16 left-16 mix-blend-difference text-white">
-              <span className="text-[8px] uppercase tracking-[1em] font-bold opacity-60">{staticCollection[activeCategory].year}</span>
-              <h3 className="text-6xl font-headline italic tracking-tighter mt-2">{staticCollection[activeCategory].title}</h3>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-10 md:p-20">
+              <span className="text-[9px] uppercase tracking-[1em] font-bold text-white/60 mb-4">{staticCollection[activeCategory].year}</span>
+              <h3 className="text-5xl md:text-8xl font-headline italic text-white tracking-tighter mb-6">{staticCollection[activeCategory].title}</h3>
+              <p className="text-white/40 text-sm md:text-base font-light max-w-sm leading-relaxed">
+                {staticCollection[activeCategory].description}
+              </p>
             </div>
           </div>
 
-          {/* Product List */}
-          <div className="col-span-12 lg:col-span-5 flex flex-col justify-center space-y-16">
+          {/* Catálogo de Archivo */}
+          <div className="col-span-12 lg:col-span-5 space-y-16 py-10">
             <div className="space-y-4">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Curated Collection</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Lista de Colección</h4>
               <div className="w-16 h-[1px] bg-primary"></div>
             </div>
 
-            <div className="space-y-10">
+            <div className="space-y-12">
               {dynProducts.length > 0 ? (
                 dynProducts.map((p: any, i: number) => (
-                  <div key={i} className="group border-b border-border pb-10 flex justify-between items-end hover:border-primary transition-all duration-500 cursor-pointer">
-                    <div className="space-y-2">
-                      <span className="text-[9px] uppercase tracking-[0.3em] text-muted-foreground font-medium">Archive {activeCategory}</span>
-                      <h5 className="text-3xl font-headline font-bold group-hover:translate-x-4 transition-transform duration-700">{p.name}</h5>
+                  <div key={i} className="group border-b border-border/20 pb-10 flex justify-between items-end hover:border-primary transition-all duration-700 cursor-pointer">
+                    <div className="space-y-3">
+                      <span className="text-[9px] uppercase tracking-[0.4em] text-muted-foreground font-bold">Ref. 00{i+1}</span>
+                      <h5 className="text-3xl font-headline font-bold group-hover:translate-x-6 transition-transform duration-700 uppercase tracking-tighter">{p.name}</h5>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right flex flex-col items-end gap-2">
                       <span className="text-2xl font-light italic text-primary">{p.price}</span>
-                      <div className="mt-4 text-[9px] font-black uppercase tracking-tighter flex items-center justify-end gap-2 opacity-40 group-hover:opacity-100 transition-opacity">
-                        Details <Plus size={10} className="text-primary" />
-                      </div>
+                      <Plus size={12} className="text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-center py-32 border border-dashed border-border opacity-50">
-                  <p className="text-[10px] uppercase tracking-[0.5em] font-bold">Catalogue Privé coming soon</p>
+                <div className="py-24 border border-dashed border-border/40 rounded-3xl flex flex-col items-center justify-center gap-6 opacity-30">
+                  <Gem size={32} />
+                  <p className="text-[10px] uppercase tracking-[0.5em] font-black">Próximo Lanzamiento</p>
                 </div>
               )}
             </div>
 
-            <div className="bg-foreground text-background p-16 text-center space-y-8 relative overflow-hidden group">
+            {/* Bloque Shopper Stylist */}
+            <div className="pt-10">
+               <AiAssistant 
+                title="Personal Shopper IA"
+                placeholder="Busco un outfit para una gala en Quito..."
+                onAsk={(input) => aiPersonalShopperSuggestions({ userPrompt: input, category: activeCategory })}
+              />
+            </div>
+
+            {/* Bannner VIP Cita */}
+            <div className="bg-foreground text-background p-12 md:p-16 rounded-[2rem] text-center space-y-8 relative overflow-hidden group shadow-2xl">
               <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
               <Gem className="mx-auto text-primary" size={40} />
-              <div className="space-y-2">
-                <h4 className="text-2xl font-headline font-bold italic">Privé Appointments</h4>
-                <p className="text-[10px] uppercase tracking-[0.4em] font-medium leading-loose opacity-60">
-                  Experience personalized luxury in our VIP fitting room.
+              <div className="space-y-3">
+                <h4 className="text-2xl font-headline font-bold italic">Atención Personalizada</h4>
+                <p className="text-[9px] uppercase tracking-[0.4em] font-bold leading-loose opacity-60 px-4">
+                  Vive la experiencia de lujo en nuestro probador VIP con asesoría privada.
                 </p>
               </div>
-              <button className="text-[10px] font-black uppercase tracking-[0.4em] border-b border-primary pb-2 hover:text-primary transition-all">
-                Request Invitation
+              <button className="flex items-center gap-4 mx-auto text-[10px] font-black uppercase tracking-[0.4em] border-b border-primary/40 pb-2 hover:border-primary hover:text-primary transition-all group-hover:gap-6">
+                Solicitar Cita <ArrowRight size={12} />
               </button>
             </div>
           </div>
@@ -126,3 +149,4 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
     </div>
   );
 }
+
