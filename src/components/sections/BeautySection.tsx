@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useMemo } from 'react';
@@ -48,13 +49,13 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
   const accentBg = isBarber ? "bg-primary" : "bg-[#d1919b]";
 
   return (
-    <div className="w-full pt-16 pb-8">
-      <div className="max-w-[1400px] mx-auto px-6 space-y-8">
+    <div className="w-full pt-24 pb-16">
+      <div className="max-w-[1400px] mx-auto px-6 space-y-12">
         
         <header className="flex justify-between items-center">
           <div className="space-y-1">
             <span className={cn("text-[8px] font-black uppercase tracking-[0.5em]", accentColor)}>Edición No. 01</span>
-            <h2 className="text-3xl md:text-4xl font-headline font-bold leading-none tracking-tighter uppercase">
+            <h2 className="text-3xl md:text-5xl font-headline font-bold leading-none tracking-tighter uppercase">
               {isBarber ? 'Grooming' : 'Estética'} <span className="opacity-20 italic">Archive</span>
             </h2>
           </div>
@@ -63,7 +64,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
             <button 
               onClick={() => { setConcept('salon'); setActiveIdx(2); }}
               className={cn(
-                "px-4 py-1.5 text-[8px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
+                "px-6 py-2 text-[8px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
                 !isBarber ? "bg-[#d1919b] text-white shadow-lg" : "text-muted-foreground"
               )}
             >
@@ -72,7 +73,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
             <button 
               onClick={() => { setConcept('barberia'); setActiveIdx(2); }}
               className={cn(
-                "px-4 py-1.5 text-[8px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
+                "px-6 py-2 text-[8px] font-black uppercase tracking-[0.3em] transition-all rounded-full",
                 isBarber ? "bg-primary text-black shadow-lg" : "text-muted-foreground"
               )}
             >
@@ -81,8 +82,8 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
           </div>
         </header>
 
-        {/* Carrusel Editorial 3D - Altura controlada para equilibrio */}
-        <div className="relative h-[250px] md:h-[350px] flex items-center justify-center overflow-hidden">
+        {/* Carrusel Editorial 3D */}
+        <div className="relative h-[300px] md:h-[400px] flex items-center justify-center overflow-hidden">
           <div className="relative w-full h-full flex items-center justify-center">
             {services.map((svc: any, i: number) => {
               let diff = i - activeIdx;
@@ -90,24 +91,23 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
               if (diff < -2) diff += services.length;
 
               const isCenter = diff === 0;
-              const isSide = Math.abs(diff) === 1;
 
               return (
                 <div 
                   key={i}
                   className={cn(
-                    "absolute transition-all duration-700 ease-out overflow-hidden rounded-xl shadow-lg",
-                    isCenter ? "z-30 w-[80%] md:w-[45%] h-full opacity-100 scale-100" : "",
-                    diff === -1 ? "z-20 w-[55%] h-[80%] opacity-30 scale-90 -translate-x-[30%] blur-[1px]" : "",
-                    diff === 1 ? "z-20 w-[55%] h-[80%] opacity-30 scale-90 translate-x-[30%] blur-[1px]" : "",
+                    "absolute transition-all duration-700 ease-out overflow-hidden rounded-2xl shadow-2xl border border-white/5",
+                    isCenter ? "z-30 w-[85%] md:w-[45%] h-full opacity-100 scale-100" : "",
+                    diff === -1 ? "z-20 w-[60%] h-[85%] opacity-30 scale-90 -translate-x-[35%] blur-[2px]" : "",
+                    diff === 1 ? "z-20 w-[60%] h-[85%] opacity-30 scale-90 translate-x-[35%] blur-[2px]" : "",
                     Math.abs(diff) > 1 ? "opacity-0 z-0" : ""
                   )}
                 >
                   <img src={svc.imageUrl} alt={svc.name} className="w-full h-full object-cover" />
                   {isCenter && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-5">
-                      <span className={cn("text-[8px] font-black uppercase tracking-widest", accentColor)}>{svc.price}</span>
-                      <h3 className="text-xl md:text-2xl font-headline font-bold text-white tracking-tighter uppercase">{svc.name}</h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8">
+                      <span className={cn("text-[10px] font-black uppercase tracking-widest mb-1", accentColor)}>{svc.price}</span>
+                      <h3 className="text-2xl md:text-3xl font-headline font-bold text-white tracking-tighter uppercase leading-none">{svc.name}</h3>
                     </div>
                   )}
                 </div>
@@ -115,39 +115,38 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
             })}
           </div>
 
-          <div className="absolute top-1/2 -translate-y-1/2 left-2 right-2 flex justify-between z-40 pointer-events-none">
-            <button onClick={() => rotate(-1)} className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white pointer-events-auto hover:bg-white hover:text-black transition-all flex items-center justify-center">
-              <ChevronLeft size={16} />
+          <div className="absolute top-1/2 -translate-y-1/2 left-4 right-4 flex justify-between z-40 pointer-events-none">
+            <button onClick={() => rotate(-1)} className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-lg text-white pointer-events-auto hover:bg-primary hover:text-black transition-all flex items-center justify-center shadow-xl">
+              <ChevronLeft size={20} />
             </button>
-            <button onClick={() => rotate(1)} className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white pointer-events-auto hover:bg-white hover:text-black transition-all flex items-center justify-center">
-              <ChevronRight size={16} />
+            <button onClick={() => rotate(1)} className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-lg text-white pointer-events-auto hover:bg-primary hover:text-black transition-all flex items-center justify-center shadow-xl">
+              <ChevronRight size={20} />
             </button>
           </div>
         </div>
 
-        {/* Bloque de Identidad y Carta de Cortesía */}
-        <div className="magazine-grid gap-6 items-start">
-          <div className="col-span-12 lg:col-span-7 space-y-4">
-            <p className="text-lg md:text-xl font-headline font-bold italic leading-tight text-foreground/80 border-l-2 pl-4 border-border">
+        <div className="magazine-grid gap-10 items-start pt-8">
+          <div className="col-span-12 lg:col-span-7 space-y-6">
+            <p className="text-xl md:text-2xl font-headline font-bold italic leading-snug text-foreground/90 border-l-4 pl-6 border-primary/40">
               "En GM Beauty House, entendemos el cabello como una estructura de diseño. No seguimos tendencias efímeras, construimos identidades visuales que perduran bajo estándares internacionales."
             </p>
-            <div className="max-w-md">
+            <div className="max-w-md pt-4">
                <AiAssistant 
                 title="Estilista IA"
-                placeholder="Busco un cambio..."
+                placeholder="Busco un cambio de imagen..."
                 onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })}
               />
             </div>
           </div>
 
           <div className="col-span-12 lg:col-span-5">
-            <div className="bg-card/20 border border-border/40 p-6 rounded-2xl space-y-4">
-              <h5 className={cn("text-[8px] font-black uppercase tracking-[0.5em]", accentColor)}>Carta de Cortesía</h5>
-              <div className="grid grid-cols-2 gap-3">
+            <div className="bg-card/30 border border-border/50 p-8 rounded-[2rem] space-y-6 editorial-shadow">
+              <h5 className={cn("text-[9px] font-black uppercase tracking-[0.5em]", accentColor)}>Carta de Cortesía VIP</h5>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {courtesyMenu.map((drink, i) => (
-                  <div key={i} className="flex items-center gap-2 group border-b border-border/10 pb-2">
-                    <drink.icon size={12} className={cn("opacity-40 group-hover:opacity-100", accentColor)} />
-                    <span className="text-[8px] font-bold uppercase tracking-[0.1em]">{drink.name}</span>
+                  <div key={i} className="flex items-center gap-3 group border-b border-border/10 pb-3 hover:border-primary/40 transition-colors">
+                    <drink.icon size={14} className={cn("opacity-50 group-hover:opacity-100", accentColor)} />
+                    <span className="text-[9px] font-bold uppercase tracking-[0.1em]">{drink.name}</span>
                   </div>
                 ))}
               </div>
