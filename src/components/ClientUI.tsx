@@ -26,6 +26,11 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
   const [scrolled, setScrolled] = useState(false);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
 
+  // Efecto para volver al inicio al cambiar de pestaña
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [activeTab]);
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
@@ -168,7 +173,7 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
         </button>
       </div>
 
-      <footer className="bg-background py-6 border-t border-border/30">
+      <footer className="bg-background py-4 border-t border-border/30">
         <div className="max-w-[1600px] mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[7px] uppercase tracking-[0.4em] text-muted-foreground">
             © MMXXIV GM HOUSE • QUITO SUR • ECUADOR
