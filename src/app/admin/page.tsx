@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -7,7 +6,7 @@ import {
   FileText, ShoppingBag, Scissors, 
   UtensilsCrossed, Sofa, LayoutDashboard, 
   Eye, MapPin, Share2, Image as ImageIcon,
-  ChevronDown, ChevronUp
+  ChevronDown, ChevronUp, Edit3, X
 } from 'lucide-react';
 import { collection, addDoc, deleteDoc, doc, setDoc, getDoc, query, onSnapshot } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
@@ -27,6 +26,8 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [globalLoading, setGlobalLoading] = useState(true);
   const [globalSettings, setGlobalSettings] = useState<any>({});
+  
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const [services, setServices] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
@@ -84,17 +85,50 @@ export default function AdminPage() {
     if (!data.name && data.title) data.name = data.title;
     if (!data.title && data.name) data.title = data.name;
     
-    const colRef = collection(db, 'data', appId, colName);
-    addDoc(colRef, data)
-      .then(() => {
-        setForm({ name: '', price: '', description: '', category: '', imageUrl: '', title: '' });
-      })
-      .catch(async (err) => {
-        errorEmitter.emit('permission-error', new FirestorePermissionError({
-          path: colRef.path, operation: 'create', requestResourceData: data
-        }));
-      })
-      .finally(() => setLoading(false));
+    if (editingId) {
+      const docRef = doc(db, 'data', appId, colName, editingId);
+      setDoc(docRef, data, { merge: true })
+        .then(() => {
+          setForm({ name: '', price: '', description: '', category: '', imageUrl: '', title: '' });
+          setEditingId(null);
+        })
+        .catch(async (err) => {
+          errorEmitter.emit('permission-error', new FirestorePermissionError({
+            path: docRef.path, operation: 'update', requestResourceData: data
+          }));
+        })
+        .finally(() => setLoading(false));
+    } else {
+      const colRef = collection(db, 'data', appId, colName);
+      addDoc(colRef, data)
+        .then(() => {
+          setForm({ name: '', price: '', description: '', category: '', imageUrl: '', title: '' });
+        })
+        .catch(async (err) => {
+          errorEmitter.emit('permission-error', new FirestorePermissionError({
+            path: colRef.path, operation: 'create', requestResourceData: data
+          }));
+        })
+        .finally(() => setLoading(false));
+    }
+  };
+
+  const editItem = (item: any) => {
+    setForm({
+      name: item.name || '',
+      title: item.title || '',
+      price: item.price || '',
+      description: item.description || '',
+      category: item.category || '',
+      imageUrl: item.imageUrl || ''
+    });
+    setEditingId(item.id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const cancelEdit = () => {
+    setForm({ name: '', price: '', description: '', category: '', imageUrl: '', title: '' });
+    setEditingId(null);
   };
 
   const removeItem = async (colName: string, id: string) => {
@@ -193,7 +227,6 @@ export default function AdminPage() {
 
           <TabsContent value="home" className="animate-in fade-in slide-in-from-bottom-2 duration-500">
             <div className="space-y-6">
-              {/* SECTION 1: HERO */}
               <Card className="border-primary/10 rounded-3xl overflow-hidden shadow-sm bg-white">
                 <CardHeader className="bg-primary/5 pb-6">
                   <CardTitle className="font-headline italic text-xl">1. Héroe de Portada</CardTitle>
@@ -217,13 +250,11 @@ export default function AdminPage() {
                 </CardContent>
               </Card>
 
-              {/* SECTIONS 2-5: HOME CONTENT BLOCKS */}
               <SectionEditor title="2. Archivo de Belleza" prefix="homeBeauty" description="Propuesta de Salón & Barbería" />
               <SectionEditor title="3. Moda Editorial" prefix="homeBoutique" description="Propuesta de Boutique & Esencias" />
               <SectionEditor title="4. Arte Estructural" prefix="homeAlliance" description="Propuesta de Diseño & Modulares" />
               <SectionEditor title="5. Emisión GM TV" prefix="homeTv" description="Propuesta de Entretenimiento & Lounge" />
 
-              {/* SECTION 6: MANIFIESTO */}
               <Card className="border-primary/10 rounded-3xl overflow-hidden shadow-sm bg-white">
                 <CardHeader className="bg-primary/5 pb-6">
                   <CardTitle className="font-headline italic text-xl">6. Manifiesto Final</CardTitle>
@@ -243,12 +274,15 @@ export default function AdminPage() {
             </div>
           </TabsContent>
 
-          {/* REST OF TABS (STAY FUNCTIONAL AS BEFORE) */}
           <TabsContent value="beauty">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-4 space-y-6">
                 <Card className="border-primary/10 rounded-3xl bg-white shadow-sm">
-                  <CardHeader><CardTitle className="font-headline italic text-lg">Nuevo Servicio de Autor</CardTitle></CardHeader>
+                  <CardHeader>
+                    <CardTitle className="font-headline italic text-lg">
+                      {editingId ? "Editar Servicio" : "Nuevo Servicio de Autor"}
+                    </CardTitle>
+                  </CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                     <Input placeholder="Precio" value={form.price} onChange={e => setForm({...form, price: e.target.value})} />
@@ -260,7 +294,15 @@ export default function AdminPage() {
                       </SelectContent>
                     </Select>
                     <Input placeholder="URL Imagen" value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} />
-                    <Button onClick={() => addItem('services')} disabled={loading} className="w-full bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">Añadir Servicio</Button>
+                    <Textarea placeholder="Descripción corta" value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
+                    <div className="flex gap-2">
+                      <Button onClick={() => addItem('services')} disabled={loading} className="flex-1 bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">
+                        {editingId ? "Actualizar" : "Añadir Servicio"}
+                      </Button>
+                      {editingId && (
+                        <Button onClick={cancelEdit} variant="outline" className="h-11 rounded-xl"><X size={14} /></Button>
+                      )}
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -276,7 +318,10 @@ export default function AdminPage() {
                         <h5 className="font-bold text-xs uppercase">{s.name}</h5>
                       </div>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => removeItem('services', s.id)} className="text-zinc-200 hover:text-red-500"><Trash2 size={14} /></Button>
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="icon" onClick={() => editItem(s)} className="text-zinc-400 hover:text-primary"><Edit3 size={14} /></Button>
+                      <Button variant="ghost" size="icon" onClick={() => removeItem('services', s.id)} className="text-zinc-200 hover:text-red-500"><Trash2 size={14} /></Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -287,7 +332,11 @@ export default function AdminPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-4 space-y-6">
                 <Card className="border-primary/10 rounded-3xl bg-white shadow-sm">
-                  <CardHeader><CardTitle className="font-headline italic text-lg">Nueva Prenda/Perfume</CardTitle></CardHeader>
+                  <CardHeader>
+                    <CardTitle className="font-headline italic text-lg">
+                      {editingId ? "Editar Prenda" : "Nueva Prenda/Perfume"}
+                    </CardTitle>
+                  </CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                     <Input placeholder="Precio" value={form.price} onChange={e => setForm({...form, price: e.target.value})} />
@@ -300,7 +349,15 @@ export default function AdminPage() {
                       </SelectContent>
                     </Select>
                     <Input placeholder="URL Imagen" value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} />
-                    <Button onClick={() => addItem('products')} disabled={loading} className="w-full bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">Añadir Ítem</Button>
+                    <Textarea placeholder="Descripción" value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
+                    <div className="flex gap-2">
+                      <Button onClick={() => addItem('products')} disabled={loading} className="flex-1 bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">
+                        {editingId ? "Actualizar" : "Añadir Ítem"}
+                      </Button>
+                      {editingId && (
+                        <Button onClick={cancelEdit} variant="outline" className="h-11 rounded-xl"><X size={14} /></Button>
+                      )}
+                    </div>
                   </CardContent>
                 </Card>
                 <Card className="border-primary/10 rounded-3xl bg-white shadow-sm">
@@ -323,7 +380,10 @@ export default function AdminPage() {
                         <h5 className="font-bold text-xs uppercase">{p.name}</h5>
                       </div>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => removeItem('products', p.id)}><Trash2 size={14} /></Button>
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="icon" onClick={() => editItem(p)} className="text-zinc-400 hover:text-primary"><Edit3 size={14} /></Button>
+                      <Button variant="ghost" size="icon" onClick={() => removeItem('products', p.id)}><Trash2 size={14} /></Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -334,7 +394,11 @@ export default function AdminPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-4 space-y-6">
                 <Card className="border-primary/10 rounded-3xl bg-white shadow-sm">
-                  <CardHeader><CardTitle className="font-headline italic text-lg">Añadir a la Carta</CardTitle></CardHeader>
+                  <CardHeader>
+                    <CardTitle className="font-headline italic text-lg">
+                      {editingId ? "Editar Ítem" : "Añadir a la Carta"}
+                    </CardTitle>
+                  </CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                     <Input placeholder="Precio" value={form.price} onChange={e => setForm({...form, price: e.target.value})} />
@@ -345,7 +409,14 @@ export default function AdminPage() {
                         <SelectItem value="Bebidas">Bebida</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Button onClick={() => addItem('menu')} disabled={loading} className="w-full bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">Añadir Ítem</Button>
+                    <div className="flex gap-2">
+                      <Button onClick={() => addItem('menu')} disabled={loading} className="flex-1 bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">
+                        {editingId ? "Actualizar" : "Añadir Ítem"}
+                      </Button>
+                      {editingId && (
+                        <Button onClick={cancelEdit} variant="outline" className="h-11 rounded-xl"><X size={14} /></Button>
+                      )}
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -357,7 +428,10 @@ export default function AdminPage() {
                       <h5 className="font-bold text-xs uppercase">{m.name}</h5>
                       <p className="text-xs font-bold text-zinc-400">{m.price}</p>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={() => removeItem('menu', m.id)}><Trash2 size={14} /></Button>
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="icon" onClick={() => editItem(m)} className="text-zinc-400 hover:text-primary"><Edit3 size={14} /></Button>
+                      <Button variant="ghost" size="icon" onClick={() => removeItem('menu', m.id)}><Trash2 size={14} /></Button>
+                    </div>
                   </div>
                 ))}
               </div>
