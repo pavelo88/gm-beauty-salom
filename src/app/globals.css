@@ -23,7 +23,7 @@
     --border: 35 15% 85%;
     --input: 35 15% 85%;
     --ring: 35 40% 45%;
-    --radius: 0rem;
+    --radius: 1rem;
   }
 
   .dark {
@@ -56,62 +56,15 @@
   
   html {
     @apply bg-background;
-    height: 100%;
   }
 
   body {
     @apply font-body antialiased transition-colors duration-700 relative min-h-screen text-foreground;
-    background-color: transparent !important;
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    transition: background 0.7s ease, opacity 0.7s ease;
-    will-change: transform, opacity;
-  }
-
-  body::before {
-    background-image: 
-      repeating-linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.03) 0px,
-        rgba(0, 0, 0, 0.03) 1px,
-        transparent 1px,
-        transparent 3px
-      ),
-      url('https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&q=80&w=2000');
-    background-size: 100% 3px, cover;
-    background-position: top center;
-    background-attachment: fixed;
-    opacity: 0.8;
-  }
-
-  .dark body::before {
-    background-image: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&q=80&w=2000');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    opacity: 0.3;
-    filter: grayscale(1) contrast(1.5) brightness(0.4);
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-headline tracking-tighter;
-  }
-
-  main, nav, footer, section {
-    position: relative;
-    z-index: 10;
   }
 }
 
 .text-editorial-title {
   @apply text-[10vw] md:text-[8vw] lg:text-[7.5rem] font-black uppercase leading-[0.8] tracking-tighter;
-  text-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .text-gold-gradient {
@@ -120,28 +73,12 @@
   -webkit-fill-color: transparent;
 }
 
-.magazine-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 1024px) {
-  .magazine-grid {
-    gap: 3rem;
-  }
-}
-
 .editorial-shadow {
-  box-shadow: 20px 20px 60px rgba(0,0,0,0.05);
-}
-
-.dark .editorial-shadow {
-  box-shadow: 40px 40px 80px rgba(0,0,0,0.4);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.05);
 }
 
 .img-cinematic {
-  @apply saturate-[0.6] transition-all ease-out hover:saturate-100 duration-1000;
+  @apply saturate-[0.8] transition-all duration-1000;
 }
 
 ::-webkit-scrollbar {
@@ -151,23 +88,15 @@
   @apply bg-background;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary/20 hover:bg-primary/40;
+  @apply bg-primary/20 hover:bg-primary/40 rounded-full;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 40s linear infinite;
 }
