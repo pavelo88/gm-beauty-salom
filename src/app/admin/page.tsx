@@ -5,8 +5,7 @@ import {
   Plus, Trash2, Loader2, Save, 
   FileText, ShoppingBag, Scissors, 
   UtensilsCrossed, Sofa, LayoutDashboard, 
-  Eye, MapPin, Share2, Image as ImageIcon,
-  ChevronDown, ChevronUp, Edit3, X
+  Eye, MapPin, Share2, Edit3, X
 } from 'lucide-react';
 import { collection, addDoc, deleteDoc, doc, setDoc, getDoc, query, onSnapshot } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
@@ -16,7 +15,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
 import Link from 'next/link';
@@ -26,7 +24,6 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [globalLoading, setGlobalLoading] = useState(true);
   const [globalSettings, setGlobalSettings] = useState<any>({});
-  
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const [services, setServices] = useState<any[]>([]);
@@ -197,7 +194,7 @@ export default function AdminPage() {
             </Button>
           </Link>
           <Button onClick={saveGlobal} disabled={loading} className="flex-1 md:flex-none h-10 bg-primary text-white rounded-full text-[9px] font-black uppercase tracking-widest px-8 shadow-lg shadow-primary/20">
-            {loading ? <Loader2 className="animate-spin" /> : <><Save size={14} className="mr-2" /> Sincronizar Inicio</>}
+            {loading ? <Loader2 className="animate-spin" /> : <><Save size={14} className="mr-2" /> Sincronizar Hub</>}
           </Button>
         </div>
       </nav>
@@ -205,84 +202,69 @@ export default function AdminPage() {
       <main className="max-w-7xl mx-auto p-4 md:p-10">
         <Tabs defaultValue="home" className="space-y-8">
           <TabsList className="bg-white/60 backdrop-blur p-1 rounded-2xl border border-primary/10 h-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
-            <TabsTrigger value="home" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white transition-all">
+            <TabsTrigger value="home" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
               <FileText size={12} className="mr-2" /> Inicio
             </TabsTrigger>
-            <TabsTrigger value="beauty" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white transition-all">
+            <TabsTrigger value="beauty" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
               <Scissors size={12} className="mr-2" /> Belleza
             </TabsTrigger>
-            <TabsTrigger value="boutique" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white transition-all">
+            <TabsTrigger value="boutique" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
               <ShoppingBag size={12} className="mr-2" /> Boutique
             </TabsTrigger>
-            <TabsTrigger value="lounge" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white transition-all">
+            <TabsTrigger value="lounge" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
               <UtensilsCrossed size={12} className="mr-2" /> Lounge
             </TabsTrigger>
-            <TabsTrigger value="modular" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white transition-all">
+            <TabsTrigger value="modular" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
               <Sofa size={12} className="mr-2" /> Modulares
             </TabsTrigger>
-            <TabsTrigger value="contact" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white transition-all">
+            <TabsTrigger value="contact" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
               <Share2 size={12} className="mr-2" /> Contacto
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="home" className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-            <div className="space-y-6">
-              <Card className="border-primary/10 rounded-3xl overflow-hidden shadow-sm bg-white">
-                <CardHeader className="bg-primary/5 pb-6">
-                  <CardTitle className="font-headline italic text-xl">1. Héroe de Portada</CardTitle>
-                  <CardDescription className="text-[9px] uppercase tracking-widest font-bold">Impacto Inicial de la Web</CardDescription>
-                </CardHeader>
-                <CardContent className="pt-6 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Título Monumental</label>
-                      <Input value={globalSettings.heroTitle || ''} onChange={e => setGlobalSettings({...globalSettings, heroTitle: e.target.value})} placeholder="Ej: GM HOUSE" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Subtítulo Descriptivo</label>
-                      <Input value={globalSettings.heroSubtitle || ''} onChange={e => setGlobalSettings({...globalSettings, heroSubtitle: e.target.value})} placeholder="Frase de entrada..." />
-                    </div>
+          <TabsContent value="home" className="space-y-6">
+            <Card className="border-primary/10 rounded-3xl overflow-hidden shadow-sm bg-white">
+              <CardHeader className="bg-primary/5 pb-6">
+                <CardTitle className="font-headline italic text-xl">1. Héroe de Portada</CardTitle>
+                <CardDescription className="text-[9px] uppercase tracking-widest font-bold">Impacto Inicial</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Título Monumental</label>
+                    <Input value={globalSettings.heroTitle || ''} onChange={e => setGlobalSettings({...globalSettings, heroTitle: e.target.value})} placeholder="Ej: GM HOUSE" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Imagen de Fondo (Hero)</label>
-                    <Input value={globalSettings.heroImage || ''} onChange={e => setGlobalSettings({...globalSettings, heroImage: e.target.value})} placeholder="URL de la imagen de portada" />
+                    <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Subtítulo</label>
+                    <Input value={globalSettings.heroSubtitle || ''} onChange={e => setGlobalSettings({...globalSettings, heroSubtitle: e.target.value})} placeholder="Frase de entrada..." />
                   </div>
-                </CardContent>
-              </Card>
-
-              <SectionEditor title="2. Archivo de Belleza" prefix="homeBeauty" description="Propuesta de Salón & Barbería" />
-              <SectionEditor title="3. Moda Editorial" prefix="homeBoutique" description="Propuesta de Boutique & Esencias" />
-              <SectionEditor title="4. Arte Estructural" prefix="homeAlliance" description="Propuesta de Diseño & Modulares" />
-              <SectionEditor title="5. Emisión GM TV" prefix="homeTv" description="Propuesta de Entretenimiento & Lounge" />
-
-              <Card className="border-primary/10 rounded-3xl overflow-hidden shadow-sm bg-white">
-                <CardHeader className="bg-primary/5 pb-6">
-                  <CardTitle className="font-headline italic text-xl">6. Manifiesto Final</CardTitle>
-                  <CardDescription className="text-[9px] uppercase tracking-widest font-bold">Cita de Autor al Final del Inicio</CardDescription>
-                </CardHeader>
-                <CardContent className="pt-6 space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Cita del Manifiesto</label>
-                    <Input value={globalSettings.manifestoTitle || ''} onChange={e => setGlobalSettings({...globalSettings, manifestoTitle: e.target.value})} placeholder="Frase célebre o cita..." />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Cuerpo del Manifiesto</label>
-                    <Textarea value={globalSettings.manifestoText || ''} onChange={e => setGlobalSettings({...globalSettings, manifestoText: e.target.value})} placeholder="Texto largo del manifiesto..." />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Imagen Hero (URL)</label>
+                  <Input value={globalSettings.heroImage || ''} onChange={e => setGlobalSettings({...globalSettings, heroImage: e.target.value})} placeholder="URL de la imagen de portada" />
+                </div>
+              </CardContent>
+            </Card>
+            <SectionEditor title="2. Belleza" prefix="homeBeauty" description="Propuesta Salón & Barbería" />
+            <SectionEditor title="3. Moda" prefix="homeBoutique" description="Propuesta Boutique" />
+            <SectionEditor title="4. Modulares" prefix="homeAlliance" description="Propuesta Mobiliario" />
+            <SectionEditor title="5. Lounge" prefix="homeTv" description="Propuesta Entretenimiento" />
+            <Card className="border-primary/10 rounded-3xl overflow-hidden shadow-sm bg-white">
+              <CardHeader className="bg-primary/5 pb-6">
+                <CardTitle className="font-headline italic text-xl">6. Manifiesto</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-4">
+                <Input value={globalSettings.manifestoTitle || ''} onChange={e => setGlobalSettings({...globalSettings, manifestoTitle: e.target.value})} placeholder="Título manifiesto" />
+                <Textarea value={globalSettings.manifestoText || ''} onChange={e => setGlobalSettings({...globalSettings, manifestoText: e.target.value})} placeholder="Texto manifiesto" />
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="beauty">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-4 space-y-6">
-                <Card className="border-primary/10 rounded-3xl bg-white shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="font-headline italic text-lg">
-                      {editingId ? "Editar Servicio" : "Nuevo Servicio de Autor"}
-                    </CardTitle>
-                  </CardHeader>
+              <div className="lg:col-span-4">
+                <Card className="border-primary/10 rounded-3xl bg-white sticky top-24">
+                  <CardHeader><CardTitle className="font-headline italic text-lg">{editingId ? "Editar Servicio" : "Nuevo Servicio"}</CardTitle></CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                     <Input placeholder="Precio" value={form.price} onChange={e => setForm({...form, price: e.target.value})} />
@@ -293,34 +275,30 @@ export default function AdminPage() {
                         <SelectItem value="barberia">Barber Shop</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Input placeholder="URL Imagen" value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} />
-                    <Textarea placeholder="Descripción corta" value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
+                    <Input placeholder="Imagen URL" value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} />
+                    <Textarea placeholder="Descripción" value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
                     <div className="flex gap-2">
-                      <Button onClick={() => addItem('services')} disabled={loading} className="flex-1 bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">
-                        {editingId ? "Actualizar" : "Añadir Servicio"}
+                      <Button onClick={() => addItem('services')} className="flex-1 rounded-xl text-[9px] font-black uppercase tracking-widest h-11">
+                        {editingId ? "Actualizar" : "Añadir"}
                       </Button>
-                      {editingId && (
-                        <Button onClick={cancelEdit} variant="outline" className="h-11 rounded-xl"><X size={14} /></Button>
-                      )}
+                      {editingId && <Button onClick={cancelEdit} variant="outline" className="rounded-xl"><X size={14}/></Button>}
                     </div>
                   </CardContent>
                 </Card>
               </div>
               <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {services.map(s => (
-                  <div key={s.id} className="bg-white p-4 rounded-2xl border border-primary/5 shadow-sm flex items-center justify-between group">
+                  <div key={s.id} className="bg-white p-4 rounded-2xl border flex items-center justify-between group">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-zinc-100 overflow-hidden">
-                        {s.imageUrl && <img src={s.imageUrl} className="w-full h-full object-cover" />}
-                      </div>
+                      <img src={s.imageUrl} className="w-12 h-12 rounded-lg object-cover" />
                       <div>
                         <p className="text-[8px] font-black uppercase text-primary">{s.category}</p>
                         <h5 className="font-bold text-xs uppercase">{s.name}</h5>
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <Button variant="ghost" size="icon" onClick={() => editItem(s)} className="text-zinc-400 hover:text-primary"><Edit3 size={14} /></Button>
-                      <Button variant="ghost" size="icon" onClick={() => removeItem('services', s.id)} className="text-zinc-200 hover:text-red-500"><Trash2 size={14} /></Button>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="icon" onClick={() => editItem(s)}><Edit3 size={14} /></Button>
+                      <Button variant="ghost" size="icon" onClick={() => removeItem('services', s.id)} className="text-red-500"><Trash2 size={14} /></Button>
                     </div>
                   </div>
                 ))}
@@ -330,13 +308,9 @@ export default function AdminPage() {
 
           <TabsContent value="boutique">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-4 space-y-6">
-                <Card className="border-primary/10 rounded-3xl bg-white shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="font-headline italic text-lg">
-                      {editingId ? "Editar Prenda" : "Nueva Prenda/Perfume"}
-                    </CardTitle>
-                  </CardHeader>
+              <div className="lg:col-span-4">
+                <Card className="border-primary/10 rounded-3xl bg-white sticky top-24">
+                  <CardHeader><CardTitle className="font-headline italic text-lg">{editingId ? "Editar Ítem" : "Nuevo Ítem Moda"}</CardTitle></CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                     <Input placeholder="Precio" value={form.price} onChange={e => setForm({...form, price: e.target.value})} />
@@ -345,44 +319,33 @@ export default function AdminPage() {
                       <SelectContent>
                         <SelectItem value="mujer">Victoria (Mujer)</SelectItem>
                         <SelectItem value="hombre">Hugo Boss (Hombre)</SelectItem>
-                        <SelectItem value="perfumes">Perfumería</SelectItem>
+                        <SelectItem value="perfumes">Perfumes</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Input placeholder="URL Imagen" value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} />
+                    <Input placeholder="Imagen URL" value={form.imageUrl} onChange={e => setForm({...form, imageUrl: e.target.value})} />
                     <Textarea placeholder="Descripción" value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
                     <div className="flex gap-2">
-                      <Button onClick={() => addItem('products')} disabled={loading} className="flex-1 bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">
-                        {editingId ? "Actualizar" : "Añadir Ítem"}
+                      <Button onClick={() => addItem('products')} className="flex-1 rounded-xl text-[9px] font-black uppercase tracking-widest h-11">
+                        {editingId ? "Actualizar" : "Añadir"}
                       </Button>
-                      {editingId && (
-                        <Button onClick={cancelEdit} variant="outline" className="h-11 rounded-xl"><X size={14} /></Button>
-                      )}
+                      {editingId && <Button onClick={cancelEdit} variant="outline" className="rounded-xl"><X size={14}/></Button>}
                     </div>
-                  </CardContent>
-                </Card>
-                <Card className="border-primary/10 rounded-3xl bg-white shadow-sm">
-                  <CardHeader><CardTitle className="font-headline italic text-lg">URL Catálogo PDF</CardTitle></CardHeader>
-                  <CardContent className="space-y-4">
-                    <Input placeholder="https://..." value={globalSettings.catalogUrl || ''} onChange={e => setGlobalSettings({...globalSettings, catalogUrl: e.target.value})} />
-                    <Button onClick={saveGlobal} className="w-full h-11 text-[9px] font-black uppercase tracking-widest">Actualizar Link</Button>
                   </CardContent>
                 </Card>
               </div>
               <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {products.map(p => (
-                  <div key={p.id} className="bg-white p-4 rounded-2xl border border-primary/5 shadow-sm flex items-center justify-between">
+                  <div key={p.id} className="bg-white p-4 rounded-2xl border flex items-center justify-between group">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-zinc-100 overflow-hidden">
-                        {p.imageUrl && <img src={p.imageUrl} className="w-full h-full object-cover" />}
-                      </div>
+                      <img src={p.imageUrl} className="w-12 h-16 rounded-lg object-cover" />
                       <div>
                         <p className="text-[8px] font-black uppercase text-primary">{p.category}</p>
                         <h5 className="font-bold text-xs uppercase">{p.name}</h5>
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <Button variant="ghost" size="icon" onClick={() => editItem(p)} className="text-zinc-400 hover:text-primary"><Edit3 size={14} /></Button>
-                      <Button variant="ghost" size="icon" onClick={() => removeItem('products', p.id)}><Trash2 size={14} /></Button>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="icon" onClick={() => editItem(p)}><Edit3 size={14} /></Button>
+                      <Button variant="ghost" size="icon" onClick={() => removeItem('products', p.id)} className="text-red-500"><Trash2 size={14} /></Button>
                     </div>
                   </div>
                 ))}
@@ -392,13 +355,9 @@ export default function AdminPage() {
 
           <TabsContent value="lounge">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-4 space-y-6">
-                <Card className="border-primary/10 rounded-3xl bg-white shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="font-headline italic text-lg">
-                      {editingId ? "Editar Ítem" : "Añadir a la Carta"}
-                    </CardTitle>
-                  </CardHeader>
+              <div className="lg:col-span-4">
+                <Card className="border-primary/10 rounded-3xl bg-white sticky top-24">
+                  <CardHeader><CardTitle className="font-headline italic text-lg">{editingId ? "Editar Plato" : "Nuevo Plato/Bebida"}</CardTitle></CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                     <Input placeholder="Precio" value={form.price} onChange={e => setForm({...form, price: e.target.value})} />
@@ -406,31 +365,29 @@ export default function AdminPage() {
                       <SelectTrigger className="rounded-xl"><SelectValue placeholder="Tipo" /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="Comida">Comida</SelectItem>
-                        <SelectItem value="Bebidas">Bebida</SelectItem>
+                        <SelectItem value="Bebidas">Bebidas</SelectItem>
                       </SelectContent>
                     </Select>
                     <div className="flex gap-2">
-                      <Button onClick={() => addItem('menu')} disabled={loading} className="flex-1 bg-primary text-white h-11 rounded-xl text-[9px] font-black uppercase tracking-widest">
-                        {editingId ? "Actualizar" : "Añadir Ítem"}
+                      <Button onClick={() => addItem('menu')} className="flex-1 rounded-xl text-[9px] font-black uppercase tracking-widest h-11">
+                        {editingId ? "Actualizar" : "Añadir"}
                       </Button>
-                      {editingId && (
-                        <Button onClick={cancelEdit} variant="outline" className="h-11 rounded-xl"><X size={14} /></Button>
-                      )}
+                      {editingId && <Button onClick={cancelEdit} variant="outline" className="rounded-xl"><X size={14}/></Button>}
                     </div>
                   </CardContent>
                 </Card>
               </div>
               <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {menuItems.map(m => (
-                  <div key={m.id} className="bg-white p-4 rounded-2xl border border-primary/5 shadow-sm flex justify-between items-center">
+                  <div key={m.id} className="bg-white p-4 rounded-2xl border flex items-center justify-between">
                     <div>
                       <p className="text-[8px] font-black uppercase text-primary">{m.category}</p>
                       <h5 className="font-bold text-xs uppercase">{m.name}</h5>
                       <p className="text-xs font-bold text-zinc-400">{m.price}</p>
                     </div>
-                    <div className="flex gap-2">
-                      <Button variant="ghost" size="icon" onClick={() => editItem(m)} className="text-zinc-400 hover:text-primary"><Edit3 size={14} /></Button>
-                      <Button variant="ghost" size="icon" onClick={() => removeItem('menu', m.id)}><Trash2 size={14} /></Button>
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="icon" onClick={() => editItem(m)}><Edit3 size={14} /></Button>
+                      <Button variant="ghost" size="icon" onClick={() => removeItem('menu', m.id)} className="text-red-500"><Trash2 size={14} /></Button>
                     </div>
                   </div>
                 ))}
@@ -439,34 +396,18 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="contact">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-7">
-                <Card className="border-primary/10 rounded-3xl bg-white shadow-sm overflow-hidden">
-                  <CardHeader className="bg-primary/5"><CardTitle className="font-headline italic text-xl">Canales Digitales</CardTitle></CardHeader>
-                  <CardContent className="pt-8 space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">WhatsApp</label>
-                        <Input value={globalSettings.whatsappNumber || ''} onChange={e => setGlobalSettings({...globalSettings, whatsappNumber: e.target.value})} />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Instagram</label>
-                        <Input value={globalSettings.instagramUrl || ''} onChange={e => setGlobalSettings({...globalSettings, instagramUrl: e.target.value})} />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Facebook</label>
-                        <Input value={globalSettings.facebookUrl || ''} onChange={e => setGlobalSettings({...globalSettings, facebookUrl: e.target.value})} />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Dirección</label>
-                        <Input value={globalSettings.address || ''} onChange={e => setGlobalSettings({...globalSettings, address: e.target.value})} />
-                      </div>
-                    </div>
-                    <Button onClick={saveGlobal} className="w-full h-12 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest">Actualizar Canales</Button>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
+            <Card className="border-primary/10 rounded-3xl bg-white max-w-2xl">
+              <CardHeader><CardTitle className="font-headline italic text-xl">Canales Digitales</CardTitle></CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input value={globalSettings.whatsappNumber || ''} onChange={e => setGlobalSettings({...globalSettings, whatsappNumber: e.target.value})} placeholder="WhatsApp" />
+                  <Input value={globalSettings.instagramUrl || ''} onChange={e => setGlobalSettings({...globalSettings, instagramUrl: e.target.value})} placeholder="Instagram" />
+                  <Input value={globalSettings.facebookUrl || ''} onChange={e => setGlobalSettings({...globalSettings, facebookUrl: e.target.value})} placeholder="Facebook" />
+                  <Input value={globalSettings.address || ''} onChange={e => setGlobalSettings({...globalSettings, address: e.target.value})} placeholder="Dirección" />
+                </div>
+                <Button onClick={saveGlobal} className="w-full rounded-xl text-[9px] font-black uppercase tracking-widest h-12">Actualizar Contacto</Button>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </main>

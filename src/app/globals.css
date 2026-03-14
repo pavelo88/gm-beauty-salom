@@ -23,7 +23,7 @@
     --border: 35 15% 85%;
     --input: 35 15% 85%;
     --ring: 35 40% 45%;
-    --radius: 1rem;
+    --radius: 1.5rem;
   }
 
   .dark {
@@ -60,15 +60,15 @@
 
   body {
     @apply font-body antialiased transition-colors duration-700 relative min-h-screen text-foreground;
-    /* Fondo con textura de tapiz / papel */
     background-image: 
-      radial-gradient(circle at 2px 2px, rgba(0,0,0,0.02) 1px, transparent 0);
-    background-size: 32px 32px;
+      radial-gradient(circle at 2px 2px, rgba(0,0,0,0.03) 1px, transparent 0);
+    background-size: 28px 28px;
+    background-color: hsl(var(--background));
   }
 
   .dark body {
     background-image: 
-      radial-gradient(circle at 2px 2px, rgba(255,255,255,0.01) 1px, transparent 0);
+      radial-gradient(circle at 2px 2px, rgba(255,255,255,0.015) 1px, transparent 0);
     background-color: #080808;
   }
 }
@@ -84,11 +84,11 @@
 }
 
 .editorial-shadow {
-  box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.06);
 }
 
 .img-cinematic {
-  @apply saturate-[0.8] transition-all duration-1000;
+  @apply saturate-[0.85] transition-all duration-1000;
 }
 
 ::-webkit-scrollbar {
