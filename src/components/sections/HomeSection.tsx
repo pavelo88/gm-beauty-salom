@@ -7,11 +7,37 @@ import { cn } from '@/lib/utils';
 
 export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: string) => void, settings: any }) {
   const sections = [
-    { id: 'beauty', title: 'Archivo de Belleza', subtitle: 'Salón & Barbería', img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200', text: 'Curaduría técnica en corte y color editorial en el sur de Quito.' },
-    { id: 'boutique', title: 'Moda Editorial', subtitle: 'Boutique & Esencias', img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200', text: 'Piezas seleccionadas que trascienden temporadas. Moda y perfumería de autor.' },
-    { id: 'alliance', title: 'Arte Estructural', subtitle: 'Interiorismo', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200', text: 'Espacios modulares diseñados para el mañana en alianza con Modulares GM.' },
-    { id: 'tv', title: 'GM TV Emisión', subtitle: 'Centro de Entretenimiento', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1200', text: 'Contenido exclusivo proyectado en nuestra casa. El pulso de la cultura visual.' },
+    { 
+      id: 'beauty', 
+      title: settings?.homeBeautyTitle || 'Archivo de Belleza', 
+      subtitle: settings?.homeBeautySubtitle || 'Salón & Barbería', 
+      img: settings?.homeBeautyImage || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200', 
+      text: settings?.homeBeautyText || 'Curaduría técnica en corte y color editorial en el sur de Quito.' 
+    },
+    { 
+      id: 'boutique', 
+      title: settings?.homeBoutiqueTitle || 'Moda Editorial', 
+      subtitle: settings?.homeBoutiqueSubtitle || 'Boutique & Esencias', 
+      img: settings?.homeBoutiqueImage || 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200', 
+      text: settings?.homeBoutiqueText || 'Piezas seleccionadas que trascienden temporadas. Moda y perfumería de autor.' 
+    },
+    { 
+      id: 'alliance', 
+      title: settings?.homeAllianceTitle || 'Arte Estructural', 
+      subtitle: settings?.homeAllianceSubtitle || 'Interiorismo', 
+      img: settings?.homeAllianceImage || 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200', 
+      text: settings?.homeAllianceText || 'Espacios modulares diseñados para el mañana en alianza con Modulares GM.' 
+    },
+    { 
+      id: 'tv', 
+      title: settings?.homeTvTitle || 'GM TV Emisión', 
+      subtitle: settings?.homeTvSubtitle || 'Centro de Entretenimiento', 
+      img: settings?.homeTvImage || 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1200', 
+      text: settings?.homeTvText || 'Contenido exclusivo proyectado en nuestra casa. El pulso de la cultura visual.' 
+    },
   ];
+
+  const heroBg = settings?.heroImage || 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80&w=2000';
 
   return (
     <div className="w-full">
@@ -19,7 +45,7 @@ export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: st
       <section className="relative h-[85vh] flex flex-col justify-center items-center px-6 overflow-hidden border-b border-border">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80&w=2000" 
+            src={heroBg} 
             className="w-full h-full object-cover img-cinematic scale-105" 
             alt="GM Beauty House Portada Editorial" 
           />
@@ -36,7 +62,7 @@ export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: st
             {settings?.heroTitle || 'GM HOUSE'}
           </h1>
           <p className="max-w-2xl mx-auto text-[10px] md:text-[12px] text-white/90 font-medium tracking-[0.4em] uppercase animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500 px-4 drop-shadow-2xl">
-            {settings?.heroSubtitle}
+            {settings?.heroSubtitle || 'Definiendo el Manifiesto Estético del Lujo Moderno'}
           </p>
         </div>
       </section>
@@ -80,10 +106,10 @@ export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: st
       <section className="bg-foreground text-background py-32 md:py-48 text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-10 relative z-10 space-y-12">
           <h3 className="italic font-headline text-2xl md:text-4xl lg:text-5xl leading-tight tracking-tighter">
-            "{settings?.manifestoTitle}"
+            "{settings?.manifestoTitle || 'El lujo es una intención'}"
           </h3>
           <p className="text-xs md:text-sm opacity-60 uppercase tracking-widest font-light max-w-xl mx-auto">
-            {settings?.manifestoText}
+            {settings?.manifestoText || 'En GM Beauty House, cada servicio es un acto de diseño consciente.'}
           </p>
           <div className="flex flex-col items-center gap-4">
             <span className="text-[10px] uppercase tracking-[0.8em] font-black text-primary opacity-80">Manifiesto MMXXIV</span>

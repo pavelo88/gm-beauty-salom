@@ -8,12 +8,10 @@ import { useAuth, useFirestore, useUser, useCollection, useDoc } from '@/firebas
 import { Loader2 } from 'lucide-react';
 
 import ClientUI from '@/components/ClientUI';
-import AdminUI from '@/components/AdminUI';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
-  const [view, setView] = useState<'client' | 'admin'>('client');
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false); // Default to Light Mode as requested
   const auth = useAuth();
   const db = useFirestore();
   const { user, loading: authLoading } = useUser(auth);
@@ -57,6 +55,11 @@ export default function App() {
     settings: globalSettings || {
       heroTitle: 'GM HOUSE',
       heroSubtitle: 'Definiendo el Manifiesto Estético del Lujo Moderno en Quito',
+      heroImage: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80&w=2000',
+      homeBeautyTitle: 'Archivo de Belleza',
+      homeBeautySubtitle: 'Salón & Barbería',
+      homeBeautyText: 'Curaduría técnica en corte y color editorial en el sur de Quito.',
+      homeBeautyImage: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200',
       manifestoTitle: 'El lujo no es la acumulación, es la intención.',
       manifestoText: 'En GM Beauty House, cada servicio es un acto de diseño consciente.',
       whatsappNumber: '0987654321',
@@ -81,7 +84,7 @@ export default function App() {
       <ClientUI 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
-        setView={setView} 
+        setView={() => {}} 
         dynamicData={dynamicData}
         isDarkMode={isDarkMode}
         setIsDarkMode={setIsDarkMode}
