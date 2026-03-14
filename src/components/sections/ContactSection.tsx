@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-export function ContactSection() {
-  const whatsappNumber = "0987654321";
-  const address = "Rosa Yeira 420 y Serapio Japeravi, Quito, Ecuador";
-  const displayPhone = "098 765 4321";
+export function ContactSection({ settings }: { settings: any }) {
+  const whatsappNumber = settings?.whatsappNumber || "0987654321";
+  const address = settings?.address || "Rosa Yeira 420 y Serapio Japeravi, Quito, Ecuador";
+  const displayPhone = whatsappNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
 
   return (
     <div className="w-full pt-24 pb-20">
@@ -69,8 +69,8 @@ export function ContactSection() {
                   <span className="text-[9px] font-black uppercase tracking-widest">Canales Digitales</span>
                 </div>
                 <div className="flex gap-4">
-                  <a href="https://instagram.com/gmbeautyhouse" target="_blank" className="p-3 border border-border rounded-full hover:border-primary hover:text-primary transition-all"><Instagram size={18}/></a>
-                  <a href="https://facebook.com/gmbeautyhouse" target="_blank" className="p-3 border border-border rounded-full hover:border-primary hover:text-primary transition-all"><Facebook size={18}/></a>
+                  <a href={settings?.instagramUrl} target="_blank" className="p-3 border border-border rounded-full hover:border-primary hover:text-primary transition-all"><Instagram size={18}/></a>
+                  <a href={settings?.facebookUrl} target="_blank" className="p-3 border border-border rounded-full hover:border-primary hover:text-primary transition-all"><Facebook size={18}/></a>
                   <a href={`https://wa.me/593${whatsappNumber.substring(1)}`} target="_blank" className="p-3 border border-border rounded-full hover:border-primary hover:text-primary transition-all"><MessageCircle size={18}/></a>
                 </div>
               </div>

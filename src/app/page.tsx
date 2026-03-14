@@ -1,9 +1,10 @@
+
 "use client"
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { signInAnonymously } from 'firebase/auth';
-import { collection } from 'firebase/firestore';
-import { useAuth, useFirestore, useUser, useCollection } from '@/firebase';
+import { collection, doc } from 'firebase/firestore';
+import { useAuth, useFirestore, useUser, useCollection, useDoc } from '@/firebase';
 import { Loader2 } from 'lucide-react';
 
 import ClientUI from '@/components/ClientUI';
@@ -12,7 +13,6 @@ import AdminUI from '@/components/AdminUI';
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [view, setView] = useState<'client' | 'admin'>('client');
-  // Initialize in DARK MODE as requested
   const [isDarkMode, setIsDarkMode] = useState(true);
   const auth = useAuth();
   const db = useFirestore();
@@ -26,7 +26,6 @@ export default function App() {
     }
   }, [user, authLoading, auth]);
 
-  // Sync Dark Mode class
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -37,21 +36,35 @@ export default function App() {
 
   const appId = 'gm-beauty-house-v1';
 
-  const servicesQuery = useMemo(() => collection(db, 'data', appId, 'services'), [db, appId]);
-  const productsQuery = useMemo(() => collection(db, 'data', appId, 'products'), [db, appId]);
-  const projectsQuery = useMemo(() => collection(db, 'data', appId, 'projects'), [db, appId]);
-  const menuQuery = useMemo(() => collection(db, 'data', appId, 'menu'), [db, appId]);
+  // Dynamic Content Queries
+  const servicesQuery = useMemo(() => collection(db, 'data', appId, 'services'), [db]);
+  const productsQuery = useMemo(() => collection(db, 'data', appId, 'products'), [db]);
+  const projectsQuery = useMemo(() => collection(db, 'data', appId, 'projects'), [db]);
+  const menuQuery = useMemo(() => collection(db, 'data', appId, 'menu'), [db]);
+  const settingsRef = useMemo(() => doc(db, 'data', appId, 'settings', 'global'), [db]);
 
   const { data: services } = useCollection(servicesQuery);
   const { data: products } = useCollection(productsQuery);
   const { data: projects } = useCollection(projectsQuery);
   const { data: menuItems } = useCollection(menuQuery);
+  const { data: globalSettings } = useDoc(settingsRef);
 
   const dynamicData = {
     services: services || [],
     products: products || [],
     projects: projects || [],
-    menuItems: menuItems || []
+    menuItems: menuItems || [],
+    settings: globalSettings || {
+      heroTitle: 'GM HOUSE',
+      heroSubtitle: 'Definiendo el Manifiesto Estético del Lujo Moderno en Quito',
+      manifestoTitle: 'El lujo no es la acumulación, es la intención.',
+      manifestoText: 'En GM Beauty House, cada servicio es un acto de diseño consciente.',
+      whatsappNumber: '0987654321',
+      instagramUrl: 'https://instagram.com/gmbeautyhouse',
+      facebookUrl: 'https://facebook.com/gmbeautyhouse',
+      address: 'Rosa Yeira 420 y Serapio Japeravi, Quito, Ecuador',
+      catalogUrl: ''
+    }
   };
 
   if (authLoading) {
@@ -65,21 +78,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen selection:bg-primary/20">
-      {view === 'client' ? (
-        <ClientUI 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab} 
-          setView={setView} 
-          dynamicData={dynamicData}
-          isDarkMode={isDarkMode}
-          setIsDarkMode={setIsDarkMode}
-        />
-      ) : (
-        <AdminUI 
-          setView={setView} 
-          dynamicData={dynamicData} 
-        />
-      )}
+      <ClientUI 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        setView={setView} 
+        dynamicData={dynamicData}
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
+      />
     </div>
   );
 }

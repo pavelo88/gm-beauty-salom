@@ -11,6 +11,7 @@ import { AllianceSection } from './sections/AllianceSection';
 import { LoungeSection } from './sections/LoungeSection';
 import { TvSection } from './sections/TvSection';
 import { ContactSection } from './sections/ContactSection';
+import Link from 'next/link';
 
 interface ClientUIProps {
   activeTab: string;
@@ -46,10 +47,10 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
     { id: 'contact', label: 'Contacto', icon: MapPin },
   ];
 
-  const whatsappNumber = "0987654321";
+  const whatsappNumber = dynamicData.settings?.whatsappNumber || "0987654321";
   const socialLinks = {
-    instagram: "https://instagram.com/gmbeautyhouse",
-    facebook: "https://facebook.com/gmbeautyhouse",
+    instagram: dynamicData.settings?.instagramUrl || "https://instagram.com/gmbeautyhouse",
+    facebook: dynamicData.settings?.facebookUrl || "https://facebook.com/gmbeautyhouse",
     whatsapp: `https://wa.me/593${whatsappNumber.substring(1)}`
   };
 
@@ -104,7 +105,7 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
         </div>
 
         {isMenuOpen && (
-          <div className="fixed inset-0 w-full h-screen bg-background p-10 flex flex-col justify-center items-center gap-8 animate-in fade-in zoom-in-95 duration-500 z-[110]">
+          <div className="fixed inset-0 w-full h-screen bg-background p-10 flex flex-col justify-center items-center gap-8 animate-in fade-in duration-500 z-[110]">
             <button className="absolute top-8 right-8 p-4" onClick={() => setIsMenuOpen(false)}>
               <X size={32}/>
             </button>
@@ -126,13 +127,13 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
 
       <main>
         <div className="animate-in fade-in duration-1000">
-          {activeTab === 'home' && <HomeSection setActiveTab={setActiveTab} />}
+          {activeTab === 'home' && <HomeSection setActiveTab={setActiveTab} settings={dynamicData.settings} />}
           {activeTab === 'beauty' && <BeautySection dynamicData={dynamicData} />}
           {activeTab === 'boutique' && <BoutiqueSection dynamicData={dynamicData} />}
           {activeTab === 'alliance' && <AllianceSection dynamicData={dynamicData} />}
           {activeTab === 'lounge' && <LoungeSection dynamicData={dynamicData} />}
           {activeTab === 'tv' && <TvSection dynamicData={dynamicData} />}
-          {activeTab === 'contact' && <ContactSection />}
+          {activeTab === 'contact' && <ContactSection settings={dynamicData.settings} />}
         </div>
       </main>
 
@@ -179,7 +180,7 @@ export default function ClientUI({ activeTab, setActiveTab, setView, dynamicData
              <a href={socialLinks.instagram} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em]">Instagram</a>
              <a href={socialLinks.facebook} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em]">Facebook</a>
              <a href={socialLinks.whatsapp} target="_blank" className="text-muted-foreground hover:text-primary transition-colors text-[9px] font-bold uppercase tracking-[0.2em]">WhatsApp</a>
-             <button onClick={() => setView('admin')} className="text-muted-foreground/10 hover:text-primary transition-colors ml-4"><Lock size={10} /></button>
+             <Link href="/admin" className="text-muted-foreground/10 hover:text-primary transition-colors ml-4"><Lock size={10} /></Link>
           </div>
         </div>
       </footer>

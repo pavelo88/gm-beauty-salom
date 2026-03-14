@@ -2,7 +2,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Gem, ArrowRight, Quote, ShoppingCart, Sparkles } from 'lucide-react';
+import { Gem, ArrowRight, Quote, ShoppingCart, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { AiAssistant } from '@/components/AiAssistant';
@@ -33,6 +33,7 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
   };
 
   const dynProducts = dynamicData.products.filter((p: any) => p.category === activeCategory);
+  const catalogUrl = dynamicData.settings?.catalogUrl;
 
   return (
     <div className="w-full pt-20 pb-28">
@@ -44,7 +45,7 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
               <span className="text-[11px] font-black uppercase tracking-[0.8em] text-primary">Volume No. 01</span>
               <span className="w-16 h-[1px] bg-primary/30"></span>
             </div>
-            <h2 className="text-4xl md:text-8xl font-headline font-black tracking-tighter uppercase leading-[0.8]">
+            <h2 className="text-4xl md:text-7xl lg:text-8xl font-headline font-black tracking-tighter uppercase leading-[0.8]">
               Boutique <span className="text-gold-gradient italic font-light">Privée</span>
             </h2>
           </div>
@@ -77,6 +78,16 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex flex-col justify-end p-12">
                 <span className="text-[11px] font-black uppercase tracking-[0.6em] text-primary mb-2 block">{staticCollection[activeCategory].subtitle}</span>
                 <h3 className="text-5xl lg:text-8xl font-headline italic text-white tracking-tighter leading-none">{staticCollection[activeCategory].title}</h3>
+                
+                {catalogUrl && (
+                  <div className="mt-8">
+                    <Button asChild className="bg-white/10 backdrop-blur-md border border-white/20 hover:bg-primary hover:text-black transition-all rounded-full px-8 h-14">
+                      <a href={catalogUrl} target="_blank" className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest">
+                        Descargar Revista PDF <Download size={16} />
+                      </a>
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex gap-8 items-start pt-6 border-l-2 border-primary/20 pl-8">
@@ -88,25 +99,20 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
           </div>
 
           <div className="lg:col-span-5 space-y-12">
-            <AiAssistant 
-              title="Personal Shopper IA"
-              placeholder="Ej: Busco un perfume para una cena de gala..."
-              onAsk={(input) => aiPersonalShopperSuggestions({ userPrompt: input, category: activeCategory })}
-            />
-
             <div className="space-y-6">
               <h4 className="text-[12px] font-black uppercase tracking-[0.5em] border-b border-border/40 pb-4">Archivo de Colección</h4>
-              <div className="space-y-6 max-h-[450px] overflow-y-auto no-scrollbar pr-4">
+              <div className="space-y-6 max-h-[600px] overflow-y-auto no-scrollbar pr-4">
                 {dynProducts.length > 0 ? (
                   dynProducts.map((p: any, i: number) => (
                     <div key={i} className="group flex justify-between items-center gap-6 p-4 rounded-[1.5rem] border border-transparent hover:bg-primary/5 transition-all">
                       <div className="flex items-center gap-6">
-                        <div className="w-16 h-20 overflow-hidden rounded-lg shadow-lg">
-                          <img src={p.imageUrl || `https://picsum.photos/seed/${i}/200/300`} className="w-full h-full object-cover grayscale group-hover:grayscale-0" alt={p.name} />
+                        <div className="w-16 h-20 overflow-hidden rounded-lg shadow-lg bg-zinc-800">
+                          {p.imageUrl && <img src={p.imageUrl} className="w-full h-full object-cover grayscale group-hover:grayscale-0" alt={p.name} />}
                         </div>
                         <div>
-                          <h5 className="text-lg font-headline font-bold uppercase tracking-tighter group-hover:text-primary">{p.name}</h5>
-                          <span className="text-sm font-light italic text-primary">{p.price}</span>
+                          <h5 className="text-lg font-headline font-bold uppercase tracking-tighter group-hover:text-primary leading-tight">{p.name}</h5>
+                          <p className="text-[10px] text-muted-foreground line-clamp-1 mt-1">{p.description}</p>
+                          <span className="text-sm font-bold text-primary mt-2 block">{p.price}</span>
                         </div>
                       </div>
                       <Button size="icon" variant="ghost" className="rounded-full hover:bg-primary hover:text-white">

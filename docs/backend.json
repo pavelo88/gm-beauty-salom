@@ -1,6 +1,23 @@
 
 {
   "entities": {
+    "GlobalSettings": {
+      "title": "GlobalSettings",
+      "description": "Textos y configuraciones editoriales globales de la aplicación.",
+      "type": "object",
+      "properties": {
+        "heroTitle": { "type": "string" },
+        "heroSubtitle": { "type": "string" },
+        "manifestoTitle": { "type": "string" },
+        "manifestoText": { "type": "string" },
+        "whatsappNumber": { "type": "string" },
+        "instagramUrl": { "type": "string" },
+        "facebookUrl": { "type": "string" },
+        "address": { "type": "string" },
+        "email": { "type": "string" },
+        "catalogUrl": { "type": "string", "description": "URL del PDF del catálogo descargable." }
+      }
+    },
     "Service": {
       "title": "Service",
       "description": "A beauty or barber service offered at GM Beauty House.",
@@ -56,6 +73,10 @@
     "providers": ["anonymous"]
   },
   "firestore": {
+    "/data/gm-beauty-house-v1/settings": {
+      "schema": { "$ref": "#/backend/entities/GlobalSettings" },
+      "description": "Global configuration for titles and static texts."
+    },
     "/data/gm-beauty-house-v1/services": {
       "schema": { "$ref": "#/backend/entities/Service" },
       "description": "Collection of services for Salon and Barber Shop."

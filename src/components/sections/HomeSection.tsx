@@ -1,10 +1,11 @@
+
 "use client"
 
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => void }) {
+export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: string) => void, settings: any }) {
   const sections = [
     { id: 'beauty', title: 'Archivo de Belleza', subtitle: 'Salón & Barbería', img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200', text: 'Curaduría técnica en corte y color editorial en el sur de Quito.' },
     { id: 'boutique', title: 'Moda Editorial', subtitle: 'Boutique & Esencias', img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200', text: 'Piezas seleccionadas que trascienden temporadas. Moda y perfumería de autor.' },
@@ -22,7 +23,7 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
             className="w-full h-full object-cover img-cinematic scale-105" 
             alt="GM Beauty House Portada Editorial" 
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-background/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-background/95"></div>
         </div>
         
         <div className="relative z-10 text-center space-y-6">
@@ -32,10 +33,10 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
             <span className="w-12 h-[1px] bg-primary"></span>
           </div>
           <h1 className="text-editorial-title text-white animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            GM <br/> <span className="text-gold-gradient italic font-light">HOUSE</span>
+            {settings?.heroTitle || 'GM HOUSE'}
           </h1>
-          <p className="max-w-xl mx-auto text-[9px] md:text-[11px] text-white/80 font-medium tracking-[0.5em] uppercase animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500 px-4 drop-shadow-md">
-            Definiendo el Manifiesto Estético del Lujo Moderno en Quito
+          <p className="max-w-2xl mx-auto text-[10px] md:text-[12px] text-white/90 font-medium tracking-[0.4em] uppercase animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500 px-4 drop-shadow-2xl">
+            {settings?.heroSubtitle}
           </p>
         </div>
       </section>
@@ -62,7 +63,7 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
             <div className="w-full md:w-5/12 space-y-6">
               <div className="space-y-2">
                 <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">{section.subtitle}</span>
-                <h2 className="text-4xl md:text-6xl font-headline font-bold leading-[0.9] tracking-tighter group-hover:text-primary transition-all duration-700">{section.title}</h2>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold leading-[0.9] tracking-tighter group-hover:text-primary transition-all duration-700">{section.title}</h2>
               </div>
               <p className="text-muted-foreground font-light leading-relaxed text-sm md:text-base max-w-sm">
                 {section.text}
@@ -78,9 +79,12 @@ export function HomeSection({ setActiveTab }: { setActiveTab: (tab: string) => v
       {/* Manifiesto Final */}
       <section className="bg-foreground text-background py-32 md:py-48 text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-10 relative z-10 space-y-12">
-          <h3 className="italic font-headline text-2xl md:text-5xl leading-tight tracking-tighter">
-            "El lujo no es la acumulación, es la intención. En GM Beauty House, cada servicio es un acto de diseño consciente."
+          <h3 className="italic font-headline text-2xl md:text-4xl lg:text-5xl leading-tight tracking-tighter">
+            "{settings?.manifestoTitle}"
           </h3>
+          <p className="text-xs md:text-sm opacity-60 uppercase tracking-widest font-light max-w-xl mx-auto">
+            {settings?.manifestoText}
+          </p>
           <div className="flex flex-col items-center gap-4">
             <span className="text-[10px] uppercase tracking-[0.8em] font-black text-primary opacity-80">Manifiesto MMXXIV</span>
             <span className="w-20 h-[1px] bg-primary/40"></span>
