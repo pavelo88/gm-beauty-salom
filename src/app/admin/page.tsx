@@ -176,10 +176,10 @@ export default function AdminPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f8f6f2] text-zinc-900 font-body pb-20">
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-primary/10 p-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div className="min-h-screen bg-background text-foreground font-body pb-20">
+      <nav className="sticky top-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border p-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4">
-          <div className="bg-primary p-2 rounded-xl text-white">
+          <div className="bg-primary p-2 rounded-xl text-primary-foreground">
             <LayoutDashboard size={18} />
           </div>
           <div>
@@ -193,7 +193,7 @@ export default function AdminPage() {
               <Eye size={14} className="mr-2" /> Ver Sitio
             </Button>
           </Link>
-          <Button onClick={saveGlobal} disabled={loading} className="flex-1 md:flex-none h-10 bg-primary text-white rounded-full text-[9px] font-black uppercase tracking-widest px-8 shadow-lg shadow-primary/20">
+          <Button onClick={saveGlobal} disabled={loading} className="flex-1 md:flex-none h-10 bg-primary text-primary-foreground rounded-full text-[9px] font-black uppercase tracking-widest px-8 shadow-lg shadow-primary/20">
             {loading ? <Loader2 className="animate-spin" /> : <><Save size={14} className="mr-2" /> Sincronizar Hub</>}
           </Button>
         </div>
@@ -201,29 +201,29 @@ export default function AdminPage() {
 
       <main className="max-w-7xl mx-auto p-4 md:p-10">
         <Tabs defaultValue="home" className="space-y-8">
-          <TabsList className="bg-white/60 backdrop-blur p-1 rounded-2xl border border-primary/10 h-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
-            <TabsTrigger value="home" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
+          <TabsList className="bg-muted/60 backdrop-blur p-1 rounded-2xl border border-border h-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
+            <TabsTrigger value="home" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <FileText size={12} className="mr-2" /> Inicio
             </TabsTrigger>
-            <TabsTrigger value="beauty" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
+            <TabsTrigger value="beauty" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Scissors size={12} className="mr-2" /> Belleza
             </TabsTrigger>
-            <TabsTrigger value="boutique" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
+            <TabsTrigger value="boutique" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <ShoppingBag size={12} className="mr-2" /> Boutique
             </TabsTrigger>
-            <TabsTrigger value="lounge" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
+            <TabsTrigger value="lounge" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <UtensilsCrossed size={12} className="mr-2" /> Lounge
             </TabsTrigger>
-            <TabsTrigger value="modular" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
+            <TabsTrigger value="modular" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Sofa size={12} className="mr-2" /> Modulares
             </TabsTrigger>
-            <TabsTrigger value="contact" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-white">
+            <TabsTrigger value="contact" className="rounded-xl py-2.5 font-black uppercase text-[8px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Share2 size={12} className="mr-2" /> Contacto
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="home" className="space-y-6">
-            <Card className="border-primary/10 rounded-3xl overflow-hidden shadow-sm bg-white">
+            <Card className="border-border rounded-3xl overflow-hidden shadow-sm bg-card">
               <CardHeader className="bg-primary/5 pb-6">
                 <CardTitle className="font-headline italic text-xl">1. Héroe de Portada</CardTitle>
                 <CardDescription className="text-[9px] uppercase tracking-widest font-bold">Impacto Inicial</CardDescription>
@@ -249,7 +249,7 @@ export default function AdminPage() {
             <SectionEditor title="3. Moda" prefix="homeBoutique" description="Propuesta Boutique" />
             <SectionEditor title="4. Modulares" prefix="homeAlliance" description="Propuesta Mobiliario" />
             <SectionEditor title="5. Lounge" prefix="homeTv" description="Propuesta Entretenimiento" />
-            <Card className="border-primary/10 rounded-3xl overflow-hidden shadow-sm bg-white">
+            <Card className="border-border rounded-3xl overflow-hidden shadow-sm bg-card">
               <CardHeader className="bg-primary/5 pb-6">
                 <CardTitle className="font-headline italic text-xl">6. Manifiesto</CardTitle>
               </CardHeader>
@@ -263,7 +263,7 @@ export default function AdminPage() {
           <TabsContent value="beauty">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-4">
-                <Card className="border-primary/10 rounded-3xl bg-white sticky top-24">
+                <Card className="border-border rounded-3xl bg-card sticky top-24">
                   <CardHeader><CardTitle className="font-headline italic text-lg">{editingId ? "Editar Servicio" : "Nuevo Servicio"}</CardTitle></CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
@@ -288,7 +288,7 @@ export default function AdminPage() {
               </div>
               <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {services.map(s => (
-                  <div key={s.id} className="bg-white p-4 rounded-2xl border flex items-center justify-between group">
+                  <div key={s.id} className="bg-card p-4 rounded-2xl border flex items-center justify-between group">
                     <div className="flex items-center gap-4">
                       <img src={s.imageUrl} className="w-12 h-12 rounded-lg object-cover" />
                       <div>
@@ -309,7 +309,7 @@ export default function AdminPage() {
           <TabsContent value="boutique">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-4">
-                <Card className="border-primary/10 rounded-3xl bg-white sticky top-24">
+                <Card className="border-border rounded-3xl bg-card sticky top-24">
                   <CardHeader><CardTitle className="font-headline italic text-lg">{editingId ? "Editar Ítem" : "Nuevo Ítem Moda"}</CardTitle></CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
@@ -335,7 +335,7 @@ export default function AdminPage() {
               </div>
               <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {products.map(p => (
-                  <div key={p.id} className="bg-white p-4 rounded-2xl border flex items-center justify-between group">
+                  <div key={p.id} className="bg-card p-4 rounded-2xl border flex items-center justify-between group">
                     <div className="flex items-center gap-4">
                       <img src={p.imageUrl} className="w-12 h-16 rounded-lg object-cover" />
                       <div>
@@ -356,7 +356,7 @@ export default function AdminPage() {
           <TabsContent value="lounge">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-4">
-                <Card className="border-primary/10 rounded-3xl bg-white sticky top-24">
+                <Card className="border-border rounded-3xl bg-card sticky top-24">
                   <CardHeader><CardTitle className="font-headline italic text-lg">{editingId ? "Editar Plato" : "Nuevo Plato/Bebida"}</CardTitle></CardHeader>
                   <CardContent className="space-y-4">
                     <Input placeholder="Nombre" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
@@ -379,7 +379,7 @@ export default function AdminPage() {
               </div>
               <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {menuItems.map(m => (
-                  <div key={m.id} className="bg-white p-4 rounded-2xl border flex items-center justify-between">
+                  <div key={m.id} className="bg-card p-4 rounded-2xl border flex items-center justify-between">
                     <div>
                       <p className="text-[8px] font-black uppercase text-primary">{m.category}</p>
                       <h5 className="font-bold text-xs uppercase">{m.name}</h5>
@@ -396,7 +396,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="contact">
-            <Card className="border-primary/10 rounded-3xl bg-white max-w-2xl">
+            <Card className="border-border rounded-3xl bg-card max-w-2xl">
               <CardHeader><CardTitle className="font-headline italic text-xl">Canales Digitales</CardTitle></CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
