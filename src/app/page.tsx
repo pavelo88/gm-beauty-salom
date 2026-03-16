@@ -87,6 +87,18 @@ export default function App() {
       homeBeautySubtitle: 'Salón & Barbería',
       homeBeautyText: 'Curaduría técnica en corte y color editorial en el sur de Quito.',
       homeBeautyImage: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200',
+      homeBoutiqueTitle: 'Moda Editorial',
+      homeBoutiqueSubtitle: 'Boutique & Esencias',
+      homeBoutiqueText: 'Piezas seleccionadas que trascienden temporadas.',
+      homeBoutiqueImage: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=1200',
+      homeAllianceTitle: 'Arte Estructural',
+      homeAllianceSubtitle: 'Interiorismo',
+      homeAllianceText: 'Espacios modulares diseñados para el mañana en alianza con Modulares GM.',
+      homeAllianceImage: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200',
+      homeTvTitle: 'GM TV Emisión',
+      homeTvSubtitle: 'Centro de Entretenimiento',
+      homeTvText: 'Contenido exclusivo proyectado en nuestra casa.',
+      homeTvImage: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1200',
       manifestoTitle: 'El lujo no es la acumulación, es la intención.',
       manifestoText: 'En GM Beauty House, cada servicio es un acto de diseño consciente.',
       whatsappNumber: '0987654321',
@@ -101,7 +113,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
         <Loader2 className="animate-spin text-primary" size={32} />
-        <p className="text-primary font-bold uppercase tracking-[0.4em] text-[10px]">Loading Edition</p>
+        <p className="text-primary font-bold uppercase tracking-[0.4em] text-[10px]">Loading Master Edition</p>
       </div>
     );
   }
