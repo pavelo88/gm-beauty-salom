@@ -4,13 +4,14 @@
 
 @layer base {
   :root {
-    --background: 40 20% 97%; /* Alabaster Cream */
+    /* Alabaster Cream Base */
+    --background: 40 20% 97%; 
     --foreground: 20 10% 10%;
     --card: 0 0% 100%;
     --card-foreground: 20 10% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 10% 10%;
-    --primary: 35 40% 45%; /* Deep Champagne Gold */
+    --primary: 35 40% 45%;
     --primary-foreground: 40 20% 98%;
     --secondary: 35 15% 90%;
     --secondary-foreground: 20 10% 10%;
@@ -27,13 +28,14 @@
   }
 
   .dark {
-    --background: 20 15% 4%; /* Deep Charcoal Onyx */
+    /* Deep Charcoal Onyx Base */
+    --background: 20 15% 4%; 
     --foreground: 40 20% 95%;
     --card: 20 15% 6%;
     --card-foreground: 40 20% 95%;
     --popover: 20 15% 6%;
     --popover-foreground: 40 20% 95%;
-    --primary: 35 40% 65%; /* Soft Gold */
+    --primary: 35 40% 65%;
     --primary-foreground: 20 15% 4%;
     --secondary: 20 10% 12%;
     --secondary-foreground: 40 20% 95%;
@@ -54,16 +56,16 @@
     @apply border-border;
   }
   
-  html {
+  html, body {
+    /* FORZAMOS TRANSPARENCIA PARA VER EL PSEUDO-ELEMENTO */
     background-color: transparent !important;
   }
 
   body {
-    @apply font-body antialiased transition-colors duration-700 relative min-h-screen text-foreground;
-    background-color: transparent !important;
+    @apply font-body antialiased relative min-h-screen text-foreground;
   }
 
-  /* CAPA DE TEXTURA MAESTRA - FORZADA */
+  /* CAPA 1: COLOR BASE + TEXTURA DE RUIDO (GRANO) */
   body::before {
     content: "";
     position: fixed;
@@ -71,33 +73,30 @@
     z-index: -100;
     pointer-events: none;
     background-color: hsl(var(--background));
-    background-image: 
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.35'/%3E%3C/svg%3E");
+    /* FILTRO DE RUIDO FRACTAL MEJORADO */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
     background-size: 150px 150px;
   }
 
-  /* EFECTO DE PAPEL ARRUGADO - TEXTURA TÁCTIL */
+  /* CAPA 2: EFECTO DE PAPEL ARRUGADO / TAPIZ TÁCTIL */
   body::after {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -95;
     pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.01' numOctaves='5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.2'/%3E%3C/svg%3E");
+    /* FILTRO DE ARRUGA DE PAPEL */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.01' numOctaves='5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.25'/%3E%3C/svg%3E");
     mix-blend-mode: overlay;
   }
 
   .dark body::before {
     background-color: #080808;
-    background-image: 
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
   }
 }
 
-.bg-transparent-editorial {
-  background-color: transparent !important;
-}
-
+/* UTILIDADES EDITORIALES */
 .text-editorial-title {
   @apply text-[10vw] md:text-[8vw] lg:text-[7.5rem] font-black uppercase leading-[0.8] tracking-tighter;
 }
