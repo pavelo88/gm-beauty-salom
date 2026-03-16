@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Alabaster Cream Base */
+    /* Alabaster Cream Base - Sólido */
     --background: 40 20% 97%; 
     --foreground: 20 10% 10%;
     --card: 0 0% 100%;
@@ -28,7 +28,7 @@
   }
 
   .dark {
-    /* Deep Charcoal Onyx Base */
+    /* Deep Charcoal Onyx Base - Sólido */
     --background: 20 15% 4%; 
     --foreground: 40 20% 95%;
     --card: 20 15% 6%;
@@ -56,43 +56,8 @@
     @apply border-border;
   }
   
-  html, body {
-    /* FORZAMOS TRANSPARENCIA PARA VER EL PSEUDO-ELEMENTO */
-    background-color: transparent !important;
-  }
-
   body {
-    @apply font-body antialiased relative min-h-screen text-foreground;
-  }
-
-  /* CAPA 1: COLOR BASE + TEXTURA DE RUIDO (GRANO) */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -100;
-    pointer-events: none;
-    background-color: hsl(var(--background));
-    /* FILTRO DE RUIDO FRACTAL MEJORADO */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
-    background-size: 150px 150px;
-  }
-
-  /* CAPA 2: EFECTO DE PAPEL ARRUGADO / TAPIZ TÁCTIL */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -95;
-    pointer-events: none;
-    /* FILTRO DE ARRUGA DE PAPEL */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.01' numOctaves='5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.25'/%3E%3C/svg%3E");
-    mix-blend-mode: overlay;
-  }
-
-  .dark body::before {
-    background-color: #080808;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    @apply font-body antialiased bg-background text-foreground min-h-screen relative;
   }
 }
 
@@ -119,7 +84,7 @@
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+    background: hsl(var(--background));
 }
 ::-webkit-scrollbar-thumb {
   @apply bg-primary/20 hover:bg-primary/40 rounded-full;

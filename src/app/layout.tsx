@@ -125,7 +125,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-body antialiased text-foreground overflow-x-hidden">
+      <body className="font-body antialiased bg-background text-foreground overflow-x-hidden">
         <FirebaseClientProvider>
           {children}
         </FirebaseClientProvider>
