@@ -5,7 +5,7 @@ import {
   Plus, Trash2, Loader2, Save, 
   FileText, ShoppingBag, Scissors, 
   UtensilsCrossed, Sofa, LayoutDashboard, 
-  Eye, MapPin, Share2, Edit3, X
+  Eye, MapPin, Share2, Edit3, X, Download
 } from 'lucide-react';
 import { collection, addDoc, deleteDoc, doc, setDoc, getDoc, query, onSnapshot } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
@@ -404,6 +404,7 @@ export default function AdminPage() {
                   <Input value={globalSettings.instagramUrl || ''} onChange={e => setGlobalSettings({...globalSettings, instagramUrl: e.target.value})} placeholder="Instagram" />
                   <Input value={globalSettings.facebookUrl || ''} onChange={e => setGlobalSettings({...globalSettings, facebookUrl: e.target.value})} placeholder="Facebook" />
                   <Input value={globalSettings.address || ''} onChange={e => setGlobalSettings({...globalSettings, address: e.target.value})} placeholder="Dirección" />
+                  <Input value={globalSettings.catalogUrl || ''} onChange={e => setGlobalSettings({...globalSettings, catalogUrl: e.target.value})} placeholder="Enlace Revista PDF (Boutique)" />
                 </div>
                 <Button onClick={saveGlobal} className="w-full rounded-xl text-[9px] font-black uppercase tracking-widest h-12">Actualizar Contacto</Button>
               </CardContent>
