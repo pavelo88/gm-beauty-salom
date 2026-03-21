@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -5,7 +6,8 @@ import {
   Plus, Trash2, Loader2, Save, 
   FileText, ShoppingBag, Scissors, 
   UtensilsCrossed, Sofa, LayoutDashboard, 
-  Eye, MapPin, Share2, Edit3, X, RefreshCcw
+  Eye, MapPin, Share2, Edit3, X, RefreshCcw,
+  CheckCircle2
 } from 'lucide-react';
 import { collection, addDoc, deleteDoc, doc, setDoc, getDoc, query, onSnapshot } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
