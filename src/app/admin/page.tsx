@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -199,9 +198,9 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-body pb-20">
-      <nav className="sticky top-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border p-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <nav className="sticky top-0 z-50 bg-card border-b border-border p-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4">
-          <div className="bg-primary p-2 rounded-xl text-primary-foreground">
+          <div className="bg-primary p-2 rounded-xl text-primary-foreground shadow-lg">
             <LayoutDashboard size={20} />
           </div>
           <div>
@@ -223,7 +222,7 @@ export default function AdminPage() {
 
       <main className="max-w-7xl mx-auto p-4 md:p-10">
         <Tabs defaultValue="home" className="space-y-10">
-          <TabsList className="bg-muted/40 backdrop-blur p-1 rounded-2xl border border-border h-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+          <TabsList className="bg-muted/40 p-1 rounded-2xl border border-border h-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
             <TabsTrigger value="home" className="rounded-xl py-3 font-black uppercase text-[9px] tracking-[0.2em] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <FileText size={14} className="mr-2" /> Inicio
             </TabsTrigger>
@@ -402,7 +401,7 @@ export default function AdminPage() {
                   <Input 
                     value={globalSettings.catalogUrl || ''} 
                     onChange={e => setGlobalSettings({...globalSettings, catalogUrl: e.target.value})} 
-                    placeholder="URL del PDF (Drive/Dropbox/Web)" 
+                    placeholder="URL del PDF" 
                     className="max-w-md h-12 rounded-xl"
                   />
                 </div>
@@ -426,11 +425,6 @@ export default function AdminPage() {
                       </div>
                     </div>
                   ))}
-                  {products.length === 0 && (
-                    <div className="col-span-full py-20 text-center border-2 border-dashed border-border/20 rounded-[2.5rem]">
-                      <p className="text-xs font-black uppercase tracking-widest text-muted-foreground italic">El catálogo de Boutique está vacío.</p>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -441,7 +435,6 @@ export default function AdminPage() {
               <Card className="border-border rounded-[2.5rem] bg-card shadow-xl overflow-hidden">
                 <CardHeader className="bg-primary/5 text-center">
                   <CardTitle className="font-headline italic text-2xl">Canales Digitales</CardTitle>
-                  <CardDescription className="text-[9px] uppercase tracking-widest font-black">Conectividad Global</CardDescription>
                 </CardHeader>
                 <CardContent className="pt-8 space-y-6">
                   <div className="space-y-4">
@@ -451,15 +444,15 @@ export default function AdminPage() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground ml-1">Instagram (URL)</label>
-                      <Input value={globalSettings.instagramUrl || ''} onChange={e => setGlobalSettings({...globalSettings, instagramUrl: e.target.value})} placeholder="https://instagram.com/..." className="h-12 rounded-xl" />
+                      <Input value={globalSettings.instagramUrl || ''} onChange={e => setGlobalSettings({...globalSettings, instagramUrl: e.target.value})} className="h-12 rounded-xl" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground ml-1">Facebook (URL)</label>
-                      <Input value={globalSettings.facebookUrl || ''} onChange={e => setGlobalSettings({...globalSettings, facebookUrl: e.target.value})} placeholder="https://facebook.com/..." className="h-12 rounded-xl" />
+                      <Input value={globalSettings.facebookUrl || ''} onChange={e => setGlobalSettings({...globalSettings, facebookUrl: e.target.value})} className="h-12 rounded-xl" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground ml-1">Email Oficial</label>
-                      <Input value={globalSettings.email || ''} onChange={e => setGlobalSettings({...globalSettings, email: e.target.value})} placeholder="hola@gmbeautyhouse.com" className="h-12 rounded-xl" />
+                      <Input value={globalSettings.email || ''} onChange={e => setGlobalSettings({...globalSettings, email: e.target.value})} className="h-12 rounded-xl" />
                     </div>
                   </div>
                 </CardContent>
@@ -468,18 +461,11 @@ export default function AdminPage() {
               <Card className="border-border rounded-[2.5rem] bg-card shadow-xl overflow-hidden">
                 <CardHeader className="bg-primary/5 text-center">
                   <CardTitle className="font-headline italic text-2xl">Ubicación Física</CardTitle>
-                  <CardDescription className="text-[9px] uppercase tracking-widest font-black">GM House Quito Sur</CardDescription>
                 </CardHeader>
                 <CardContent className="pt-8 space-y-6">
                   <div className="space-y-2">
                     <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground ml-1">Dirección Exacta</label>
-                    <Input value={globalSettings.address || ''} onChange={e => setGlobalSettings({...globalSettings, address: e.target.value})} placeholder="Rosa Yeira 420 y Serapio Japeravi..." className="h-12 rounded-xl" />
-                  </div>
-                  <div className="aspect-video bg-muted rounded-3xl overflow-hidden border border-border relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                       <MapPin className="text-primary/20" size={60} />
-                       <p className="absolute bottom-4 text-[8px] font-black uppercase tracking-widest opacity-40">Vista previa del mapa integrada en la web</p>
-                    </div>
+                    <Input value={globalSettings.address || ''} onChange={e => setGlobalSettings({...globalSettings, address: e.target.value})} className="h-12 rounded-xl" />
                   </div>
                   <Button onClick={saveGlobal} className="w-full h-14 rounded-xl font-black uppercase tracking-widest text-[11px] shadow-lg">
                     Actualizar Información de Contacto
