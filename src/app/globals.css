@@ -58,6 +58,13 @@
     @apply font-body antialiased bg-background text-foreground min-h-screen relative;
     background-color: hsl(var(--background)) !important;
     opacity: 1 !important;
+    background-image: none !important;
+  }
+
+  /* Asegurar opacidad 100% en todas las capas */
+  html, body {
+    background-attachment: fixed;
+    height: 100%;
   }
 }
 
@@ -91,4 +98,10 @@
 
 .bg-rose-gold {
   background: linear-gradient(to right, #e5b2a0, #ffafbd, #d4a373);
+}
+
+/* Remover cualquier rastro de texturas o capas transparentes */
+body::before, body::after {
+  display: none !important;
+  content: none !important;
 }
