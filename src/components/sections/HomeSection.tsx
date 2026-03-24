@@ -1,3 +1,4 @@
+
 "use client"
 
 import React from 'react';
@@ -40,7 +41,6 @@ export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: st
 
   return (
     <div className="w-full">
-      {/* HERO con legibilidad mejorada */}
       <section className="relative h-[85vh] flex flex-col justify-center items-center px-6 overflow-hidden border-b border-border">
         <div className="absolute inset-0 z-0">
           <img 
@@ -66,7 +66,6 @@ export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: st
         </div>
       </section>
 
-      {/* Secciones con espaciado ergonómico */}
       <section className="max-w-[1400px] mx-auto py-24 md:py-32 px-6 space-y-32 md:space-y-48">
         {sections.map((section, idx) => (
           <div 
@@ -81,7 +80,7 @@ export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: st
               <img 
                 src={section.img} 
                 alt={section.title} 
-                className="w-full h-full object-cover img-cinematic group-hover:scale-110 transition-transform [transition-duration:2000ms]"
+                className="w-full h-full object-cover img-cinematic group-hover:scale-110 transition-transform duration-1000"
               />
               <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
             </div>
@@ -101,7 +100,6 @@ export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: st
         ))}
       </section>
 
-      {/* Manifiesto Final */}
       <section className="bg-foreground text-background py-32 md:py-48 text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-10 relative z-10 space-y-12">
           <h3 className="italic font-headline text-2xl md:text-4xl lg:text-5xl leading-tight tracking-tighter">

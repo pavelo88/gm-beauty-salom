@@ -54,7 +54,6 @@ export default function AdminPage() {
     };
     fetchSettings();
 
-    // Sincronización en tiempo real de todas las colecciones
     const unsubServices = onSnapshot(query(collection(db, 'data', appId, 'services')), (s) => setServices(s.docs.map(d => ({...d.data(), id: d.id}))));
     const unsubProducts = onSnapshot(query(collection(db, 'data', appId, 'products')), (s) => setProducts(s.docs.map(d => ({...d.data(), id: d.id}))));
     const unsubProjects = onSnapshot(query(collection(db, 'data', appId, 'projects')), (s) => setProjects(s.docs.map(d => ({...d.data(), id: d.id}))));
@@ -68,20 +67,21 @@ export default function AdminPage() {
   const saveGlobal = async () => {
     setLoading(true);
     const docRef = doc(db, 'data', appId, 'settings', 'global');
-    setDoc(docRef, globalSettings, { merge: true })
-      .then(() => alert("Sincronización global completada."))
-      .catch(async (err) => {
-        errorEmitter.emit('permission-error', new FirestorePermissionError({
-          path: docRef.path, operation: 'update', requestResourceData: globalSettings
-        }));
-      })
-      .finally(() => setLoading(false));
+    try {
+      await setDoc(docRef, globalSettings, { merge: true });
+      alert("Sincronización global completada.");
+    } catch (err: any) {
+      errorEmitter.emit('permission-error', new FirestorePermissionError({
+        path: docRef.path, operation: 'update', requestResourceData: globalSettings
+      }));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAction = async (colName: string) => {
     setLoading(true);
     const data = { ...form };
-    // Asegurar compatibilidad entre name/title
     if (!data.name && data.title) data.name = data.title;
     if (!data.title && data.name) data.title = data.name;
     
@@ -128,6 +128,7 @@ export default function AdminPage() {
     const docRef = doc(db, 'data', appId, colName, id);
     try {
       await deleteDoc(docRef);
+      if (editingId === id) cancelEdit();
     } catch (err) {
       errorEmitter.emit('permission-error', new FirestorePermissionError({
         path: docRef.path, operation: 'delete'
@@ -266,7 +267,7 @@ export default function AdminPage() {
                 {services.map(s => (
                   <div key={s.id} className="bg-card p-4 rounded-2xl border border-border flex items-center justify-between group">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted"><img src={s.imageUrl} className="w-full h-full object-cover" /></div>
+                      <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted"><img src={s.imageUrl} className="w-full h-full object-cover" alt={s.name} /></div>
                       <div>
                         <h5 className="font-bold text-sm uppercase">{s.name}</h5>
                         <p className="text-[10px] text-primary font-black">{s.category} • {s.price}</p>
@@ -318,7 +319,7 @@ export default function AdminPage() {
                     {products.map(p => (
                       <div key={p.id} className="bg-card p-4 rounded-2xl border border-border flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-16 rounded-xl overflow-hidden bg-muted"><img src={p.imageUrl} className="w-full h-full object-cover" /></div>
+                          <div className="w-12 h-16 rounded-xl overflow-hidden bg-muted"><img src={p.imageUrl} className="w-full h-full object-cover" alt={p.name} /></div>
                           <div><h5 className="font-bold text-sm uppercase">{p.name}</h5><p className="text-[10px] text-primary font-black">{p.category} • {p.price}</p></div>
                         </div>
                         <div className="flex gap-1">
@@ -392,7 +393,7 @@ export default function AdminPage() {
                   {projects.map(p => (
                     <div key={p.id} className="bg-card p-4 rounded-2xl border border-border flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted"><img src={p.imageUrl} className="w-full h-full object-cover" /></div>
+                        <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted"><img src={p.imageUrl} className="w-full h-full object-cover" alt={p.title} /></div>
                         <div><h5 className="font-bold text-sm uppercase">{p.title}</h5></div>
                       </div>
                       <div className="flex gap-1">
