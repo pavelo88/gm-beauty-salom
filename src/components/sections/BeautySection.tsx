@@ -3,7 +3,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, Wine, GlassWater, Beer, Sparkles } from 'lucide-react';
+import { Wine, GlassWater, Beer } from 'lucide-react';
 import { AiAssistant } from '@/components/AiAssistant';
 import { aiStylistRecommendations } from '@/ai/flows/ai-stylist-recommendations';
 
@@ -39,9 +39,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
   };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      rotate(1);
-    }, 2500);
+    const timer = setInterval(() => { rotate(1); }, 2500);
     return () => clearInterval(timer);
   }, [services.length]);
 
@@ -57,7 +55,6 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
   return (
     <div className="w-full pt-20 pb-24">
       <div className="max-w-[1400px] mx-auto px-6 space-y-16">
-        
         <header className="flex flex-col md:flex-row justify-between items-start gap-10 border-b border-border/20 pb-8">
           <div className="space-y-2">
             <span className={cn("text-[10px] font-black uppercase tracking-[0.6em]", accentColor)}>Edición Archive No. 01</span>
@@ -65,26 +62,9 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
               Grooming <span className="opacity-20 italic font-light">& Style</span>
             </h2>
           </div>
-          
           <div className="flex border border-border/30 p-1.5 bg-card/40 backdrop-blur-xl rounded-full self-end shadow-xl">
-            <button 
-              onClick={() => { setConcept('salon'); setActiveIdx(2); }}
-              className={cn(
-                "px-8 py-3 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-full",
-                !isBarber ? "bg-[#d1919b] text-white shadow-lg" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              Le Salon
-            </button>
-            <button 
-              onClick={() => { setConcept('barberia'); setActiveIdx(2); }}
-              className={cn(
-                "px-8 py-3 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-full",
-                isBarber ? "bg-primary text-black shadow-lg" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              Barbería
-            </button>
+            <button onClick={() => setConcept('salon')} className={cn("px-8 py-3 text-[10px] font-black uppercase transition-all rounded-full", !isBarber ? "bg-[#d1919b] text-white shadow-lg" : "text-muted-foreground")}>Le Salon</button>
+            <button onClick={() => setConcept('barberia')} className={cn("px-8 py-3 text-[10px] font-black uppercase transition-all rounded-full", isBarber ? "bg-primary text-black shadow-lg" : "text-muted-foreground")}>Barbería</button>
           </div>
         </header>
 
@@ -98,23 +78,12 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
                   if (diff < -2) diff += services.length;
                   const isCenter = diff === 0;
                   return (
-                    <div 
-                      key={i}
-                      className={cn(
-                        "absolute transition-all duration-1000 ease-in-out overflow-hidden rounded-[2rem] shadow-2xl border border-white/10",
-                        isCenter ? "z-30 w-[90%] md:w-[60%] h-full opacity-100 scale-100" : "",
-                        diff === -1 ? "z-20 w-[70%] h-[85%] opacity-30 scale-90 -translate-x-[30%] blur-[2px]" : "",
-                        diff === 1 ? "z-20 w-[70%] h-[85%] opacity-30 scale-90 translate-x-[30%] blur-[2px]" : "",
-                        Math.abs(diff) > 1 ? "opacity-0 z-0" : ""
-                      )}
-                    >
+                    <div key={i} className={cn("absolute [transition-duration:1000ms] ease-in-out overflow-hidden rounded-[2rem] shadow-2xl border border-white/10", isCenter ? "z-30 w-[90%] md:w-[60%] h-full opacity-100 scale-100" : "w-[70%] h-[85%] opacity-30 scale-90 blur-[2px]", diff === -1 ? "-translate-x-[30%]" : diff === 1 ? "translate-x-[30%]" : "opacity-0")}>
                       <img src={svc.imageUrl} alt={svc.name} className="w-full h-full object-cover" />
                       {isCenter && (
                         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent flex flex-col justify-end p-8 md:p-12">
-                          <div className="space-y-1">
-                            <span className={cn("text-[10px] font-black uppercase tracking-widest", accentColor)}>{svc.price}</span>
-                            <h3 className="text-2xl md:text-5xl font-headline font-bold text-white tracking-tighter uppercase leading-none">{svc.name}</h3>
-                          </div>
+                          <span className={cn("text-[10px] font-black uppercase tracking-widest", accentColor)}>{svc.price}</span>
+                          <h3 className="text-2xl md:text-5xl font-headline font-bold text-white uppercase leading-none">{svc.name}</h3>
                         </div>
                       )}
                     </div>
@@ -124,41 +93,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
             </div>
           </div>
           <div className="lg:col-span-4">
-            <AiAssistant 
-              title="Estilista VIP IA"
-              placeholder="Ej: Tengo una boda y busco un estilo elegante..."
-              onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 items-start pt-12 border-t border-border/10">
-          <div className="md:col-span-7 space-y-8">
-             <div className="flex items-center gap-4">
-               <h4 className="text-[11px] font-black uppercase tracking-[0.5em] text-muted-foreground whitespace-nowrap">Nuestra Identidad</h4>
-               <span className="w-full h-[1px] bg-border/20"></span>
-             </div>
-            <p className="text-2xl md:text-4xl font-headline font-bold italic leading-[1.1] text-foreground border-l-8 pl-10 border-primary/20">
-              "En GM Beauty House, el estilo no es una tendencia, es un manifiesto. Construimos identidades visuales que trascienden el tiempo."
-            </p>
-          </div>
-
-          <div className="md:col-span-5">
-            <div className="bg-card/40 backdrop-blur-xl border border-border/50 p-10 rounded-[2.5rem] space-y-8 shadow-2xl">
-              <div className="text-center space-y-2">
-                <h5 className={cn("text-[10px] font-black uppercase tracking-[0.6em]", accentColor)}>Mixología de Cortesía</h5>
-              </div>
-              <div className="grid grid-cols-1 gap-6">
-                {courtesyMenu.map((drink, i) => (
-                  <div key={i} className="flex items-center justify-between group border-b border-border/10 pb-4 hover:border-primary/40 transition-colors">
-                    <div className="flex items-center gap-6">
-                      <drink.icon size={16} className={cn("opacity-40 group-hover:opacity-100 transition-all", accentColor)} />
-                      <span className="text-[11px] font-bold uppercase tracking-[0.3em]">{drink.name}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <AiAssistant title="Estilista VIP IA" placeholder="Busco un estilo..." onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })} />
           </div>
         </div>
       </div>
