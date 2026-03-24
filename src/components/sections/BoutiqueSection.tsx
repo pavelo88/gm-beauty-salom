@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Gem, ArrowRight, Quote, ShoppingCart, Download, ExternalLink } from 'lucide-react';
+import { Gem, Quote, ShoppingCart, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { AiAssistant } from '@/components/AiAssistant';
@@ -67,12 +67,12 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          {/* Hero de Categoría */}
           <div className="lg:col-span-4 space-y-8">
             <div className="relative group overflow-hidden rounded-[2rem] shadow-2xl aspect-[3/4]">
               <img 
                 src={staticCollection[activeCategory].img} 
-                className="w-full h-full object-cover transition-transform [transition-duration:3000ms] group-hover:scale-105"
+                style={{ transitionDuration: '3000ms' }}
+                className="w-full h-full object-cover transition-transform group-hover:scale-105"
                 alt="Editorial"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8">
@@ -96,7 +96,6 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
             />
           </div>
 
-          {/* Grilla de Catálogo */}
           <div className="lg:col-span-8">
             <div className="flex justify-between items-center mb-8 border-b border-border/10 pb-4">
               <h4 className="text-[12px] font-black uppercase tracking-[0.5em]">Colección Seleccionada</h4>

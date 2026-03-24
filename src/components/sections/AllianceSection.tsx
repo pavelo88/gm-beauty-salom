@@ -46,7 +46,7 @@ export function AllianceSection({ dynamicData }: { dynamicData: any }) {
           <div className="bg-card border border-border p-10 md:p-16 overflow-hidden relative editorial-shadow rounded-2xl">
             <div className="relative z-10 space-y-8">
               <h3 className="text-3xl font-headline font-bold tracking-tighter leading-tight">Diseño <br/> <span className="italic opacity-40">funcional.</span></h3>
-              <p className="text-muted-foreground text-base font-light leading-relaxed max-w-sm">
+              <p className="text-muted-foreground text-base font-light leading-relaxed max-sm">
                 Cada módulo es una pieza de arte. Cotiza tu proyecto en GM House.
               </p>
               <div className="pt-4">
@@ -62,7 +62,8 @@ export function AllianceSection({ dynamicData }: { dynamicData: any }) {
           <a href={storeUrl} target="_blank" className="relative aspect-video md:aspect-auto overflow-hidden editorial-shadow rounded-2xl max-h-[400px] block group">
             <img 
               src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200" 
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all [transition-duration:2000ms]"
+              style={{ transitionDuration: '2000ms' }}
+              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all"
               alt="Mobiliario GM"
             />
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

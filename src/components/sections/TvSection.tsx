@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { Play, Music, Newspaper, Sparkles, Laugh, Construction, Shirt, Volume2, Maximize2, Pause, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Music, Newspaper, Sparkles, Laugh, Construction, Shirt, Volume2, Maximize2, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
 
@@ -18,7 +18,7 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
   const [playlist, setPlaylist] = useState<TvContent[]>([]);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [duration] = useState(10000); // 10 seconds per "video" simulation
+  const [duration] = useState(10000); 
 
   useEffect(() => {
     const mockPlaylist: TvContent[] = [
@@ -80,8 +80,6 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
   return (
     <div className="w-full min-h-screen bg-black pt-24 md:pt-32 pb-12 md:pb-20 overflow-hidden relative z-10">
       <div className="max-w-[1800px] mx-auto px-6 md:px-10 h-full flex flex-col gap-6 md:gap-10">
-        
-        {/* Header Broadcast */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-6 md:pb-10 gap-4">
           <div className="flex items-center gap-4 md:gap-6">
             <div className="flex items-center gap-2">
@@ -94,7 +92,7 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
           <div className="flex items-center justify-between w-full md:w-auto md:gap-8">
             <span className="text-[8px] md:text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Sur de Quito, Ecuador</span>
             <div className="flex items-center gap-4 text-zinc-400">
-              <button onClick={() => setIsPlaying(!isPlaying)} className="hover:text-white transition-colors" aria-label={isPlaying ? "Pause" : "Play"}>
+              <button onClick={() => setIsPlaying(!isPlaying)} className="hover:text-white transition-colors">
                 {isPlaying ? <Pause size={18} /> : <Play size={18} />}
               </button>
               <Volume2 size={18} className="hidden md:block" />
@@ -103,20 +101,19 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
           </div>
         </div>
 
-        {/* Main Cinema View */}
         <div className="grid grid-cols-12 gap-6 md:gap-10">
           <div className="col-span-12 lg:col-span-9 relative group bg-zinc-950 overflow-hidden rounded-2xl md:rounded-[2rem] border border-white/5 shadow-2xl">
             <div className="aspect-video relative overflow-hidden">
               <img 
                 key={currentContent.id}
                 src={currentContent.source} 
-                className="w-full h-full object-cover transition-transform [transition-duration:10000ms] scale-110 group-hover:scale-100 animate-in fade-in zoom-in-105 duration-1000" 
+                style={{ transitionDuration: '10000ms' }}
+                className="w-full h-full object-cover transition-transform scale-110 group-hover:scale-100 animate-in fade-in zoom-in-105 duration-1000" 
                 alt={currentContent.title}
               />
               <div className="absolute inset-0 pointer-events-none opacity-[0.05] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]"></div>
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80"></div>
               
-              {/* Overlay Info */}
               <div className="absolute bottom-6 md:bottom-12 left-6 md:left-12 right-6 md:right-12 space-y-4 md:space-y-6">
                 <div className="flex items-center gap-4">
                   <span className="bg-primary text-background px-3 md:px-4 py-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-sm">
@@ -134,7 +131,6 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
                 </p>
               </div>
 
-              {/* Play Button Overlay */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button 
                   onClick={() => setIsPlaying(!isPlaying)}
@@ -146,7 +142,6 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
             </div>
           </div>
 
-          {/* Sidebar Playlist - Horizontal on Mobile, Vertical on Desktop */}
           <div className="col-span-12 lg:col-span-3 flex flex-row lg:flex-col gap-4 md:gap-6 overflow-x-auto lg:overflow-y-auto no-scrollbar pb-4 lg:pb-0 lg:max-h-[70vh]">
             <h4 className="hidden lg:block text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500 mb-2">Up Next</h4>
             {playlist.slice(1).map((item) => (
@@ -170,7 +165,6 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
           </div>
         </div>
 
-        {/* Categories Bar - Horizontal Scroll on Mobile */}
         <div className="flex md:grid md:grid-cols-6 gap-4 md:gap-6 mt-4 md:mt-10 overflow-x-auto no-scrollbar pb-4 md:pb-0">
           {categories.map((cat) => (
             <button 
@@ -196,7 +190,6 @@ export function TvSection({ dynamicData }: { dynamicData: any }) {
           ))}
         </div>
 
-        {/* Marquee Ticker */}
         <div className="w-full mt-6 md:mt-10 bg-primary/5 border border-primary/20 p-3 md:p-4 overflow-hidden relative rounded-full">
           <div className="flex animate-marquee whitespace-nowrap gap-10 md:gap-20">
             {[1,2,3].map((_, idx) => (
