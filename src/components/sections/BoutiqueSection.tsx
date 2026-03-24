@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react';
@@ -73,7 +72,7 @@ export function BoutiqueSection({ dynamicData }: { dynamicData: any }) {
             <div className="relative group overflow-hidden rounded-[2rem] shadow-2xl aspect-[3/4]">
               <img 
                 src={staticCollection[activeCategory].img} 
-                className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform [transition-duration:3000ms] group-hover:scale-105"
                 alt="Editorial"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8">

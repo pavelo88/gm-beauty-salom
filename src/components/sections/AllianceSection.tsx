@@ -62,7 +62,7 @@ export function AllianceSection({ dynamicData }: { dynamicData: any }) {
           <a href={storeUrl} target="_blank" className="relative aspect-video md:aspect-auto overflow-hidden editorial-shadow rounded-2xl max-h-[400px] block group">
             <img 
               src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200" 
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-[2s]"
+              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all [transition-duration:2000ms]"
               alt="Mobiliario GM"
             />
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

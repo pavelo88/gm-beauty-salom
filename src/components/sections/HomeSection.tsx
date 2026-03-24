@@ -1,4 +1,3 @@
-
 "use client"
 
 import React from 'react';
@@ -82,7 +81,7 @@ export function HomeSection({ setActiveTab, settings }: { setActiveTab: (tab: st
               <img 
                 src={section.img} 
                 alt={section.title} 
-                className="w-full h-full object-cover img-cinematic group-hover:scale-110 transition-transform duration-[2s]"
+                className="w-full h-full object-cover img-cinematic group-hover:scale-110 transition-transform [transition-duration:2000ms]"
               />
               <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700"></div>
             </div>
