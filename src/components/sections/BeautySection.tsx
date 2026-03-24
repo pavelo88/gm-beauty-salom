@@ -11,6 +11,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
   const [concept, setConcept] = useState<'salon' | 'barberia'>('salon');
   const [activeIdx, setActiveIdx] = useState(2);
   const isBarber = concept === 'barberia';
+  const settings = dynamicData.settings;
 
   const defaultServices = {
     salon: [
@@ -31,7 +32,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
 
   const services = useMemo(() => {
     const dbServices = dynamicData.services.filter((s: any) => s.category === concept);
-    return dbServices.length >= 5 ? dbServices : defaultServices[concept];
+    return dbServices.length > 0 ? dbServices : defaultServices[concept];
   }, [concept, dynamicData.services]);
 
   const rotate = (dir: number) => {
@@ -39,27 +40,22 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
   };
 
   useEffect(() => {
-    const timer = setInterval(() => { rotate(1); }, 2500);
+    const timer = setInterval(() => { rotate(1); }, 3500);
     return () => clearInterval(timer);
   }, [services.length]);
-
-  const courtesyMenu = [
-    { name: 'Gin Tonic Botánico', icon: Wine },
-    { name: 'Vino Tinto Reserva', icon: Wine },
-    { name: 'Cerveza d\'Artisan', icon: Beer },
-    { name: 'Agua de Rosas Helada', icon: GlassWater }
-  ];
 
   const accentColor = isBarber ? "text-primary" : "text-[#d1919b]"; 
 
   return (
-    <div className="w-full pt-20 pb-24">
+    <div className="w-full pt-20 pb-24 animate-in fade-in duration-1000">
       <div className="max-w-[1400px] mx-auto px-6 space-y-16">
         <header className="flex flex-col md:flex-row justify-between items-start gap-10 border-b border-border/20 pb-8">
           <div className="space-y-2">
-            <span className={cn("text-[10px] font-black uppercase tracking-[0.6em]", accentColor)}>Edición Archive No. 01</span>
+            <span className={cn("text-[10px] font-black uppercase tracking-[0.6em]", accentColor)}>
+              {settings?.homeBeautySubtitle || 'Edición Archive No. 01'}
+            </span>
             <h2 className="text-5xl md:text-7xl font-headline font-bold leading-none tracking-tighter uppercase">
-              Grooming <span className="opacity-20 italic font-light">& Style</span>
+              {settings?.homeBeautyTitle || 'Grooming & Style'}
             </h2>
           </div>
           <div className="flex border border-border/30 p-1.5 bg-card/40 backdrop-blur-xl rounded-full self-end shadow-xl">
@@ -70,7 +66,7 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-8">
-            <div className="relative h-[300px] md:h-[450px] flex items-center justify-center overflow-hidden">
+            <div className="relative h-[400px] md:h-[600px] flex items-center justify-center overflow-hidden">
               <div className="relative w-full h-full flex items-center justify-center">
                 {services.map((svc: any, i: number) => {
                   let diff = i - activeIdx;
@@ -78,12 +74,20 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
                   if (diff < -2) diff += services.length;
                   const isCenter = diff === 0;
                   return (
-                    <div key={i} className={cn("absolute [transition-duration:1000ms] ease-in-out overflow-hidden rounded-[2rem] shadow-2xl border border-white/10", isCenter ? "z-30 w-[90%] md:w-[60%] h-full opacity-100 scale-100" : "w-[70%] h-[85%] opacity-30 scale-90 blur-[2px]", diff === -1 ? "-translate-x-[30%]" : diff === 1 ? "translate-x-[30%]" : "opacity-0")}>
+                    <div 
+                      key={i} 
+                      className={cn(
+                        "absolute [transition-duration:1000ms] ease-in-out overflow-hidden rounded-[2.5rem] shadow-2xl border border-white/10", 
+                        isCenter ? "z-30 w-[95%] md:w-[70%] h-full opacity-100 scale-100" : "w-[75%] h-[85%] opacity-30 scale-90 blur-[2px]", 
+                        diff === -1 ? "-translate-x-[35%]" : diff === 1 ? "translate-x-[35%]" : "opacity-0"
+                      )}
+                    >
                       <img src={svc.imageUrl} alt={svc.name} className="w-full h-full object-cover" />
                       {isCenter && (
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent flex flex-col justify-end p-8 md:p-12">
-                          <span className={cn("text-[10px] font-black uppercase tracking-widest", accentColor)}>{svc.price}</span>
-                          <h3 className="text-2xl md:text-5xl font-headline font-bold text-white uppercase leading-none">{svc.name}</h3>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent flex flex-col justify-end p-8 md:p-16">
+                          <span className={cn("text-xs font-black uppercase tracking-widest", accentColor)}>{svc.price}</span>
+                          <h3 className="text-3xl md:text-6xl font-headline font-bold text-white uppercase leading-none tracking-tighter mt-2">{svc.name}</h3>
+                          <p className="text-white/60 text-sm font-light mt-4 max-w-md hidden md:block">{svc.description}</p>
                         </div>
                       )}
                     </div>
@@ -92,7 +96,12 @@ export function BeautySection({ dynamicData }: { dynamicData: any }) {
               </div>
             </div>
           </div>
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-4 space-y-8">
+            <div className="p-8 bg-card border border-border/50 rounded-[2.5rem] shadow-xl">
+              <p className="text-sm font-light leading-relaxed text-muted-foreground italic">
+                {settings?.homeBeautyText || 'Curaduría técnica en corte y color editorial en el sur de Quito.'}
+              </p>
+            </div>
             <AiAssistant title="Estilista VIP IA" placeholder="Busco un estilo..." onAsk={(input) => aiStylistRecommendations({ userQuery: input, concept })} />
           </div>
         </div>
